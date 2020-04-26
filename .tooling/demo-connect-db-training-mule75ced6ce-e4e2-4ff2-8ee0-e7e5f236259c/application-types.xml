@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="american_flights" format="json">
+      <types:shape format="weave" example="examples/american_flights_json-1.json"><![CDATA[%dw 2.0
+
+type american_flights = {|
+  ID: Number {"typeId": "int"}, 
+  code: String, 
+  price: Number {"typeId": "int"}, 
+  departureDate: String, 
+  origin: String, 
+  destination: String, 
+  emptySeats: Number {"typeId": "int"}, 
+  plane: {|
+    "type": String, 
+    totalSeats: Number {"typeId": "int"}
+  |}
+|} {"example": "{\\\"ID\\\":6566,\\\"code\\\":\\\"String\\\",\\\"price\\\":897,\\\"departureDate\\\":\\\"String\\\",\\\"origin\\\":\\\"String\\\",\\\"destination\\\":\\\"String\\\",\\\"emptySeats\\\":8777,\\\"plane\\\":{\\\"type\\\":\\\"String\\\",\\\"totalSeats\\\":8777}}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+</types:mule>

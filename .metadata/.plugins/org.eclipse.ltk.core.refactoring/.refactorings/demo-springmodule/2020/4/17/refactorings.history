@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;demo-springmodule.xml&apos; to &apos;demo-springmodule/src/main/mule&apos;&#x0D;&#x0A;- Original project: &apos;demo-springmodule&apos;&#x0D;&#x0A;- Destination element: &apos;demo-springmodule/src/main/mule&apos;&#x0D;&#x0A;- Original element: &apos;demo-springmodule.xml&apos;" description="Copy file" destination="/src\/main\/mule" element1="src/main/mule/demo-springmodule.xml" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1587737793595" units="0" version="1.0"/>
+</session>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<file:config name="File_Config" doc:name="File Config" doc:id="3aa05c0f-c421-45e7-8d4c-baa42e7a72c7" >
+		<file:connection workingDir="C:\" />
+	</file:config>
+	<flow name="demo-19avril2020-3Flow" doc:id="0897f8e7-a300-48e5-86d6-2bd4db658e13" >
+		<file:listener doc:name="On New or Updated File" doc:id="c0001c0c-e207-45f3-a02b-f32f5e49765f" config-ref="File_Config" directory="C:\demo\input" autoDelete="true" moveToDirectory="C:\demo\output">
+			<scheduling-strategy >
+				<fixed-frequency />
+			</scheduling-strategy>
+		</file:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="679e176e-05c8-49b6-8816-c39af4300710"/>
+	</flow>
+</mule>

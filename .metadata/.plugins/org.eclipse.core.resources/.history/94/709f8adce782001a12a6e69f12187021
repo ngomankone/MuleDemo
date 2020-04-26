@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="8e048792-489d-4684-86a5-c4bd0f0a7433" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="demo-20avril2020-1Flow" doc:id="a256b86f-6fb4-42c6-8e3c-57c8a3db7d44" >
+		<http:listener doc:name="/GET hello" doc:id="cbc05c09-dd46-4c79-8ae5-7d7c84ad9a3a" config-ref="HTTP_Listener_config" path="/hello" allowedMethods="GET"/>
+		<raise-error doc:name="Raise error" doc:id="f8519d40-2190-4df2-abe1-4e0e15ab8579" type="MULE:VALIDATION" description="Validation error"/>
+		<logger level="INFO" doc:name="ErrorHandlingDemoFlow" doc:id="ceaf7c78-3cf8-48d0-9d9e-a1e729d694f2" message="Main Flow Logger"/>
+		<error-handler>
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="a88cac21-c241-4cb8-8354-0dbed0fcc2fe" >
+				<logger level="INFO" doc:name="Logger" doc:id="4e134149-8304-44b6-b983-53633474bd46" />
+				<logger level="INFO" doc:name="Logger" doc:id="bf6e1539-9067-4639-99b1-434bf48a0a44" message="***Error Handling** On error Continue Logger1 ****"/>
+			</on-error-continue>
+		</error-handler>
+	</flow>
+</mule>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="paymentapplicationFlow" doc:id="bb84da97-7d86-495a-ac80-33f0b0b28c8c" >
+		<http:listener doc:name="/GET payment" doc:id="e7d6d660-3e6c-4230-a666-23a4a535b4ba" config-ref="HTTP_Listener_config" path="/payment" allowedMethods="GET"/>
+		<set-payload value='["message": "hello from payment"]' doc:name="Set Payload" doc:id="1eec8683-8a53-404d-9f20-a8db5d4f2ca3" />
+	</flow>
+</mule>

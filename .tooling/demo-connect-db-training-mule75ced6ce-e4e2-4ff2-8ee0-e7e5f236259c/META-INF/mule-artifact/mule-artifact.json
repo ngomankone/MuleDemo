@@ -1,0 +1,27 @@
+{
+  "configs": [
+    "demo-connect-db-training-mule.xml"
+  ],
+  "secureProperties": [],
+  "redeploymentEnabled": true,
+  "name": "com.mycompany:demo-connect-db-training-mule:1.0.0-SNAPSHOT",
+  "minMuleVersion": "4.2.2",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [],
+      "exportedResources": [
+        "application-types.xml",
+        "demo-connect-db-training-mule.xml",
+        "examples/american_flights_json-1.json",
+        "examples/american_flights_json.json",
+        "log4j2.xml"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

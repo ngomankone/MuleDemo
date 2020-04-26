@@ -1,0 +1,28 @@
+{
+  "extensionModelLoaderDescriptor": {
+    "id": "soap",
+    "attributes": {
+      "type": "com.mulesoft.connectors.servicenow.internal.extension.ServiceNowConnector",
+      "version": "6.4.0"
+    }
+  },
+  "name": "ServiceNow",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "privilegedExportedPackages": [],
+      "privilegedArtifactIds": [],
+      "exportedPackages": [
+        "com.mulesoft.connectors.servicenow.internal.dispatcher",
+        "com.mulesoft.connectors.servicenow.internal"
+      ],
+      "exportedResources": []
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  },
+  "minMuleVersion": "4.1.0"
+}

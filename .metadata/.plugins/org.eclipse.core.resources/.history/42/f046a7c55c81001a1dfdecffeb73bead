@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="1588b38e-6097-42e2-a10d-bcf186673cc5" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="GetFlow" doc:id="f6541a70-c87e-443a-b0f9-1cc0636940f1" >
+		<http:listener doc:name="/GET hello" doc:id="83a38e26-0d87-446c-bac2-1542c47a592c" config-ref="HTTP_Listener_config" path="/hello" allowedMethods="GET"/>
+		<logger level="INFO" doc:name="Logger" doc:id="d3eb62f6-2cd6-4afb-9312-a49f58e259c0" message="** Get Flow invoked **"/>
+	</flow>
+</mule>

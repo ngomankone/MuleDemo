@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<file:config name="File_Config" doc:name="File Config" doc:id="4567fd81-394c-4307-b7bf-5e55d7600365" >
+		<file:connection workingDir="C:\demo\input" />
+	</file:config>
+	<file:config name="File_Config1" doc:name="File Config" doc:id="6db0284a-e2bb-4cf1-8e0c-cf62a1167844" >
+		<file:connection workingDir="C:\demo\output" />
+	</file:config>
+	<flow name="FileProcessingFlow" doc:id="e9d0a6d3-4c3e-4546-a2a4-9e46147a9cdc" >
+		<file:listener doc:name="On New or Updated File" doc:id="45308f5a-2f73-4722-a823-6de24d1c52ee" config-ref="File_Config" directory="C:\demo\input" autoDelete="true" moveToDirectory="C:\demo\output">
+			<scheduling-strategy >
+				<fixed-frequency frequency="5" timeUnit="SECONDS"/>
+			</scheduling-strategy>
+		</file:listener>
+		<ee:transform doc:name="Transform Message" doc:id="0697365b-4e12-4cff-990e-148ab78dc260" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="e0c9525a-277a-4059-b90c-4bf383e1f3c3" message="Befor For Each"/>
+		<foreach doc:name="For Each" doc:id="86e918b9-640a-4a57-8ba0-125d0b1e8e97" >
+			<logger level="INFO" doc:name="Logger" doc:id="84861a8c-b85f-4a55-a891-1164da4522c0" message="#[payload]" />
+			<file:write doc:name="Write" doc:id="08c60d3c-0b1a-457d-b136-722932cd8778" config-ref="File_Config1" path="C:\demo\output\assurance-spli.csv"/>
+		</foreach>
+		<logger level="INFO" doc:name="Logger" doc:id="f076cec2-8fe2-45ca-a7e4-166ea9489c03" message="After For Each"/>
+	</flow>
+</mule>

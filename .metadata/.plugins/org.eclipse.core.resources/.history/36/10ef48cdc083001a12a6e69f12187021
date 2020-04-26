@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="68ab9306-824e-4758-9ef9-3a64a19c20d9" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="object-store-demo-21avril2020Flow" doc:id="f5501477-9154-43d3-83c3-b30af4fdc35e" >
+		<http:listener doc:name="/store GET" doc:id="4e2b9f51-0dde-4a99-9a1d-423531708d30" config-ref="HTTP_Listener_config" path="/store"/>
+		<set-variable value="#[attributes.queryParams.key]" doc:name="Set Variable key" doc:id="b2e73e21-db57-4523-ba64-96ad80f02301" variableName="key"/>
+		<set-variable value="#[attributes.queryParams.value]" doc:name="Set Variable value" doc:id="9af48f22-c43f-41f9-803d-67723f561b1a" variableName="value"/>
+		<os:store doc:name="Store" doc:id="2af956cc-70ba-4223-bee4-2c73a64067ad" />
+	</flow>
+</mule>

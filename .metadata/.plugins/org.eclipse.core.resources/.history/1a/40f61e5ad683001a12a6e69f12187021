@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="64dd32d3-cb52-47e5-b55f-75ecd9fcdf44" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="salesforcequerydemoFlow" doc:id="f2d549b7-2406-4da5-8361-673dec084d52" >
+		<http:listener doc:name="Listener" doc:id="ff9d4451-bfe5-4ec6-8191-a927b51077f0" config-ref="HTTP_Listener_config" path="/salesforce"/>
+		<salesforce:query doc:name="Query" doc:id="9074bef8-c6d0-4192-b5c9-39b86d4effe2" />
+	</flow>
+</mule>

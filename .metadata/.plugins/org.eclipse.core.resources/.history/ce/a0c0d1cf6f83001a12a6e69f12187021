@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="0cd28f9b-de86-4d8a-a50f-17fd2a692abf" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<os:object-store name="Devoteam-Object_store" doc:name="Object store" doc:id="f7496dd6-807c-4e0a-89f2-8eaa328e9149" />
+	<http:listener-config name="HTTP_Listener_config1" doc:name="HTTP Listener config" doc:id="24a90a87-3b97-4fb3-98cb-e5f34c4b7735" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="storeFlow" doc:id="d9d8ffa8-128a-4fea-8188-0342affa06ce" >
+		<http:listener doc:name="/store GET" doc:id="c47b99fe-b901-4ad2-bf13-3d3a959ef8ea" config-ref="HTTP_Listener_config" path="/store"/>
+		<set-variable value="#[attributes.queryParams.key]" doc:name="Set Variable key" doc:id="dbf1eeb4-4dbc-4ddf-8ed4-3489d82a77a9" variableName="key"/>
+		<set-variable value="#[attributes.queryParams.value]" doc:name="Set Variable value" doc:id="6d38d13a-1ab9-4913-aac5-54031d325e33" variableName="value"/>
+		<os:store doc:name="Store key value to object store" doc:id="30269c79-f3f7-4ddc-9703-1fc76a6fafab" key="#[vars.key]" objectStore="Devoteam-Object_store">
+			<os:value ><![CDATA[#[vars.value]]]></os:value>
+		</os:store>
+	</flow>
+	<flow name="retrieveFlow" doc:id="830479b3-c60d-40ce-bc4d-8c563fee0671" >
+		<http:listener doc:name="/retrieve GET" doc:id="2c65b0a1-96b3-4724-a51a-e70f7c7cec97" config-ref="HTTP_Listener_config" path="/retrieve" />
+		<set-variable value="#[attributes.queryParams.key]" doc:name="Set Variable key" doc:id="bdbfa69f-eaa4-46a0-9d83-b026e230a006" variableName="key" />
+	</flow>
+</mule>

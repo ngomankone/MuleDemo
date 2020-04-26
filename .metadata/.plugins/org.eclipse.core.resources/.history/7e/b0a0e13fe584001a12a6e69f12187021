@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:java="http://www.mulesoft.org/schema/mule/java" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/java/current/mule-java.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="69fafbd5-1d55-4921-80c4-5718fbdec139" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="static-method-demo" doc:id="5a6ee278-b727-4d1d-837d-431ccc199ffb" >
+		<http:listener doc:name="Listener" doc:id="991d381e-882b-4608-8053-f8f9afec8e9e" config-ref="HTTP_Listener_config" path="/demo-static"/>
+		<java:invoke-static method="concat(java.lang.String,java.lang.String)" doc:name="Invoke static" doc:id="26a0936a-3a9d-4aaa-987a-328775a2ea09" class="com.devoteam.StringOperations">
+			<java:args ><![CDATA[#[%dw 2.0
+output application/java
+---
+{
+	a: attributes.queryParams.firstName as String,
+	b: attributes.queryParams.LastName as String
+}]]]></java:args>
+		</java:invoke-static>
+	</flow>
+	<flow name="non-static-method-demo" doc:id="faad4f55-8cd0-41ee-b0be-170153969e03" >
+		<http:listener doc:name="Listener" doc:id="63fefa62-60e8-4912-88d2-f686f9e3453e" config-ref="HTTP_Listener_config" path="/non-static"/>
+		<java:new constructor="StringOperations()" doc:name="New" doc:id="6c656fac-5965-4ef0-960e-ca3684a2f4d0" class="com.devoteam.StringOperations" target="str_obj"/>
+		<java:invoke doc:name="Invoke" doc:id="6f7d015e-a73e-46cb-a4c5-6c45d85e16ff" instance="#[vars.str_obj]" class="com.devoteam.StringOperations" method="multiConcat(String , String , String , String) "/>
+	</flow>
+</mule>

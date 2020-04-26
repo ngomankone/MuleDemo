@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<file:config name="File_Config" doc:name="File Config" doc:id="4567fd81-394c-4307-b7bf-5e55d7600365" >
+		<file:connection workingDir="C:\demo\input" />
+	</file:config>
+	<flow name="FileProcessingFlow" doc:id="e9d0a6d3-4c3e-4546-a2a4-9e46147a9cdc" >
+		<file:listener doc:name="On New or Updated File" doc:id="45308f5a-2f73-4722-a823-6de24d1c52ee" config-ref="File_Config" directory="C:\demo\input" autoDelete="true" moveToDirectory="C:\demo\output">
+			<scheduling-strategy >
+				<fixed-frequency frequency="5" timeUnit="SECONDS"/>
+			</scheduling-strategy>
+		</file:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="84861a8c-b85f-4a55-a891-1164da4522c0" message="Before For Each"/>
+	</flow>
+</mule>

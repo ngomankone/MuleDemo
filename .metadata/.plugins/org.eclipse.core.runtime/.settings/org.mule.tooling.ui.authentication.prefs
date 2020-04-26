@@ -1,0 +1,5 @@
+authenticated.users=[{"id"\:"0f4feff0-5371-4773-be18-a7c4f074a49e","token"\:"17d6684e-3de0-4d7c-b9a2-61b32ef2bcc2","userId"\:"ngomanTohaeroukone","refreshToken"\:"","baseUrl"\:"https\://anypoint.mulesoft.com/"}]
+current.token=17d6684e-3de0-4d7c-b9a2-61b32ef2bcc2
+current.user=ngomanTohaeroukone
+eclipse.preferences.version=1
+expiration.time=7

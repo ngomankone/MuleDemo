@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<file:config name="File_Config" doc:name="File Config" doc:id="756725b3-9c56-47fc-9c06-2bbcf8ef556a" >
+		<file:connection workingDir="C:\demo\input" />
+	</file:config>
+	<flow name="FileProcessingFlow" doc:id="ba97ec3d-85d2-42ef-83ab-dbfc4144f778" >
+		<file:listener doc:name="On New or Updated File" doc:id="6026c038-1b73-4b52-b459-5da02e8ac166" config-ref="File_Config" directory="C:\demo\input" autoDelete="true" moveToDirectory="C:\demo\output">
+			<scheduling-strategy >
+				<fixed-frequency frequency="5" timeUnit="SECONDS"/>
+			</scheduling-strategy>
+		</file:listener>
+	</flow>
+</mule>

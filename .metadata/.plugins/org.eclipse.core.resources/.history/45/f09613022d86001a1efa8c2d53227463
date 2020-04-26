@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:java="http://www.mulesoft.org/schema/mule/java" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/java/current/mule-java.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="6f129fad-c467-4138-b3a7-4d6bef4f1395" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="demo-javamoduleFlow" doc:id="f7ee11f6-057f-4573-9cfb-8bed659569e5" >
+		<http:listener doc:name="Listener" doc:id="454cd7af-5926-4bb9-a26f-cd7db9b138c6" config-ref="HTTP_Listener_config" path="/hello"/>
+		<java:invoke-static method="sayHello(java.lang.String,java.lang.String)" doc:name="Invoke static" doc:id="a859df58-9a15-4b29-ae81-46c9781fba2f" class="com.devoteam.StockQuoteService">
+			<java:args ><![CDATA[#[%dw 2.0
+output application/java
+---
+{
+	name: attributes.queryParams.name as String,
+	country: attributes.queryParams.country as String
+}]]]></java:args>
+		</java:invoke-static>
+		<logger level="INFO" doc:name="Logger" doc:id="b76e3a25-e1fb-45d6-b306-8c291897bfb2" message="#[payload]"/>
+	</flow>
+</mule>

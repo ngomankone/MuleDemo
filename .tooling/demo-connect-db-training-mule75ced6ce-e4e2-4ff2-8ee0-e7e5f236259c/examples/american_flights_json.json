@@ -1,0 +1,13 @@
+{
+"ID":6566,
+"code": "String",
+"price":897,
+"departureDate": "String",
+"origin": "String",
+"destination": "String",
+"emptySeats": 8777,
+  "plane": {
+    "type":"String",
+    "totalSeats": 8777
+  }
+}

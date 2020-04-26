@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="orderapplicationFlow" doc:id="4a4b9c0f-bfb4-493f-bc58-5f14f3c53eb9" >
+		<http:listener doc:name="/GET order" doc:id="35deeaaf-4517-4661-8d5d-b0a9b5d85a43" config-ref="HTTP_Listener_config" path="/order" allowedMethods="GET"/>
+	</flow>
+</mule>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="68ab9306-824e-4758-9ef9-3a64a19c20d9" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<os:object-store name="Devoteam-Object_store" doc:name="Object store" doc:id="27459fdd-43de-4ee4-9796-e889543a6174" />
+	<flow name="object-store-demo-21avril2020Flow" doc:id="f5501477-9154-43d3-83c3-b30af4fdc35e" >
+		<http:listener doc:name="/store GET" doc:id="4e2b9f51-0dde-4a99-9a1d-423531708d30" config-ref="HTTP_Listener_config" path="/store"/>
+		<set-variable value="#[attributes.queryParams.key]" doc:name="Set Variable key" doc:id="b2e73e21-db57-4523-ba64-96ad80f02301" variableName="key"/>
+		<set-variable value="#[attributes.queryParams.value]" doc:name="Set Variable value" doc:id="9af48f22-c43f-41f9-803d-67723f561b1a" variableName="value"/>
+		<os:store doc:name="Store key / value" doc:id="2af956cc-70ba-4223-bee4-2c73a64067ad" key="#[vars.key]" objectStore="Devoteam-Object_store">
+			<os:value ><![CDATA[#[vars.value]]]></os:value>
+		</os:store>
+	</flow>
+	<flow name="Copy_of_object-store-demo-21avril2020Flow" doc:id="5c6efb77-e4e1-492f-a1e6-f6bfb05e09bb" >
+		<http:listener doc:name="/retrieve GET" doc:id="aa5b0f74-def7-493c-a889-bd999189b4a9" config-ref="HTTP_Listener_config" path="/retrieve" />
+		<set-variable value="#[attributes.queryParams.key]" doc:name="Set Variable key" doc:id="863ba0ff-0403-487a-84bc-9eb1dc94dbcd" variableName="key" />
+		<os:retrieve doc:name="Retrieve" doc:id="21d3aea5-4b9b-4ed1-a7eb-27fcb1bd35ac" key="#[vars.key]"/>
+	</flow>
+</mule>

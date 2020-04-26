@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:java="http://www.mulesoft.org/schema/mule/java" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:spring="http://www.mulesoft.org/schema/mule/spring"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/java/current/mule-java.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="aebf4533-6216-40be-9ed1-3c8324b4c65a" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="demo-springmoduleFlow" doc:id="a6085b89-020d-42dd-9673-628f9db36338" >
+		<http:listener doc:name="Listener" doc:id="ebdbb629-9bc2-4582-b6e4-02916ac29967" config-ref="HTTP_Listener_config" path="/hello"/>
+		<java:new constructor="Employee(java.lang.String,int)" doc:name="New" doc:id="0e22a90f-4603-4ec7-872d-b0945708ea27" class="com.kone.Employee" target="kone"/>
+	</flow>
+</mule>
