@@ -1,0 +1,4665 @@
+{
+	"info": {
+		"_postman_id": "95cd6609-c2f8-46e8-b8d2-81e65012d0fe",
+		"name": "Salesforce",
+		"description": "Api connected to the salesforce platform",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "LOCAL",
+			"item": [
+				{
+					"name": "SYS",
+					"item": [
+						{
+							"name": "getOrders",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "client_secret",
+										"value": "{{client_secret}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/orders",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch dateSyncZuora",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "{{client_id}}"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "{{client_secret}}"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"op\": \"replace\",\r\n  \"path\": \"/Date_Synchronisation_Zuora__c\",\r\n  \"value\": \"2020-02-06\"\r\n}"
+								},
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/products/01t9E000007FliYQAS",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"01t9E000007FliYQAS"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch  ZuoraChargeId",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "{{client_id}}"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "{{client_secret}}"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"op\": \"replace\",\r\n  \"path\": \"/ZuoraChargeId__c\",\r\n  \"value\": \"04031993\"\r\n}"
+								},
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/products/01t9E000007FliYQAS/serviceLevelPrices/P0000143",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"01t9E000007FliYQAS",
+										"serviceLevelPrices",
+										"P0000143"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getOrderByID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "client_secret",
+										"value": "{{client_secret}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/orders/00000107",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"orders",
+										"00000107"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAccountBySiren",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/accounts/0019E00001572yVQAQ",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"accounts",
+										"0019E00001572yVQAQ"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getItem",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/items/01t1t000001HUk5AAG",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"items",
+										"01t1t000001HUk5AAG"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getPackageItems",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/products/01t1t000001HUkgAAG/items?type=Package",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"01t1t000001HUkgAAG",
+										"items"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "Package"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getProduct",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/products/a0F9E000003syg9UAA/discountSchedules/a0F9E000003syg9UAA",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"a0F9E000003syg9UAA",
+										"discountSchedules",
+										"a0F9E000003syg9UAA"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getProducts",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/pricebooks/01s1t0000048XiVAAU/products",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"pricebooks",
+										"01s1t0000048XiVAAU",
+										"products"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getProductItems",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/products/01t1t000001HUkQAAW/items?type=Product",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"01t1t000001HUkQAAW",
+										"items"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "Product"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getProductType",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/products/01t1t000001HUkQAAW/type",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"01t1t000001HUkQAAW",
+										"type"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getPriceBooks",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/products/01t9E0000079lgzQAA/pricebooks",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"01t9E0000079lgzQAA",
+										"pricebooks"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getPriceBookItems",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/pricebooks/01s1t0000048XiVAAU",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"pricebooks",
+										"01s1t0000048XiVAAU"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getCharges",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/products/01t9E000007OmlHQAS/charges",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"01t9E000007OmlHQAS",
+										"charges"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getBlockPrices",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/products/01t9E000007PEmtQAG/blockPrice?priceBookId=01s1t0000048XiVAAU&serviceLevel=3. Private",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"01t9E000007PEmtQAG",
+										"blockPrice"
+									],
+									"query": [
+										{
+											"key": "priceBookId",
+											"value": "01s1t0000048XiVAAU"
+										},
+										{
+											"key": "serviceLevel",
+											"value": "3. Private"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getOptions",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/products/01t9E000007OmlHQAS/options",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"01t9E000007OmlHQAS",
+										"options"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getServiceLevels",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/products/01t1t000001HUkgAAG/serviceLevelPrices/K0000081",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"01t1t000001HUkgAAG",
+										"serviceLevelPrices",
+										"K0000081"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getDiscountSchedules",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/products/01t9E000007PQ1CQAW/discountSchedules",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"01t9E000007PQ1CQAW",
+										"discountSchedules"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getContractInfo",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/products/chargeNumber/000000123",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"chargeNumber",
+										"000000123"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getContractIds",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/accounts/0019E00001572yVQAQ/contracts",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"accounts",
+										"0019E00001572yVQAQ",
+										"contracts"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getSubscriptionsIds",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/contracts/8009E0000038kiiQAA/subscriptions",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"contracts",
+										"8009E0000038kiiQAA",
+										"subscriptions"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "patchAccountField",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "{{client_id}}"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "{{client_secret}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"op\": \"replace\",\r\n  \"path\": \"/Sic\",\r\n  \"value\": \"SicUpdated\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/accounts/1756890",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"accounts",
+										"1756890"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getStatus",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "client_secret",
+										"value": "{{client_secret}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/api-status",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"api-status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createContract",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"startDate\" : \"2020-02-13\",\r\n    \"contractTerm\" : 36,\r\n    \"accountId\" : \"0019E00001572yVQAQ\",\r\n    \"priceBookId\" : \"01s9E000000tCKgQAM\",\r\n    \"amendmentPriceBookId\" : \"019E000016o\",\r\n    \"amendmentRenewalBehavior\" : \"Latest End Date\",\r\n    \"serviceLevel\" : \"I30\",\r\n    \"status\" : \"Draft\"\r\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/contracts",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"contracts"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "createSubscription",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[{\r\n  \"currencyIsoCode\": \"EUR\",\r\n  \"accountSfId\": \"0019E000016onASQAY\",\r\n  \"additionalDiscountAmount\": \"1.0\",\r\n  \"billingFrequency\": \"Monthly\",\r\n  \"billingType\": \"Advance\",\r\n  \"bundle\": false,\r\n  \"bundledQuantity\": \"1.0\",\r\n  \"bundled\": false,\r\n  \"chargeType\": \"One-Time\",\r\n  \"contractId\": \"8009E0000038kiiQAA\",\r\n  \"discountScheduleType\": \"item\",\r\n  \"discountSchedule\": \"a0F9E000003syg9UAA\",\r\n  \"listPrice\": 10.0,\r\n  \"markupAmount\": 1.0,\r\n  \"markupRate\": \"2\",\r\n  \"netPrice\": 35.0,\r\n  \"pricingMethod\": \"List\",\r\n  \"product\": \"01t9E000007QMWVQA4\",\r\n  \"quantity\": 3.0,\r\n  \"regularPrice\": 1.0,\r\n  \"renewedDate\": \"2013-03-23\",\r\n  \"requiredById\": \"01t9E000007QMWVQA4\",\r\n  \"requiredByProduct\": \"01t9E000007QMWVQA4\",\r\n  \"subscriptionStardDate\": \"2023-03-13\",\r\n  \"ratePlanEndDate\": \"2023-03-12\",\r\n  \"ratePlanStartDate\": \"2023-02-22\",\r\n   \"subscriptionType\": \"One-time\",\r\n  \"terminatedDate\": \"2023-03-02\",\r\n  \"serviceLevel\": \"C30\"\r\n}]"
+								},
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/subscriptions",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"subscriptions"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "DeleteContract",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/contracts/8009E0000038kiiQAA",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"contracts",
+										"8009E0000038kiiQAA"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "DeleteSubscription",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/subscriptions/a109E000002TaHqQAK",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"subscriptions",
+										"a109E000002TaHqQAK"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getZuoraEntitesList",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "client_secret",
+										"value": "{{client_secret}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-development/v1/zuoraEntities",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"zuoraEntities"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "PRC",
+					"item": [
+						{
+							"name": "getStatus",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "{{client_id}}"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "{{client_secret}}"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/prc-cegid-salesforce-subscriptions-api-development/v1/api-status",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"prc-cegid-salesforce-subscriptions-api-development",
+										"v1",
+										"api-status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "refresh subscriptions",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "{{client_id}}"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "{{client_secret}}"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/prc-cegid-synchronisation-subscriptions-api-development/v1/subscriptions/accounts/0019E000016onASQAY?zuoraEntityName=ZSF",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"prc-cegid-synchronisation-subscriptions-api-development",
+										"v1",
+										"subscriptions",
+										"accounts",
+										"0019E000016onASQAY"
+									],
+									"query": [
+										{
+											"key": "zuoraEntityName",
+											"value": "ZSF"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "EXP",
+					"item": [
+						{
+							"name": "getStatus",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "{{client_id}}"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "{{client_secret}}"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/prc-cegid-salesforce-subscriptions-api-development/v1/api-status",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"prc-cegid-salesforce-subscriptions-api-development",
+										"v1",
+										"api-status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "refresh subscriptions",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{secureBaseUri}}/api/prc-cegid-salesforce-subscriptions-api-development/v1/subscriptions/accounts/0019E000016onASQAY?zuoraEntityName=ZSF",
+									"host": [
+										"{{secureBaseUri}}"
+									],
+									"path": [
+										"api",
+										"prc-cegid-salesforce-subscriptions-api-development",
+										"v1",
+										"subscriptions",
+										"accounts",
+										"0019E000016onASQAY"
+									],
+									"query": [
+										{
+											"key": "zuoraEntityName",
+											"value": "ZSF"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "DEV",
+			"item": [
+				{
+					"name": "SYS",
+					"item": [
+						{
+							"name": "getOrders",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "client_secret",
+										"value": "{{client_secret}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/orders",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getOrderByID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "client_secret",
+										"value": "{{client_secret}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/orders/C00000107",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"orders",
+										"C00000107"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getStatus",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "client_secret",
+										"value": "{{client_secret}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/api-status",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"api-status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAccountById",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "{{client_id}}"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "{{client_secret}}"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/accounts/0019E00001572yVQAQ",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"accounts",
+										"0019E00001572yVQAQ"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "patchAccountField",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "{{client_id}}"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "{{client_secret}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"op\": \"replace\",\r\n  \"path\": \"/Sic\",\r\n  \"value\": \"007\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/accounts/1756890",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"accounts",
+										"1756890"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getItem",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/items/01t1t000001HUk5AAG",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"items",
+										"01t1t000001HUk5AAG"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getProducts",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/pricebooks/01s9E000000tCKgQAM/products",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"pricebooks",
+										"01s9E000000tCKgQAM",
+										"products"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getProductItems",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/products/01t1t000001HUkQAAW/items?type=Product",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"01t1t000001HUkQAAW",
+										"items"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "Product"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getPackageItems",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/products/01t1t000001HUkgAAG/items?type=Package",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"01t1t000001HUkgAAG",
+										"items"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "Package"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getZuoraEntities",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/zuoraEntities",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"zuoraEntities"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getProduct",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/products/01t1t000001HUkgAAG",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"01t1t000001HUkgAAG"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getPrIcebooks",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/products/01t9E000007FliYQAS/pricebooks",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"01t9E000007FliYQAS",
+										"pricebooks"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getPrIcebookItems",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/pricebooks/01s1t0000048XiVAAU",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"pricebooks",
+										"01s1t0000048XiVAAU"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getDiscountSchedules",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/products/01t9E000007PQ1CQAW/discountSchedules",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"01t9E000007PQ1CQAW",
+										"discountSchedules"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getServiceLevels",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/products/01t9E000007PQ1CQAW/serviceLevelPrices/P0000114",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"01t9E000007PQ1CQAW",
+										"serviceLevelPrices",
+										"P0000114"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getCharges",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/products/01t9E000007QMWVQA4/charges",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"01t9E000007QMWVQA4",
+										"charges"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getOptions",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/products/01t9E000007OmlHQAS/options",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"01t9E000007OmlHQAS",
+										"options"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getBlockPrices",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/products/01t9E000007PEmtQAG/blockPrice?priceBookId=01s1t0000048XiVAAU&serviceLevel=3. Private",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"01t9E000007PEmtQAG",
+										"blockPrice"
+									],
+									"query": [
+										{
+											"key": "priceBookId",
+											"value": "01s1t0000048XiVAAU"
+										},
+										{
+											"key": "serviceLevel",
+											"value": "3. Private"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "patch dateSyncZuora",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "{{client_id}}"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "{{client_secret}}"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"op\": \"replace\",\r\n  \"path\": \"/Date_Synchronisation_Zuora__c\",\r\n  \"value\": \"2020-02-08\"\r\n}"
+								},
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/products/01t9E000007PQ1CQAW",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"01t9E000007PQ1CQAW"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch  ZuoraChargeId",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "{{client_id}}"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "{{client_secret}}"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"op\": \"replace\",\r\n  \"path\": \"/ZuoraChargeId__c\",\r\n  \"value\": \"04031993\"\r\n}"
+								},
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/products/01t9E000007PQ1CQAW/serviceLevelPrices/P0000114",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"01t9E000007PQ1CQAW",
+										"serviceLevelPrices",
+										"P0000114"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getContractInfo",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/products/chargeNumber/000000123",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"products",
+										"chargeNumber",
+										"000000123"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getSubscriptionsIds",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/contracts/8009E0000038kiiQAA/subscriptions",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"contracts",
+										"8009E0000038kiiQAA",
+										"subscriptions"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "getContractIds",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/accounts/0019E00001572yVQAQ/contracts",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"accounts",
+										"0019E00001572yVQAQ",
+										"contracts"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "createContract",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"startDate\" : \"2020-02-13\",\r\n    \"contractTerm\" : 36,\r\n    \"accountId\" : \"0019E00001572yVQAQ\",\r\n    \"priceBookId\" : \"01s9E000000tCKgQAM\",\r\n    \"amendmentPriceBookId\" : \"019E000016o\",\r\n    \"amendmentRenewalBehavior\" : \"Latest End Date\",\r\n    \"serviceLevel\" : \"I30\",\r\n    \"status\" : \"Draft\"\r\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/contracts",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"contracts"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "createSubscriptions",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[{\r\n  \"currencyIsoCode\": \"EUR\",\r\n  \"accountSfId\": \"0019E000016onASQAY\",\r\n  \"additionalDiscountAmount\": \"1.0\",\r\n  \"billingFrequency\": \"Monthly\",\r\n  \"billingType\": \"Advance\",\r\n  \"bundle\": false,\r\n  \"bundledQuantity\": \"1.0\",\r\n  \"bundled\": false,\r\n  \"chargeType\": \"One-Time\",\r\n  \"contractId\": \"8009E0000038tKrQAI\",\r\n  \"discountScheduleType\": \"item\",\r\n  \"discountSchedule\": \"a0F9E000003syg9UAA\",\r\n  \"subscriptionEndDate\": \"2023-02-12\",\r\n  \"listPrice\": 10.0,\r\n  \"markupAmount\": 1.0,\r\n  \"markupRate\": \"2\",\r\n  \"netPrice\": 35.0,\r\n  \"pricingMethod\": \"List\",\r\n  \"product\": \"01t9E000007QMWVQA4\",\r\n  \"quantity\": 3.0,\r\n  \"regularPrice\": 1.0,\r\n  \"renewedDate\": \"2013-03-23\",\r\n  \"requiredById\": \"01t9E000007QMWVQA4\",\r\n  \"requiredByProduct\": \"01t9E000007QMWVQA4\",\r\n  \"subscriptionStardDate\": \"2023-03-13\",\r\n  \"ratePlanEndDate\": \"2023-03-12\",\r\n  \"ratePlanStartDate\": \"2023-02-22\",\r\n   \"subscriptionType\": \"One-time\",\r\n  \"terminatedDate\": \"2023-03-02\",\r\n  \"serviceLevel\": \"C30\"\r\n}]"
+								},
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/subscriptions",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"subscriptions"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "DeleteSubscription",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/subscriptions/a109E000002TaHqQAK",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"subscriptions",
+										"a109E000002TaHqQAK"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						},
+						{
+							"name": "DeleteContract",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-sys}}/api/sys-cegid-salesforce-api-development/v1/contracts/8009E0000038kiiQAA",
+									"host": [
+										"{{salesforce-sys}}"
+									],
+									"path": [
+										"api",
+										"sys-cegid-salesforce-api-development",
+										"v1",
+										"contracts",
+										"8009E0000038kiiQAA"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "PRC",
+					"item": [
+						{
+							"name": "getStatus",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "{{client_id}}"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "{{client_secret}}"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-prc}}/api/prc-cegid-salesforce-subscriptions-api-development/v1/api-status",
+									"host": [
+										"{{salesforce-prc}}"
+									],
+									"path": [
+										"api",
+										"prc-cegid-salesforce-subscriptions-api-development",
+										"v1",
+										"api-status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "refresh subscriptions",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad"
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D"
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-prc}}/api/prc-cegid-synchronisation-subscriptions-api-development/v1/subscriptions/accounts/0019E000016onASQAY?zuoraEntityName=ZSF",
+									"host": [
+										"{{salesforce-prc}}"
+									],
+									"path": [
+										"api",
+										"prc-cegid-synchronisation-subscriptions-api-development",
+										"v1",
+										"subscriptions",
+										"accounts",
+										"0019E000016onASQAY"
+									],
+									"query": [
+										{
+											"key": "zuoraEntityName",
+											"value": "ZSF"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "EXP",
+					"item": [
+						{
+							"name": "getStatus",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "accessToken",
+											"value": "toozFS5MqtRcBFMOitm5ZqINTp-B1l_ORn48ZGOM9ODfh_I6FDNZ6C7qR6K9AmFb-iur_wrQp_BVLStkQrig4A",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "{{client_id}}",
+										"disabled": true
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "{{client_secret}}",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-exp}}/api/exp-cegid-synchronisation-subscriptions-api-development/v1/api-status",
+									"host": [
+										"{{salesforce-exp}}"
+									],
+									"path": [
+										"api",
+										"exp-cegid-synchronisation-subscriptions-api-development",
+										"v1",
+										"api-status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "refresh subscriptions",
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "accessToken",
+											"value": "g59QBxfxCu4Ne5Noz9v5AfuoObMdu93rpqm-PEMS06SO_9vQGfDx-ax6k2D_iyQbVMu8MfQD1ydpUeYN7HqVIg",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "client_id",
+										"type": "text",
+										"value": "4f187666b4ed4fd398966c6468ce57ad",
+										"disabled": true
+									},
+									{
+										"key": "client_secret",
+										"type": "text",
+										"value": "CA8900e910474D4CA159b96C5b673f1D",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{salesforce-exp}}/api/exp-cegid-synchronisation-subscriptions-api-development/v1/accounts/0019E000016onASQAY?zuoraEntityName=ZSF",
+									"host": [
+										"{{salesforce-exp}}"
+									],
+									"path": [
+										"api",
+										"exp-cegid-synchronisation-subscriptions-api-development",
+										"v1",
+										"accounts",
+										"0019E000016onASQAY"
+									],
+									"query": [
+										{
+											"key": "zuoraEntityName",
+											"value": "ZSF"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "getAccountBySiren",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "client_id",
+												"type": "text",
+												"value": "4f187666b4ed4fd398966c6468ce57ad"
+											},
+											{
+												"key": "client_secret",
+												"type": "text",
+												"value": "CA8900e910474D4CA159b96C5b673f1D"
+											}
+										],
+										"url": {
+											"raw": "{{secureBaseUri}}/api/sys-cegid-salesforce-api-developpement/v1/accounts/1756890",
+											"host": [
+												"{{secureBaseUri}}"
+											],
+											"path": [
+												"api",
+												"sys-cegid-salesforce-api-developpement",
+												"v1",
+												"accounts",
+												"1756890"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=UTF-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "311"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Jan 2020 09:11:00 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"accountId\": \"0011w00000Y8wCOAAZ\",\n    \"accountPhone\": \"\",\n    \"accountSirenSiret\": \"1756890\",\n    \"accountName\": \"DEV Acccount Test UPDATED\",\n    \"billingStreet\": \"73 Rue Anatole France\",\n    \"billingPostalCode\": \"92300\",\n    \"billingCountry\": \"France\",\n    \"billingCity\": \"Levallois-Perret\",\n    \"industryCode\": \"AOP45\"\n}"
+								}
+							]
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

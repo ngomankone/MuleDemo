@@ -1,0 +1,11 @@
+#%RAML 1.0 ResourceType
+  patch:
+    body:
+      application/json:
+        examples: <<patchRequestExamples>>
+        type: <<patchRequestType>> 
+    responses: 
+      204:
+        body:
+          application/json:
+            example: {"message": "No Content"}

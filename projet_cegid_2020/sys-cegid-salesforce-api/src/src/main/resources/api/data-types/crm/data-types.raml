@@ -1,0 +1,670 @@
+#%RAML 1.0 Library
+types:
+  Order:
+    properties:
+      accountPhone:
+          type: string
+          description: 
+      accountSirenSiret:
+          type: string
+          description: 
+      contactBuyingPersona:
+          type: string
+          description: 
+      contactSalutation: 
+          type: string
+          description: 
+      contactLastName:
+          type: string
+      contactFirstName: 
+          type: string
+          description: 
+      contactEmail:
+          type: string
+          description: 
+      contactPhone:
+          type: string
+          description: 
+      salesRepresentativeEmployeeNumber:
+          type: string
+          description: 
+      salesRepresentativeLastName:
+          type: string
+          description: 
+      salesRepresentativeFirstName:
+          type: string
+          description: 
+      salesRepresentativePhone:
+          type: string
+          description: 
+      salesRepresentativeEmail:
+          type: string
+          description: 
+      accountId:
+        description: "Required. ID of the Account associated with this order. Can only be updated when the order’s StatusCode value is Draft."
+        type: string
+      billingCity:
+        description: City for the billing address for this order. Maximum size is 40 characters.
+        type: string
+      billingCountry:
+        description: Country for the billing address for this order. Maximum size is 80 characters.
+        type: string
+      billingPostalCode:
+        type: string
+        description: Postal code for the billing address for this order. Maximum size is 20 characters
+      billingStreet:
+        type: string
+        description: Street address for the billing address
+      billToContactId:
+        type: string
+        description: ID of the contact that the order will be billed to
+      orderNumber:
+        type: string
+        description: Order number assigned to this order (not the unique, system-generated ID assigned during creation). Maximum size is 30 characters
+      accountSic:
+        type: string
+        description:
+      umr:
+        type: string
+        description:
+      quotePriceBookCurrency:
+        type: string
+      quotePriceBookDefaultICS:
+        type: string
+      quotePriceBookZuoraEntity:
+        type: string
+
+  OrderItem:
+    properties:
+      orderId:
+        type: string
+      designationProduit?:
+        type: string
+      productId?:
+        type: string
+      
+
+
+  AccountResponse:
+    properties:
+      id:
+        type: string
+      accountName:
+        type: string
+      accountNumber:
+        type: string
+      notes:
+        type: string
+      status:
+        type: string
+      crmId:
+        type: string
+      batch:
+        type: string
+      invoiceTemplateId:
+        type: string
+      communicationProfileId:
+        type: string
+      lotReprise:
+        type: string
+      expFactRaisonSociale:
+        type: string
+      modeReglement:
+        type: string
+      expFactVille:
+        type: string
+      expFactRaisonSociale2:
+        type: string
+      expFactCodePostal:
+        type: string
+      expFactAd1:
+        type: string
+      quotePriceBookDefaultICS:
+        type: string
+      expeditionFactureSpecifique:
+        type: string
+      expFactAd2:
+        type: string
+      expFactAd3:
+        type: string
+      expFactPays:
+        type: string
+      umr:
+        type: string
+      accountSic:
+        type: string
+      salesRep:
+        type: string
+      parentId:
+        type: string
+      creditMemoTemplateId:
+        type: string
+      debitMemoTemplateId:
+        type: string
+      sequenceSetId:
+        type: string
+      billCycleDay:
+        type: integer
+      quotePriceBookCurrency:
+        type: string
+      paymentTerm:
+        type: string
+      paymentGateway:
+        type: string
+      invoiceDeliveryPrefsPrint:
+        type: boolean
+      invoiceDeliveryPrefsEmail:
+        type: boolean
+      additionalEmailAddresses:
+        type: string[]
+      balance:
+        type: string
+      totalInvoiceBalance:
+        type: string
+      creditBalance:
+        type: string
+      totalDebitMemoBalance:
+        type: string
+      unappliedPaymentAmount:
+        type: string
+      unappliedCreditMemoAmount:
+        type: string
+      contractedMrr:
+        type: string
+      billToContact:
+        type: string
+      soldToContact:
+        type: string
+      taxInfo:
+        type: string
+      success:
+        type: boolean
+
+  Account:
+    properties:
+      accountId:
+        type: string
+      accountName: 
+        type: string
+      billingStreet:
+        type: string
+      billingPostalCode:
+        type: string
+      billingCity:
+        type: 
+      billingCountry: 
+        type: string
+      accountPhone:
+        type: string
+      accountSirenSiret:
+        type: string
+      industryCode:
+        type: string
+
+  ZuoraEntity:
+    properties:
+      name: 
+        type: array
+      
+  Product:
+    properties:
+      discountSchedule: 
+        type: array
+      referenceNumber:
+        type: string
+      productName:
+        type: string
+      solutionRange:
+        type: string
+      commercialLaunch:
+        type: date-only
+      endOfCommercialization:
+        type: date-only
+      serviceLevels:
+        type: array
+      productId:
+        type: string
+        required: false
+      productLine:
+        type: string
+      gamme:
+        type: string
+      expertise:
+        type: string
+      priceBookId : 
+        type: string
+      zuoraEntityId: 
+        type: string
+      productServiceLevels:
+        type: string
+      dateSynchronisationZuora:
+        type: date-only
+      isActive:
+        type: boolean
+      excessPricingMethod:
+        type: string
+      excessUnitPriceCoeff:
+        type: string
+      family:
+        type: string
+      functional:
+        type: string
+      isLicensesOrSaas:
+        type: boolean
+      marketingStatus:
+        type: string
+      maximumQuantity:
+        type: number
+      metric:
+        type: string
+      noRoyalty:
+        type: boolean
+      consommationCode:
+        type: string
+      offer:
+        type: string
+      oneTimePurchases:
+        type: boolean
+      possibleBillingModes:
+        type: string
+      prepaid:
+        type: boolean
+      pricingModel:
+        type: string
+      productCode:
+        type: string
+      chargeType:
+        type: string      
+      quantityUnitOfMeasure:
+        type: string
+      recordTypeDeveloperName:
+        type: string
+      recurringPurchase:
+        type: string
+      referenceSequence:
+        type: string
+      regularPrice:
+        type: number
+      currency:
+        type: string
+      supplierId:
+        type: string
+      subscriptionLength:
+        type: string
+      structureLevel2:
+        type: string
+      serviceTerm:
+        type: string
+      schedulable:
+        type : boolean
+      taxCode:
+        type: string
+      optional:
+        type: boolean
+      saasProductionCode:
+        type: string
+  
+  productElement:
+    properties:
+      id:
+        description: product's id on the Salesforce platform
+        type: string
+      referenceNumber:
+        type: string
+      productName:
+        type: string
+      solutionRange:
+        type: number
+      commercialLaunch:
+        type: date-only
+      endOfCommercialization:
+        type: date-only
+      serviceLevels:
+        type: string
+      productId:
+        type: string
+        required: false
+      priceBookId : 
+        type: string
+      zuoraEntityId: 
+        type: string
+      
+
+  PriceBookElement:
+    properties:
+      priceBookId: 
+        type: string
+        description: pricebok Id
+      productId:
+        type: string
+      zuoraEntityName : 
+        type: string
+      defaultCurrency:
+        type: string
+      priceMultiplicator:
+        type: string
+      taxModel:
+        type: string
+  
+  DiscountSchedule:
+    properties:
+      createById: 
+        type: string
+      createDate:
+        type: string
+      currencyIsoCode:
+        type: string
+      id:
+        type: string
+      isDeleted:
+        type: boolean
+      lastModifiedById:
+        type: string
+      lastModifiedDate:
+        type: datetime
+      discountTiers:
+        type: string
+      discountAmount:
+        type: number
+      discount:
+        type: string
+      number:
+        type: number
+      lowerBound:
+        type: number
+      price:
+        type: string
+      schedule:
+        type: string
+      upperBound:
+        type: number
+      systemModStamp:
+        type: datetime
+    
+  BlockPrice:
+    properties:
+      discountSchedule:
+        type: string
+      id:
+        type: string
+      lowerBound:
+        type: number
+      maxUpperBound:
+        type: number
+      upperBound:
+        type: number
+      maximumPrice:
+        type: number
+      name:
+        type: string
+      serviceLevel:
+        type: string
+      priceBookId:
+        type: string
+      currency:
+        type: string
+      productId:
+        type: string
+      productType:
+        type: string
+      regularPrice:
+        type: number
+  Charges:
+    properties:
+      priceBookId:
+        type : string
+      accountCode:
+        type: string
+      deferredRevenueAccount:
+        type: string
+      recognizedRevenueAccount:
+        type: string
+      declaratifsRoyalties:
+        type: string
+      regularPrice:
+        type: number
+      currency: 
+        type: string
+      modelCharge: 
+        type: string
+      uom:
+        type: string
+      name:
+        type: string
+      event :
+        type: string
+      chargetype :
+        type: string
+      discountRate :
+        type: number
+      productAssetCode:
+        type: string
+      saaSproductionCode:
+        type: string
+      productName:
+        type: string
+      consommationCode:
+        type: string
+      description:
+        type: string
+      revenueRules :
+        type: string
+      billingPeriod:
+        type: string	
+      marketingStatus:
+        type: string
+
+  Options:
+    properties:
+      productId:
+        type: string
+  
+  IdResponse:
+    properties:
+      id:
+        type: string
+        description: id of the object
+      
+      
+  
+  ServiceLevelsPrice :
+    properties:
+      name : 
+        type: string
+      serviceLevelPrice:
+        type: string
+      product :
+        properties: 
+          attributes :
+            properties:
+              type: 
+                type: string
+              url : 
+                type: string
+          referenceNumber : 
+            type: string
+          solutionRange:
+            type: number
+          commercialLaunch :
+            type: date-only
+          endOfCommercialization : 
+            type: date-only
+          name :
+            type: string
+          pricingModel : 
+            type: string
+
+  Subscription:
+    properties:
+      currencyIsoCode:
+        type: string | nil
+      accountSfId :
+        type: string
+      additionalDiscountAmount :
+        type: string | nil
+      billingFrequency :
+        type: string | nil
+      billingType :
+        type: string | nil
+      bundle :
+        type: boolean
+      bundledQuantity :
+        type: string | nil
+      bundled :
+        type: boolean
+      chargeType :
+        type: string | nil
+      contractId:
+        type: string | nil
+      discountScheduleType:
+        type: string | nil
+      discountSchedule:
+        type: string | nil
+      listPrice:
+        type: number | nil
+      markupAmount:
+        type: number | nil
+      markupRate:
+        type: string | nil
+      netPrice:
+        type: number| nil
+      pricingMethod:
+        type: string | nil
+      product:
+        type: string | nil
+      quantity:
+        type: number | nil
+      regularPrice:
+        type: number | nil
+      renewedDate:
+        type: date-only | nil
+      requiredById:
+        type: string | nil
+      requiredByProduct:
+        type: string | nil
+      ratePlanEndDate:
+        type: date-only | nil
+      ratePlanStartDate:
+        type: date-only | nil
+      terminatedDate:
+        type: string | nil
+      serviceLevel:
+        type: string | nil
+
+  Contract:
+    properties:
+      startDate :
+        type: date-only
+      contractTerm :
+        type: number
+      accountId :
+        type: string
+      priceBookId:
+        type: string
+      amendmentPriceBookId :
+        type: string
+      amendmentRenewalBehavior :
+        type: string
+      serviceLevel:
+        type: string
+      status :
+        type: string
+  
+  ContractInfo:
+    properties:
+      priceBookId:
+        type: string
+      serviceLevel:
+        type: string
+      status:
+        type: string
+      regularPrice:
+        type: number
+      discountSchedule:
+        type: string
+      product :
+        type: string
+      upperBound :
+        type: number | nil
+      maxUpperBound:
+        type: number | nil
+      currency:
+        type: string
+
+
+  patchDocument:
+    properties:
+      op:
+        description: Patch operation (replace, add, remove,  )
+        type: string
+      path:
+        description: Field to update
+        type: string
+      value:
+        type: string
+
+  DeleteResponse:
+    properties:
+      id:
+        type: string
+      success:
+        type: boolean
+      message:
+        type: string
+  
+  PostResponse:
+    properties:
+      Success: 
+        description: Boolean for resource creation true on success false otherwise
+        type: boolean
+      Id:
+        description: Id of the created resource in zuora
+        type: string
+
+  Item:
+    properties:
+      itemId:
+       type: string
+      referenceNumber:
+       type: string
+      itemName:
+        type: string
+      itemFamily:
+        type: string
+      structureLevel2:
+        type: string
+      category:
+        type: string
+      noRoyalty:
+        type: string
+      percentageOfTurnover:
+        type: string
+      quantityDeclarative:
+        type: string
+      countermark:
+        type: string
+      optionalSKU:
+        type: string
+      metric:
+        type: string
+      defaultQuantity:
+        type: string
+      configuredSKU:
+        type: string
+      productLine:
+        type: string
+      euCustomCode:
+        type: string
+      coreBusiness:
+        type: string
+      netWeight:
+        type: string
+      buyingMetric:
+        type: string
+
+  ProductType:
+    properties:
+      type:
+       type: string
+      name:
+       type: string

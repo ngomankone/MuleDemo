@@ -1,0 +1,361 @@
+#%RAML 1.0
+title: sys-cegid-saleforce-api
+description:  System API for interactions with Salesforce
+version: v1.0
+uses:
+  rt: library/resource-types.raml
+  dt: data-types/crm/data-types.raml
+
+traits:
+  client-id-secret-required: !include ../exchange_modules/83c91a42-a0e4-44c2-a5a1-6a1aeafd7b9e/client-id-enforcement/1.0.0/client-id-enforcement.raml
+
+/orders:
+  is: [client-id-secret-required]
+  description: Retrieve a list of orders from salesforce
+  type:
+    rt.read-only-resource-type:
+      getResponseExamples: 
+        Example 1: !include examples/crm/200-orders.raml
+      getResponseType: dt.Order[] 
+  /{anyId}:
+    is: [client-id-secret-required] 
+    description: Retrieve a specific order from salesforce given an orderNumber or orderId
+    get:
+      queryParameters:
+        id-type:
+          type: string
+          required: false
+          default: "orderNumber"
+      displayName:  retreive an order
+      responses: 
+        200:
+          body: 
+            application/json:
+              examples: !include examples/crm/200-order.raml
+    patch:
+      displayName: Update Order
+      description: Partially update an order
+      body:
+        application/json:
+          examples:
+            type: dt.patchDocumentType
+            input: !include examples/crm/patchRequestExample.raml
+      responses:
+        204:
+          body:
+            application/json:
+              examples:
+                output: {"message": "No content"} 
+    /orderItems:
+      is: [client-id-secret-required] 
+      description: Retrieve a list of order items from salesforce given an orderId
+      type:
+        rt.read-only-resource-type: 
+          getResponseExamples: 
+            Example 1: !include examples/crm/200-orderItems.raml
+          getResponseType: dt.OrderItem[]
+
+/accounts:
+  /{Id}:
+    is: [client-id-secret-required]
+    get:
+      displayName: Retrieve Account
+      description: Retrieve a specific Account from salesforce given the accountSirenSiret
+      responses:
+        200:
+          body:
+            application/json:
+              examples:
+                output: !include examples/crm/200-account.raml
+    patch:
+      displayName: Update Account
+      description: Partially update an account field given it's accountSirenSiret
+      body:
+        application/json:
+          examples:
+            type: dt.patchDocument
+            input: !include examples/crm/patchRequestExample.raml
+      responses:
+        204:
+          body:
+            application/json:
+              examples:
+                output: {"message": "No content"}
+    /contracts:
+      is: [client-id-secret-required]
+      displayName: Get contracts Id from an account
+      type:
+        rt.read-only-resource-type:
+          getResponseExamples:
+            Example: !include examples/crm/200-getListId.raml
+          getResponseType: dt.IdResponse[]
+/quotes:
+  /{id}:
+    is: [client-id-secret-required]
+    patch:
+      displayName: Update Quote if saas admin exists for this account
+      description: Partially update a Quote given its Id number
+      body:
+        application/json:
+          examples:
+            type: dt.patchDocument
+            input: !include examples/crm/patchRequestExample.raml
+      responses:
+        204:
+          body:
+            application/json:
+              examples:
+                output: {"message": "No content"}    
+/products:  
+  /{Id}:
+    displayName: Get a Product
+    is: [client-id-secret-required]
+    description: get a product with its Id on salesforce
+    type:
+      rt.read-only-resource-type:
+        getResponseExamples:
+          Example: !include examples/crm/200-product.raml
+        getResponseType: dt.Product
+    
+    patch:
+      displayName: Update Product Id
+      description: Partially update a product id field in the product object
+      body:
+        application/json:
+          examples:
+            type: dt.patchDocumentType
+            input: !include examples/crm/patchRequestExample.raml
+      responses:
+        204:
+          body:
+            application/json:
+              examples:
+                output: {"message": "No content"}
+ 
+    /items:
+      displayName: Get all items of one product or package
+      is: [client-id-secret-required]
+      get:
+        queryParameters:
+          type:
+            type: string
+            required: false
+        responses: 
+          200:
+            body: 
+              application/json:
+                type: dt.Item[]
+                examples: !include examples/crm/200-items.raml
+
+    /pricebooks:
+      displayName: Get list of priceBooks for a product
+      is: [client-id-secret-required]
+      description: get a product with its Id on salesforce
+      type:
+        rt.read-only-resource-type:
+          getResponseExamples:
+            Example: !include examples/crm/200-priceBook.raml    
+          getResponseType: dt.PriceBookElement[]
+
+    /blockPrice:
+      displayName: Get a Price Range
+      is: [client-id-secret-required]
+      description: get a list of price range from a product on salesforce
+      get:
+        queryParameters:
+          priceBookId: 
+            type: string
+          serviceLevel:
+            type: string
+        responses: 
+          200:
+            body: 
+              application/json:
+                examples: !include examples/crm/200-blockPrices.raml
+                type: dt.BlockPrice[]
+    
+    /type:
+      displayName: Get type of one product, package or article
+      is: [client-id-secret-required]
+      type:
+        rt.read-only-resource-type:
+          getResponseExamples: 
+            Example: !include examples/crm/200-productType.raml
+          getResponseType: dt.ProductType 
+
+    /discountSchedules:
+      /{discountScheduleId}:
+        displayName: Get a Discount Schedule
+        is: [client-id-secret-required]
+        description: 
+        type:
+          rt.read-only-resource-type:
+            getResponseExamples:
+              Example: !include examples/crm/200-discountSchedule.raml
+            getResponseType: dt.DiscountSchedule
+
+    /options:
+      displayName: Get product's options
+      is: [client-id-secret-required]
+      type:
+        rt.read-only-resource-type:
+          getResponseExamples:
+            Example: !include examples/crm/200-optionProduct.raml
+          getResponseType: dt.Options[]
+
+
+    /charges:
+      displayName: Get charges linked to a product
+      is: [client-id-secret-required]
+      type:
+        rt.read-only-resource-type:
+          getResponseExamples:
+            Example: !include examples/crm/200-charges.raml
+          getResponseType: dt.Charges[]
+
+      
+    /serviceLevelPrices:
+      displayName: Service Level Price
+      /{referenceNumber}:
+        displayName: Get Service Levels
+        is: [client-id-secret-required]
+        description: get a list of price range from a product on salesforce
+        type:
+          rt.read-only-resource-type:
+            getResponseExamples:
+              Example: !include examples/crm/200-serviceLevelsPrice.raml
+            getResponseType: dt.ServiceLevelsPrice[]
+        patch:
+          displayName: Update ServiceLevels
+          description: Partially update a serviceLevel 
+          body:
+            application/json:
+              examples:
+                type: dt.patchDocumentType
+                input: !include examples/crm/patchRequestExample.raml
+          responses:
+            204:
+              body:
+                application/json:
+                  examples:
+                    output: {"message": "No content"}   
+  /chargeNumber:
+    /{chargeNumber}:
+      displayName: Get contract details
+      description: Get subscriptions informations to create a contract
+      is: [client-id-secret-required]
+      type:
+        rt.read-only-resource-type:
+          getResponseExamples:
+            Example: !include examples/crm/200-contractInfos.raml
+          getResponseType: dt.ContractInfo
+
+
+/pricebooks:
+  /{priceBookId}:
+    displayName: Get all items of one Pricebook
+    is: [client-id-secret-required] 
+    type:
+      rt.read-only-resource-type:
+        getResponseExamples: 
+          Example: !include examples/crm/200-items.raml
+        getResponseType: dt.Item[]
+
+    /products:
+      displayName: Get List of products
+      is: [client-id-secret-required]
+      description: get a list of products from a pricebook on salesforce
+      type:
+        rt.read-only-resource-type:
+          getResponseExamples:
+            Example: !include examples/crm/200-products.raml
+          getResponseType: dt.productElement[]
+
+/subscriptions:
+  is: [client-id-secret-required]
+  post:
+    displayName: Create subscription 
+    description: Create subscription for a specific account in Salesforce
+    body:
+      application/json:
+        examples: !include examples/crm/subscription.raml
+        type: dt.Subscription[]
+    responses: 
+      201:
+        body:
+          application/json:
+            examples: !include examples/crm/201-created.raml
+            type: dt.PostResponse
+  /{Id}:
+    is: [client-id-secret-required]
+    delete:
+      displayName: Delete subscriptions
+      description: Delete subscriptions from a specific account
+      responses:
+        200:
+          body:
+            application/json:
+              examples:
+              type: dt.DeleteResponse
+
+/contracts:
+  is: [client-id-secret-required]
+  post:
+    displayName: Create contract 
+    description: Create contract for a specific account in Salesforce
+    body:
+      application/json:
+        examples: !include examples/crm/contract.raml
+        type: dt.Contract
+    responses: 
+      201:
+        body:
+          application/json:
+            examples: !include examples/crm/201-created.raml
+            type: dt.PostResponse
+  /{Id}:
+    is: [client-id-secret-required]
+    delete:
+      displayName: Delete contract
+      description: Delete contract from a specific account
+      responses:
+        200:
+          body:
+            application/json:
+              examples:
+              type: dt.DeleteResponse
+    /subscriptions:
+      is: [client-id-secret-required]
+      displayName: Get subscriptions of a contract
+      type:
+        rt.read-only-resource-type:
+          getResponseExamples:
+            Example: !include examples/crm/200-getListId.raml
+          getResponseType: dt.IdResponse[]
+
+/zuoraEntities:
+  displayName: Get Zuora entity's name
+  description: get all the zuora entity names from salesforce
+  is: [client-id-secret-required]
+  type:
+    rt.read-only-resource-type:
+      getResponseExamples: 
+        Example: !include examples/crm/200-zuoraName.raml
+      getResponseType: dt.ZuoraEntity
+
+/items:
+ /{Id}:
+    displayName: Get item details
+    description: 
+    is: [client-id-secret-required]
+    type: 
+      rt.read-only-resource-type:
+        getResponseExamples: 
+          Example: !include examples/crm/200-item.raml 
+        getResponseType: dt.Item 
+
+/api-status:
+  type: 
+    rt.api-status-resource-type
+
+

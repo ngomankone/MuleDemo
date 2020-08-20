@@ -1,0 +1,734 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<munit:config name="new-test-suite.xml" />
+	<munit:test name="sys-api-cegid-salesforce-implementation-test-suite-get:\api-status:sys-cegid-salesforce-api-configTest" doc:id="052b07ed-e61e-4bf1-9b23-a1f9b3575f63" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get:\api-status:sys-cegid-salesforce-api-config" doc:id="318c9f91-cb42-4f62-9e78-b89f29a665d1" name="get:\api-status:sys-cegid-salesforce-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert payload status" doc:id="33266698-517e-48ab-a9ac-ddfbea9f9d23" actual="#[payload.status]" expected='#["pass"]'/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sys-api-cegid-salesforce-implementation-test-suite-get:\orders:sys-cegid-salesforce-api-configTest" doc:id="ddf4a451-b929-4f7e-8d4e-6239f4eb5963" description="Test">
+		<munit:behavior>
+			<munit-tools:mock-when doc:name="Mock Salesforce Query" doc:id="7641f2d4-c3eb-4c92-8cee-01fa703b46aa" processor="salesforce:query">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Salesforce_Config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[
+%dw 2.0
+output application/json
+---
+[
+    {
+      "OrderNumber": "12345",
+      "AccountId": "test",
+      "BillingCity": "Paris",
+      "BillingCountry": "France",
+      "BillingPostalCode": "75011",
+      "BillingStreet": "Avenue de la paix",
+      "Account": {
+        "Name": "John",
+        "Phone": "0678764334",
+        "Siren_Siret__c": "235359376326",
+        "sic": "egezhzehez"
+      },
+      "SBQQ__Quote__r": {
+        "SBQQ__PrimaryContact__r": {
+          "Salutation": "Mr.",
+          "FirstName": "John",
+          "LastName": "Doe",
+          "Email": "john.doe@cegid.com",
+          "Phone": "0875783057"
+        },
+        "SBQQ__SalesRep__r": {
+          "FirstName": "test",
+          "LastName": "test",
+          "Phone": "0678764334",
+          "email": "john.doe@cegid.com",
+          "EmployeeNumber": "test"
+        },
+        "SBQQ__PriceBook__r": {
+          "Currency__c": "EUR",
+          "Default_ICS__c": "test",
+          "Zuora_Entity__c": "test"
+        }
+      }
+    }
+  ]
+]' mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<flow-ref doc:name="get:\orders:sys-cegid-salesforce-api-config" doc:id="a4c8db75-0021-4609-a1dd-87d751ce8734" name="get:\orders:sys-cegid-salesforce-api-config"/>
+			</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals doc:name="Assert payload" doc:id="f005b698-49c4-4907-8173-28a9aa493b9d" actual="#[payload]" expected='#[%dw 2.0
+output application/json
+---
+[
+  {
+    "orderNumber": "12345",
+    "accountId": "test",
+    "accountName": "John",
+    "billingStreet": "Avenue de la paix",
+    "billingPostalCode": "75011",
+    "billingCity": "Paris",
+    "billingCountry": "France",
+    "accountPhone": "0678764334",
+    "accountSirenSiret": "235359376326",
+    "contactSalutation": "Mr.",
+    "contactLastName": "Doe",
+    "contactFirstName": "John",
+    "contactEmail": "john.doe@cegid.com",
+    "contactPhone": "0875783057",
+    "salesRepresentativeEmployeeNumber": "",
+    "salesRepresentativeLastName": "test",
+    "salesRepresentativeFirstName": "test",
+    "salesRepresentativePhone": "0678764334",
+    "salesRepresentativeEmail": "john.doe@cegid.com",
+    "accountSic": "egezhzehez",
+    "quotePriceBookCurrency": "EUR",
+    "quotePriceBookDefaultICS": "test",
+    "quotePriceBookZuoraEntity": "test"
+  }
+]]'/>
+			</munit:validation>
+		</munit:test>
+	<munit:test name="sys-api-cegid-salesforce-implementation-test-suite-get:\orders\(anyId):sys-cegid-salesforce-api-configTest" doc:id="5bcd9431-52a0-4e30-85e8-5d4730304351" description="Test">
+			<munit:behavior>
+				<munit-tools:mock-when doc:name="Mock Salesforce Query" doc:id="dd6b1163-abe6-4c9d-baba-73bf29349501" processor="salesforce:query">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Salesforce_Config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[
+%dw 2.0
+output application/json
+---
+[
+    {
+      "OrderNumber": "12345",
+      "AccountId": "test",
+      "BillingCity": "Paris",
+      "BillingCountry": "France",
+      "BillingPostalCode": "75011",
+      "BillingStreet": "Avenue de la paix",
+      "Account": {
+        "Name": "John",
+        "Phone": "0678764334",
+        "Siren_Siret__c": "235359376326",
+        "sic": "egezhzehez"
+      },
+      "SBQQ__Quote__r": {
+        "SBQQ__PrimaryContact__r": {
+          "Salutation": "Mr.",
+          "FirstName": "John",
+          "LastName": "Doe",
+          "Email": "john.doe@cegid.com",
+          "Phone": "0875783057"
+        },
+        "SBQQ__SalesRep__r": {
+          "FirstName": "test",
+          "LastName": "test",
+          "Phone": "0678764334",
+          "email": "john.doe@cegid.com",
+          "EmployeeNumber": "test"
+        },
+        "SBQQ__PriceBook__r": {
+          "Currency__c": "EUR",
+          "Default_ICS__c": "test",
+          "Zuora_Entity__c": "test"
+        }
+      }    
+    }
+  ]
+]' mediaType="application/json" />
+				</munit-tools:then-return>
+				</munit-tools:mock-when>
+			</munit:behavior>
+			<munit:execution>
+				<flow-ref doc:name="get:\orders:sys-cegid-salesforce-api-config" doc:id="a47650d0-fc65-46a0-ac20-fc319d0c755a" name="get:\orders\(anyId):sys-cegid-salesforce-api-config" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-equals doc:name="Assert payload" doc:id="a1066230-b94f-4b9a-92e5-b4a55dd930d3" actual="#[payload.orderNumber]" expected="#['12345']" />
+			</munit:validation>
+		</munit:test>
+	<munit:test name="sys-api-cegid-salesforce-implementation-test-suite-patch:\accounts\(Id):application\json:sys-cegid-salesforce-api-configTest" doc:id="65bc83bd-e8d1-4ecf-b7e8-d32900eddbfa" description="Test">
+			<munit:behavior>
+			<munit-tools:mock-when doc:name="Mock Salesforce Query" doc:id="5e52fcaf-c094-4af0-bcae-e514567b06c8" processor="salesforce:query">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Retrieve Account by accountSirenSiret" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="29204fb9-f5d7-4d4e-919c-60ad420d5364" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="Salesforce_Config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="records" attributeName="target" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value='#[
+%dw 2.0
+output application/json
+---
+[
+    {
+      "Id": "test",
+      "Name": "John",
+      "Phone": "0678764334",
+      "Siren_Siret__c": "235359376326",
+      "sic": "egezhzehez",
+      "BillingCity": "Paris",
+      "BillingCountry": "France",
+      "BillingPostalCode": "75011",
+      "BillingStreet": "Avenue de la paix",
+      "Industry_Code__c": "test"
+    }
+]
+]' mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock Salesforce Update" doc:id="110ca883-403e-4c49-9098-8008a5e102f7" processor="salesforce:update">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Update Field" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="471c06cd-1e6e-466c-8b64-db5157bcb146" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="Salesforce_Config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="Account" attributeName="type" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value='#[
+%dw 2.0
+output application/json
+---
+[
+    {
+      "Id": "test",
+    }
+]
+]' mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+				<flow-ref doc:name="patch:\accounts\(Id):application\json:sys-cegid-salesforce-api-config" doc:id="f7f20a6c-22aa-46dc-a983-11afc8895926" name="patch:\accounts\(Id):application\json:sys-cegid-salesforce-api-config" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-equals doc:name="Assert payload" doc:id="dd7ce8c5-e2d7-4714-b8ed-f6702e172a2d" actual="#[payload.message]" expected="#['No content']" />
+			</munit:validation>
+		</munit:test>
+	<munit:test name="sys-api-cegid-salesforce-implementation-test-suite-get:\accounts\(Id):sys-cegid-salesforce-api-configTest" doc:id="242974ad-83c2-4262-a174-3170a873ebd9" description="Test">
+			<munit:behavior>
+				<munit-tools:mock-when doc:name="Mock Salesforce Query" doc:id="22a66da5-4190-47ed-ad08-945758a1f1ba" processor="salesforce:query">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Retrieve Account by accountId" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="28792cda-6c0d-4e7f-8b02-136889553dda" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="Salesforce_Config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[
+%dw 2.0
+output application/json
+---
+[
+    {
+      "Id": "test",
+      "Name": "John",
+      "Phone": "0678764334",
+      "Siren_Siret__c": "235359376326",
+      "sic": "egezhzehez",
+      "BillingCity": "Paris",
+      "BillingCountry": "France",
+      "BillingPostalCode": "75011",
+      "BillingStreet": "Avenue de la paix",
+      "Industry_Code__c": "test"
+    }
+]
+]' mediaType="application/json" />
+				</munit-tools:then-return>
+				</munit-tools:mock-when>
+			</munit:behavior>
+			<munit:execution>
+				<flow-ref doc:name="get:\accounts\(Id):sys-cegid-salesforce-api-config" doc:id="8a7f0e9a-aa5a-425e-8872-b942243aac43" name="get:\accounts\(Id):sys-cegid-salesforce-api-config" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-equals doc:name="Assert payload" doc:id="6d0da344-bc39-49a2-815c-c798cbe5e548" actual="#[payload]" expected='#[{
+  "accountId": "test",
+  "accountPhone": "0678764334",
+  "accountSirenSiret": "235359376326",
+  "accountName": "John",
+  "billingStreet": "Avenue de la paix",
+  "billingPostalCode": "75011",
+  "billingCountry": "France",
+  "billingCity": "Paris",
+  "industryCode": "test",
+  "erpNumber": null
+}]' />
+			</munit:validation>
+		</munit:test>
+	<munit:test name="sys-cegid-salesforce-api-implementation-test-suite-patch:\products\(Id)\serviceLevelPrices\(referenceNumber):application\json:sys-cegid-salesforce-api-configTest" doc:id="5f2e9d72-f4ea-4d78-8e2f-47de8b88b1f7" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Salesforce Query" doc:id="3a962339-6ef2-4b02-bd1c-1264c796f6e7" processor="salesforce:query">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Query" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="65cc0b4f-9764-44ee-9a60-7847323b7cd0" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="Salesforce_Config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="records" attributeName="target" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[
+%dw 2.0
+output application/json
+---
+[
+    {
+      "Id": "12345",
+      "RecordTypeId": "test",
+      "ZuoraChargeId__c": "Paris",
+      "Reference_Number__c": "test"
+    }
+  ]
+]' mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock Salesforce Update Query" doc:id="457cc7c9-4ba6-49b7-a52b-0b0d35ce2cf1" processor="salesforce:update">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Update" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="67297203-9b92-4ca9-84ce-cae581921839" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="Salesforce_Config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="Service_Level_Price__c" attributeName="type" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[
+%dw 2.0
+output application/json
+---
+[
+    {
+      "Id": "12345"
+    }
+  ]
+]
+' mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="patch:\products\(Id)\serviceLevelPrices\(referenceNumber):application\json:sys-cegid-salesforce-api-config" doc:id="a162409a-0a19-4929-bb4b-2d51225ed69b" name="patch:\products\(Id)\serviceLevelPrices\(referenceNumber):application\json:sys-cegid-salesforce-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert payload" doc:id="40411bbc-3d8e-4c9f-920b-05671d13016c" actual="#[payload.message]" expected="#['No content']" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sys-cegid-salesforce-api-implementation-test-suite-patch:\products\(Id):application\json:sys-cegid-salesforce-api-configTest" doc:id="3241769f-3f15-420e-bdaa-7f537aca760e" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Salesforce Query" doc:id="0a0f5989-ef54-4b58-9b34-d37fa9214d2c" processor="salesforce:query">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Query" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="7fca61c4-ee9c-4a49-b9d5-701291f65b15" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="Salesforce_Config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="records" attributeName="target" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value=' #[
+%dw 2.0
+output application/json
+---
+[
+    {
+      "Id": "12345",
+      "Synchronization_Date_Zuora__c": "2020-03-11T16:00:00.000Z"
+    }
+  ]
+]' mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock Salesforce Update Query" doc:id="0f93d764-c0c4-471a-b85b-e4100af8d455" processor="salesforce:update" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Update" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="209d7116-0ac9-4a7c-8233-6404c84218b9" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="Salesforce_Config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="Product2" attributeName="type" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[
+%dw 2.0
+output application/json
+---
+[
+    {
+      "Id": "12345"
+    }
+  ]
+]
+' mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock Salesforce Query" doc:id="87acb6be-e4c8-4dba-885d-a769839e0373" processor="salesforce:query">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Query" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="81db8e71-421b-40cd-ae9a-30cc918da953" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="Salesforce_Config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="records" attributeName="target" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value=' #[
+%dw 2.0
+output application/json
+---
+[
+    {
+      "Id": "12345",
+      "Synchronization_Date_Zuora__c": "2020-03-11T16:00:00.000Z"
+    }
+  ]
+]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock Salesforce Update" doc:id="46a41511-9cdd-4040-ae9f-96f8149c8ada" processor="salesforce:update">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Update" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="da547a7b-3d25-4b91-ac74-c39d7ca94191" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="Salesforce_Config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="Product2" attributeName="type" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[
+%dw 2.0
+output application/json
+---
+{
+   "Id": "12345"
+}
+]
+' mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<set-payload value="#[%dw 2.0
+output application/json
+---
+{
+  value: '11/03/2020'
+}]" doc:name="Set Payload Variable" doc:id="0457ea18-040e-4187-9313-75834c99efee" />
+			<flow-ref doc:name="Flow-ref to patch:\products\(Id):application\json:sys-cegid-salesforce-api-config" doc:id="f38b4acf-4c77-4ba8-b12c-1c3776095bf0" name="patch:\products\(Id):application\json:sys-cegid-salesforce-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert payload id" doc:id="583bbb84-5ea1-46dd-9456-ccc3a5282950" actual="#[payload.Id]" expected="#['12345']"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sys-cegid-salesforce-api-implementation-test-suite-get:\pricebooks\(priceBookId)\products:sys-cegid-salesforce-api-configTest" doc:id="355833c7-75c2-4421-a319-ae0536a800c7" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Salesforce Query" doc:id="bfdc9d71-ae5a-4745-ab9b-f234f6ae474e" processor="salesforce:query">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="get pricebooks" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="d2e76646-b42f-4ed9-b2a5-35960287f589" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="Salesforce_Config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[
+%dw 2.0
+output application/json
+---
+[{
+  "Reference_Number__c": "1111",
+  "Product__r": {
+      "Name": "test",
+      "SolutionRange__c": "test",
+      "Commercial_Launch__c": "test",
+      "End_of_Commercialization__c": "test",
+      "Id": "test"
+  },
+  "Name": "test",
+  "Service_Level__c": "test",
+  "Price_Book__c": "1111",
+  "Price_Book_r": {
+      "Zuora_Entity__c": "1111"
+  },
+  "Id": "test"
+}]
+]' mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get:\pricebooks\(priceBookId)\products:sys-cegid-salesforce-api-config" doc:id="ee0607ca-bc1e-4486-9579-8111b04f6a7e" name="get:\pricebooks\(priceBookId)\products:sys-cegid-salesforce-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert payload referenceNumber" doc:id="5a84f44f-c004-4921-aba6-bf22ff9b8f47" actual="#[payload[0].referenceNumber]" expected="#['1111']"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sys-cegid-salesforce-api-implementation-test-suite-get:\products\(Id)\serviceLevelPrices\(referenceNumber):sys-cegid-salesforce-api-configTest" doc:id="19a3008c-ab09-4a09-9deb-1180f9c6197f" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Salesforce Query" doc:id="85589033-02d9-4afe-8c1a-99ba51845560" processor="salesforce:query">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="get levelprice" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="d8dca2f7-c1e7-4896-b356-7b6cf2567470" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="Salesforce_Config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[
+%dw 2.0
+output application/json
+---
+[{
+  "Reference_Number__c": "1111",
+  "Product__r": {
+      "Name": "test",
+      "SolutionRange__c": "test",
+      "Commercial_Launch__c": "test",
+      "End_of_Commercialization__c": "test",
+      "Id": "test"
+  },
+  "Name": "test",
+  "Service_Level__c": "test",
+  "Price_Book__c": "1111",
+  "Price_Book_r": {
+      "Zuora_Entity__c": "1111"
+  },
+  "Id": "test"
+}]
+]' mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get:\products\(Id)\serviceLevelPrices\(referenceNumber):sys-cegid-salesforce-api-config" doc:id="74d14f25-d335-4c31-99d7-19f53d626fbe" name="get:\products\(Id)\serviceLevelPrices\(referenceNumber):sys-cegid-salesforce-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="d1f3dcaa-e9c2-4c40-a6e4-f66d3dd0c2d1" actual="#[payload[0].serviceLevelName]" expected="#['test']"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sys-cegid-salesforce-api-implementation-test-suite-get:\products\(Id)\discountSchedules:sys-cegid-salesforce-api-configTest" doc:id="aebb6c1c-19b3-42e5-8687-ea4a103cb967" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Salesforce Query" doc:id="df09658d-686f-410d-9eef-7683dc2a6e5e" processor="salesforce:query">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="get Product Info" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="ac20df87-1a21-4c78-b62d-9dc99fc321bb" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="Salesforce_Config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[
+%dw 2.0
+output application/json
+--- 
+[
+    {
+      "Discount_Schedule__c": "12345",
+      "AccouReference_Number__cntId": "test",
+      "BillingCity": "Paris",
+      "BillingCountry": "France",
+      "BillingPostalCode": "75011",
+      "BillingStreet": "Avenue de la paix",
+      "Account": {
+        "Name": "John",
+        "Phone": "0678764334",
+        "Siren_Siret__c": "235359376326",
+        "sic": "egezhzehez"
+      },
+      "Product__r": {
+          "Name": "test",
+          "SolutionRange__c": "John",
+          "Commercial_Launch__c": "2020-03-11",
+          "End_of_Commercialization__c": "2020-03-11",
+          "Product_Line__c": "Product_Line__c"
+      }    
+    }
+  ]
+  ]' mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock Salesforce Query" doc:id="c67e71a7-9c9a-4f94-85d7-4569c4f6a33b" processor="salesforce:query">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="get schedule discount" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="4eaa3908-b4cc-487e-af84-06105ebd17ed" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="Salesforce_Config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:payload value='#[
+%dw 2.0
+output application/json
+---
+[
+    {
+      "CreatedById": "test",
+      "CreatedDate": "2020-03-11",
+      "CurrencyIsoCode": "EUR",
+      "Id": "test",
+      "IsDeleted": false,
+      "lastModifiedById": "test",
+      "lastModifiedDate": "test",
+      "SBQQ__DiscountTier__r": {
+          "Name": "test"
+      },
+      "SBQQ__DiscountAmount__c": 100,
+      "SBQQ__Number__c": "test",
+      "SBQQ__Discount__c": "test"
+    }
+  ]
+  ]' mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get:\products\(Id)\discountSchedules:sys-cegid-salesforce-api-config" doc:id="235c0baf-e251-4c93-8f77-c7da5af14c4c" name="get:\products\(Id)\discountSchedules:sys-cegid-salesforce-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="61185140-2673-445c-92b9-c7613898c152" actual="#[payload[0].createById]" expected="#['test']"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sys-cegid-salesforce-api-implementation-test-suite-get:\products\(Id)\pricebooks:sys-cegid-salesforce-api-configTest" doc:id="699cbe93-37f7-4394-a93a-956b3112b2b5" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="79a32467-df4e-408e-8a74-978ea4bdb326" processor="salesforce:query">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="get list of priceBooks" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="a4f6f75e-be89-4a5f-aea8-dc70623335b9" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="Salesforce_Config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[
+%dw 2.0
+output application/json
+---
+[
+    {
+      "Price_Book__c": "test"
+    }
+  ]
+ ]' mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get:\products\(Id)\pricebooks:sys-cegid-salesforce-api-config" doc:id="c9a9ef5e-e806-4a27-b0e1-a29ec8b3f606" name="get:\products\(Id)\pricebooks:sys-cegid-salesforce-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="f7429262-c4ae-4b02-b7b9-5558bb0ad868" actual="#[payload[0].priceBookId]" expected="#['test']"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sys-cegid-salesforce-api-implementation-test-suite-get:\products\(Id)\charges:sys-cegid-salesforce-api-configTest" doc:id="53981d87-a438-4d08-b6a7-3b6855c77a83" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Salesforce Query" doc:id="9cfdfc70-0f66-4faa-8f80-08bded7a6532" processor="salesforce:query">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="get charges" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="15637611-a639-4346-8372-5c2a4b965c6e" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="Salesforce_Config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[
+%dw 2.0
+output application/json
+---
+[
+    {
+      "Price_Book__c": "test"
+    }
+  ]
+]' mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get:\products\(Id)\charges:sys-cegid-salesforce-api-config" doc:id="af8d2597-397c-401a-bd13-c3877ee741a4" name="get:\products\(Id)\charges:sys-cegid-salesforce-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="d7e039e7-7657-4def-be00-a0427123ee24" actual="#[payload[0].priceBookId]" expected="#['test']" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sys-cegid-salesforce-api-implementation-test-suite-get:\products\(Id)\options:sys-cegid-salesforce-api-configTest" doc:id="b02bab05-ae48-4219-a818-c92b494d220c" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="b715f066-b330-4a83-a861-c8ea0842407d" processor="salesforce:query">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="get list of product's options" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="0facf1a4-2f6c-436a-ac26-fe39b902a566" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="Salesforce_Config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[
+%dw 2.0
+output application/json
+---
+[
+    {
+      "SBQQ__OptionalSKU__c": "test"
+    }
+  ]
+]' mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get:\products\(Id)\options:sys-cegid-salesforce-api-config" doc:id="e311fae0-ce71-4472-90ee-ce7c40a18ba8" name="get:\products\(Id)\options:sys-cegid-salesforce-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="766f7296-7f2f-4f30-9fa6-2dc96627af9a" actual="#[payload[0].productId]" expected="#['test']"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sys-cegid-salesforce-api-implementation-test-suite-delete:\contracts\(Id):sys-cegid-salesforce-api-configTest" doc:id="48eb9922-33d6-488d-9222-e2e0c68a19d9" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="b585b6e5-e2e5-447e-ba61-efe91f9cf89f" processor="salesforce:delete">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="contract" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="1049bc3d-3451-4275-a9b3-74ec1ec6873d" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="Salesforce_Config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[
+%dw 2.0
+output application/json
+---
+[
+    {
+      "Id": "test"
+    }
+]
+
+]' mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to delete:\contracts\(Id):sys-cegid-salesforce-api-config" doc:id="1af4035c-7a22-4043-b388-57f0a3adeebc" name="delete:\contracts\(Id):sys-cegid-salesforce-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="2e474a83-bdca-480c-8ec0-b3981b65e053" actual="#[payload]" expected='#["contract deleted"]'/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="sys-cegid-salesforce-api-implementation-test-suite-delete:\subscriptions\(Id):sys-cegid-salesforce-api-configTest" doc:id="feb4a1fb-ab05-4325-be76-1aad60b76362" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="2afdbfce-a6b8-43cb-9f86-8eb08e2910ea" processor="salesforce:query">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Query" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="5cf9eb9d-4714-416f-9108-a864780dbda9" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="Salesforce_Config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[
+%dw 2.0
+output application/json
+---
+[
+    {
+      "Id": "test"
+    }
+]
+]' mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to delete:\subscriptions\(Id):sys-cegid-salesforce-api-config" doc:id="fd43e2da-65f7-49c2-9a94-019736956f52" name="delete:\subscriptions\(Id):sys-cegid-salesforce-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="b0aca006-e116-46c8-90f8-37283095a43f" actual="#[payload]" expected='#["subscriptions deleted"]'/>
+		</munit:validation>
+	</munit:test>
+
+</mule>

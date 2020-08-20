@@ -1,0 +1,12 @@
+#%RAML 1.0 ResourceType
+  post:
+    body:
+      application/json:
+        examples: <<postRequestExamples>>
+        type: <<postRequestType>> 
+    responses: 
+      201:
+        body:
+          application/json:
+            examples: <<postResponseExamples>>
+            type: <<postResponseType>>

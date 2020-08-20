@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+	<http:listener-config name="sys-cegid-salesforce-api-httpListenerConfig">
+        <http:listener-connection host="${https.listener.host}" port="${https.listener.port}" protocol="HTTPS">
+			<tls:context >
+				<tls:key-store type="jks" path="${https.listener.keystorepath}" alias="${secure::https.listener.alias}" keyPassword="${secure::https.listener.keystorepwd}" password="${secure::https.listener.keystorepwd}" />
+			</tls:context>
+		</http:listener-connection>
+    </http:listener-config>
+	<global-property doc:name="Global Property" doc:id="3b6ddb0e-2064-4e17-a7ff-39079fc6e442" name="environment" value="dev" />
+	<configuration-properties doc:name="Configuration properties" doc:id="4d8d5499-c836-4ec7-b743-0bbb4d7f5fdc" file="properties/${environment}-sys-cegid-salesforce-api.yaml" />
+	<salesforce:sfdc-config name="Salesforce_Config" doc:name="Salesforce Config" doc:id="215c4f13-a97e-4539-8c5a-410b51de1d9e" >
+		<salesforce:cached-basic-connection username="${secure::salesforce.cegid.username}" password='${secure::salesforce.cegid.password}' securityToken='${secure::salesforce.cegid.token}' url="${secure::salesforce.cegid.url}"/>
+	</salesforce:sfdc-config>
+ 	<api-gateway:autodiscovery apiId="${api.id}" doc:name="API Autodiscovery" doc:id="5ba7c9cb-b499-401f-8e9c-05c7c9aee2a6" flowRef="sys-cegid-salesforce-api-main" /> 
+       <secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="5d93bda7-e2bc-46f2-b7ae-2aa6e41fc361" file="properties/${environment}-sys-cegid-salesforce-api.yaml" key="${secretkey}" >
+	<secure-properties:encrypt algorithm="Blowfish" />
+	</secure-properties:config>
+	<configuration doc:name="Configuration" doc:id="d05108c3-c8fd-4bbb-9639-a6fdee70e258" defaultErrorHandler-ref="globalErrorsHandler" /> 
+</mule>

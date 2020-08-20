@@ -1,0 +1,131 @@
+#!groovy
+pipeline {
+  agent any
+  environment {
+    // Slack configuration
+    SLACK_COLOR_DANGER  = '#E01563'
+    SLACK_COLOR_INFO    = '#6ECADC'
+    SLACK_COLOR_WARNING = '#FFC300'
+    SLACK_COLOR_GOOD    = '#3EB991'
+    
+   	// Anypoint vars 
+    analytics_base_uri="https://analytics-ingest.eu1.anypoint.mulesoft.com/"
+    base_uri="https://eu1.anypoint.mulesoft.com/"
+    agentEnabled="true"
+  } // environment
+  options {
+    skipDefaultCheckout(true)
+  }
+  stages {
+    stage('Initialize') {
+      when {
+        anyOf {
+          branch 'develop';
+          tag 'RC-*';
+          tag 'V-*'
+        }
+      } 
+      steps {
+        sshagent(credentials : ['git-mule-cegid']) {
+          echo 'removing repo file if exists'
+          sh 'rm -rf repo'
+          echo 'cloning into repo'
+          sh 'git clone --tags --progress ssh://fr.gen.nd.gcp-service@devoteam.com@source.developers.google.com:2022/p/dsi-nextdigital-service/r/sys-cegid-salesforce-api repo'
+          sh "cd repo && git checkout origin/${env.BRANCH_NAME}"        }
+        script {
+          cmd = "cd repo && git log -1 --pretty=format:%an origin/${env.BRANCH_NAME}"
+          sh 'cd repo && git branch'
+          USER_ID = sh (script: "${cmd}", returnStdout: true).trim()
+          slackSend (color: "${env.SLACK_COLOR_WARNING}",
+            channel: "jenkins-cegid",
+            message: "*STARTED:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} by ${USER_ID}\n More info at: http://172.16.32.34:8080/job/cegid-ci/job/sys-cegid-salesforce-api-pipeline/job/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/console ")
+        }
+      }
+    }
+    stage('Run MUnit tests') {
+      when {
+        anyOf {
+          branch 'develop';
+          tag 'RC-*';
+          tag 'V-*'
+        }
+      } 
+      steps {
+        echo 'Running MUnit tests..'
+        sh 'mvn -f repo/src/pom.xml clean test'
+      }
+    }
+    stage('Build and deploy in Develop..') {
+       when {
+         branch 'develop'
+       }
+      steps {
+      	echo 'Setting Anypoint Platform Credentials'
+      	script {
+      	  deployment_env="dev"
+      	  client_id = sh (
+			script: 'echo ${client_id}',
+			returnStdout: true
+		  ).trim()
+		  client_secret = sh (
+			script: 'echo ${client_secret}',
+			returnStdout: true
+		  ).trim()
+		  secretkey = sh (
+			script: 'echo ${secretkey}',
+			returnStdout: true
+		  ).trim()
+      	}
+        echo 'Building and deploying in Development environment..'
+        sh "mvn -f repo/src/pom.xml clean package deploy -DmuleDeploy -Dsecretkey=${secretkey} -Danypoint.platform.client_secret=${client_secret} -Danypoint.platform.client_id=${client_id} -Danypoint.platform.config.analytics.agent.enabled=${env.agentEnabled} -Danypoint.platform.base_uri=${env.base_uri} -Danypoint.platform.analytics_base_uri=${env.analytics_base_uri} -Dcloudhub.application.name=${deployment_env}-sys-cegid-salesforce-api -Denvironment=Development -Dusername=moussaka -Dpassword=Login4Cegid@nexDigital  -Dbusinessgroup=ONEforce -Dorganization=Cegid -Dmule.version=4.2.2"
+      }
+    }
+    stage('Build and deploy in Acceptance..') {
+       when {
+         tag 'RC-*'
+       }
+      steps {
+        echo 'Building and deploying $TAG_NAME in Acceptance environment..'
+        sh 'mvn -f repo/src/pom.xml clean package deploy -DmuleDeploy -Dcloudhub.application.name=sys-cegid-salesforce-api -Denvironment=Acceptance -Dusername=moussaka -Dpassword=Login4Cegid@nexDigital  -Dbusinessgroup=ONEforce -Dorganization=Cegid -Dmule.version=4.2.2'
+      }
+    }
+    stage('Build and deploy in Integration..') {
+       when {
+         tag 'V-*'
+       }
+      steps {
+        echo 'Building and deploying $TAG_NAME in Integration environment..'
+        sh 'mvn -f repo/src/pom.xml clean package deploy -DmuleDeploy -Dcloudhub.application.name=sys-cegid-salesforce-api -Denvironment=Integration -Dusername=moussaka -Dpassword=Login4Cegid@nexDigital  -Dbusinessgroup=ONEforce -Dorganization=Cegid -Dmule.version=4.2.2'
+      }
+    }
+  }
+  post {
+    aborted {
+      echo "Sending message to Slack"
+      script { 
+        USER_ID = sh (script: "${cmd}", returnStdout: true).trim()
+      }
+      slackSend (color: "${env.SLACK_COLOR_WARNING}",
+                 channel: "jenkins-cegid",
+                 message: "*ABORTED:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} by ${USER_ID}\n More info at: http://172.16.32.34:8080/job/cegid-ci/job/sys-cegid-salesforce-api-pipeline/job/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/console ")
+    }
+    failure {
+      echo "Sending message to Slack"
+      script { 
+        USER_ID = sh (script: "${cmd}", returnStdout: true).trim()
+      }
+      slackSend (color: "${env.SLACK_COLOR_DANGER}",
+                 channel: "jenkins-cegid",
+                 message: "*FAILED:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} by ${USER_ID}\n More info at: http://172.16.32.34:8080/job/cegid-ci/job/sys-cegid-salesforce-api-pipeline/job/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/console ")
+    }
+    success {
+      echo "Sending message to Slack"
+      script { 
+        USER_ID = sh (script: "${cmd}", returnStdout: true).trim()
+      }
+      slackSend (color: "${env.SLACK_COLOR_GOOD}",
+                 channel: "jenkins-cegid",
+                 message: "*SUCCESS:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} by ${USER_ID}\n More info at: http://172.16.32.34:8080/job/cegid-ci/job/sys-cegid-salesforce-api-pipeline/job/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/console ")
+    }
+  }
+}

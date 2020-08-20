@@ -1,0 +1,60 @@
+#%RAML 1.0 ResourceType
+  get:
+    responses: 
+      200:
+        body: 
+          application/json:
+            type: 
+              {
+                "type": "object",
+                "properties": {
+                  "app-name": {
+                    "type": "string"
+                  },
+                  "api-id": {
+                    "type": "string"
+                  },
+                  "api-name": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "type": "string"
+                  },
+                  "environment": {
+                    "type": "string"
+                  },
+                  "status": { 
+                    "type": "string",
+                    "enum": ["pass","fail", "warn"]
+                  },
+                  "details": {
+                    "type": "string | nil"
+                  },
+                  "timestamp": {
+                    "type": "datetime-only"
+                  }
+                }
+              }
+            examples: 
+              Response Example 1: 
+                {
+                  "app-name": "Sample Experience API",
+                  "api-id": "150238",
+                  "api-name": "sample-exp-api",
+                  "version": "v1",
+                  "environment": "dev",
+                  "status": "pass",
+                  "details": null,
+                  "timestamp": "2019-04-18T16:41:41"
+                }
+              Response Example 2: 
+                {
+                  "app-name": "Sample System API",
+                  "api-id": "151149",
+                  "api-name": "sample-sys-api",
+                  "version": "v2",
+                  "environment": "qa",
+                  "status": "fail",
+                  "details": "Cannot create connection to back-end system XYZ",
+                  "timestamp": "2019-04-22T15:21:11"
+                }

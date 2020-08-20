@@ -1,0 +1,2409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:mule-zuora-connector="http://www.mulesoft.org/schema/mule/mule-zuora-connector"
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/mule-zuora-connector http://www.mulesoft.org/schema/mule/mule-zuora-connector/current/mule-mule-zuora-connector.xsd">
+	
+	<flow name="get:\api-status:sys-cegid-salesforce-api-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="8edc3487-6e18-448d-b21c-12a571737870" doc:name="Set API status">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "app-name": app.name,
+  "api-id": p("api.id"),
+  "api-name": p("api.name"),
+  version: p("api.version"),
+  environment: p("environment"),
+  status: "pass",
+  details: "Running",
+  timestamp:now()
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+	<flow name="get:\orders:sys-cegid-salesforce-api-config">
+		<salesforce:query doc:name="Get Orders" doc:id="3efa58ed-4a64-4690-abb5-bded1bb5aa7c" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query >SELECT 
+OrderNumber,
+AccountId,
+BillingCity,
+BillingCountry,
+BillingPostalCode,
+BillingStreet,
+Account.Name,
+Account.Phone,
+Account.ERP_Number__c,
+Account.Siren_Siret__c,
+SBQQ__Quote__r.SBQQ__PrimaryContact__r.Salutation,
+SBQQ__Quote__r.SBQQ__PrimaryContact__r.FirstName,
+SBQQ__Quote__r.SBQQ__PrimaryContact__r.LastName,
+SBQQ__Quote__r.SBQQ__SalesRep__r.EmployeeNumber,
+SBQQ__Quote__r.SBQQ__PrimaryContact__r.Email,
+SBQQ__Quote__r.SBQQ__PrimaryContact__r.Phone,
+SBQQ__Quote__r.SBQQ__PrimaryContact__r.Function__c,
+SBQQ__Quote__r.SBQQ__SalesRep__r.FirstName,
+SBQQ__Quote__r.SBQQ__SalesRep__r.LastName,
+SBQQ__Quote__r.SBQQ__SalesRep__r.Phone,
+SBQQ__Quote__r.SBQQ__SalesRep__r.email,
+account.sic,
+SBQQ__Quote__r.SBQQ__PriceBook__r.Currency__c,
+SBQQ__Quote__r.SBQQ__PriceBook__r.Cegid_Entity__r.ICS__c,
+SBQQ__Quote__r.SBQQ__PriceBook__r.Cegid_Entity__r.Zuora_Entity__c,
+umr__c
+FROM Order</salesforce:salesforce-query>
+		</salesforce:query>
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="ae018609-16fb-49fe-ae5e-c0739bee6b30" doc:name="Map to XML">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+ 	(payload map(item, index) -> {
+		orderNumber: item.OrderNumber default "",
+		accountId: item.AccountId default "",
+		accountName: item.Account.Name default "",
+		accountErpNumber: item.Account.ERP_Number__c,
+		billingStreet: item.BillingStreet default "",
+		billingPostalCode: item.BillingPostalCode default "",
+		billingCity: item.BillingCity default "",
+		billingCountry: item.BillingCountry default "",
+		accountPhone: item.Account.Phone default "",
+		accountSirenSiret: item.Account.Siren_Siret__c default "",
+		contactFunction: item.SBQQ__Quote__r.SBQQ__PrimaryContact__r.Function__c default "",
+		contactSalutation: item.SBQQ__Quote__r.SBQQ__PrimaryContact__r.Salutation default "",
+		contactLastName: item.SBQQ__Quote__r.SBQQ__PrimaryContact__r.LastName default "",
+		contactFirstName: item.SBQQ__Quote__r.SBQQ__PrimaryContact__r.FirstName default "",
+		contactEmail: item.SBQQ__Quote__r.SBQQ__PrimaryContact__r.Email default "",
+		contactPhone: item.SBQQ__Quote__r.SBQQ__PrimaryContact__r.Phone default "",
+		salesRepresentativeEmployeeNumber: item.SBQQ__Quote__r.SBQQ__SalesRep__r.EmployeeNumberSBQQ__Quote__r.SBQQ__SalesRep__r.EmployeeNumber default "",
+		salesRepresentativeLastName: item.SBQQ__Quote__r.SBQQ__SalesRep__r.LastName default "",
+		salesRepresentativeFirstName: item.SBQQ__Quote__r.SBQQ__SalesRep__r.FirstName default "",
+		salesRepresentativePhone: item.SBQQ__Quote__r.SBQQ__SalesRep__r.Phone default "",
+		salesRepresentativeEmail: item.SBQQ__Quote__r.SBQQ__SalesRep__r.email default "",
+		accountSic: item.Account.sic default "",
+		quotePriceBookCurrency: item.SBQQ__Quote__r.SBQQ__PriceBook__r.Currency__c default "",
+		quotePriceBookDefaultICS: item.SBQQ__Quote__r.SBQQ__PriceBook__r.Cegid_Entity__r.ICS__c default "",
+		quotePriceBookZuoraEntity: item.SBQQ__Quote__r.SBQQ__PriceBook__r.Cegid_entity__r.Zuora_Entity__c default "",
+		umr: item.umr__c
+	})]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    
+</flow>
+    <flow name="get:\orders\(anyId):sys-cegid-salesforce-api-config">
+        <ee:transform doc:name="Set anyId  | typeId" doc:id="fdc3d6c8-da43-4504-ae00-e87624360777">
+			<ee:variables>
+				<ee:set-variable variableName="anyId"><![CDATA[attributes.uriParams.'anyId']]></ee:set-variable>
+				<ee:set-variable variableName="typeId"><![CDATA[attributes.queryParams.'id-type']]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<choice doc:name="Choice" doc:id="1e90a164-287c-4c3c-9227-cefb0d7aa3a2" >
+			<when expression="#[vars.typeId == 'orderId']">
+				<salesforce:query doc:name="Get Order by orderId" doc:id="00aafe08-0662-48f5-b602-4623d98afd16" config-ref="Salesforce_Config" target="order" targetValue="#[%dw 2.0
+ output application/json 
+ --- 
+ payload]">
+					<salesforce:salesforce-query><![CDATA[SELECT 
+OrderNumber,EffectiveDate,SBQQ__Quote__r.Purchase_Order__c,SBQQ__Quote__r.SBQQ__PricebookId__c,SBQQ__Quote__r.Recurring_SaaS_Amount_Monthly__c,
+AccountId,SBQQ__quote__r.SBQQ__SubscriptionTerm__c,SBQQ__quote__r.Renewal_Mode__c,AdminSAASContactEmail__c,AdminSAASContactFirstName__c,AdminSAASContactLastName__c,AdminSAASContactMobilePhone__c,AdminSAASContactPhone__c,AdminSAASContactSalutation__c,
+BillingContactEmail__c,SBQQ__Quote__r.Service_level__c,BillingContactFirstName__c,BillingContactLastName__c,BillingContactMobilePhone__c,BillingContactPhone__c,
+BillingCity,
+BillingCountry,
+BillingPostalCode,
+BillingStreet,
+Account.Name,
+Account.Phone,
+Account.Siren_Siret__c,
+Account.ERP_Number__c,
+New_Bank_City__c,
+New_BIC__c,
+New_Bank_Name__c,
+New_IBAN__c,
+New_UMR__c,
+CreatedDate,
+SBQQ__Quote__r.SBQQ__PrimaryContact__r.Salutation,
+SBQQ__Quote__r.SBQQ__PrimaryContact__r.FirstName,
+SBQQ__Quote__r.SBQQ__PrimaryContact__r.LastName,
+SBQQ__Quote__r.SBQQ__SalesRep__r.EmployeeNumber,
+SBQQ__Quote__r.SBQQ__PrimaryContact__r.Email,
+SBQQ__Quote__r.SBQQ__PrimaryContact__r.Phone,
+SBQQ__Quote__r.SBQQ__PrimaryContact__r.Function__c,
+SBQQ__Quote__r.SBQQ__SalesRep__r.FirstName,
+SBQQ__Quote__r.SBQQ__SalesRep__r.LastName,
+SBQQ__Quote__r.SBQQ__SalesRep__r.Phone,
+SBQQ__Quote__r.SBQQ__SalesRep__r.email,
+account.sic,
+SBQQ__PaymentTerm__c,
+SBQQ__Quote__r.SBQQ__PriceBook__r.Currency__c,
+SBQQ__Quote__r.SBQQ__PriceBook__r.cegid_entity__r.ICS__c,
+SBQQ__Quote__r.SBQQ__PriceBook__r.cegid_entity__r.Zuora_Entity__c,Status,
+umr__c,
+Sales_Purpose__c,
+Payment_Method__c,
+IBAN__c,
+BIC__c,
+Bank_Name__c,
+Bank_City__c,
+Signed_Date__c
+FROM Order    WHERE Id=':ID']]></salesforce:salesforce-query>
+					<salesforce:parameters><![CDATA[#[output application/java
+ --- { 	ID : vars.anyId }]]]></salesforce:parameters>
+				</salesforce:query>
+				<salesforce:query doc:name="contact" doc:id="839d25db-d5ce-4da3-97ff-52787101918d" config-ref="Salesforce_Config" target="contact">
+					<salesforce:salesforce-query>SELECT Email,FirstName,LastName,MobilePhone,Salutation,Function__c FROM Contact WHERE 
+AccountId = ':accountId' 
+ORDER BY CreatedDate ASC NULLS LAST LIMIT 1</salesforce:salesforce-query>
+					<salesforce:parameters><![CDATA[#[output application/java
+ --- { 	accountId: vars.order.AccountId[0]}]]]></salesforce:parameters>
+				</salesforce:query>
+				<choice doc:name="Choice" doc:id="7b25dfef-b7be-46ad-9ea2-5cda5bfd44e0">
+					<when expression="#[!isEmpty(vars.order)]">
+						<ee:transform doc:name="Map to OrderPivot" doc:id="b4dfa5f5-d975-425c-8f18-5e251fee322c">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+ output application/json 
+ --- 
+ {(vars.order map(item, index) -> { 
+ 		orderNumber: item.OrderNumber default "", 
+ 		accountId: item.AccountId default "", 
+ 		accountName: item.Account.Name default "",
+ 		amountMounthly: item.SBQQ__Quote__r.Recurring_SaaS_Amount_Monthly__c,
+		adminSaasEmail: item.AdminSAASContactEmail__c,
+		adminSaasFirstName: item.AdminSAASContactFirstName__c,
+		adminSaasLastName: item.AdminSAASContactLastName__c,
+		adminSaasMobile: item.AdminSAASContactMobilePhone__c,
+		adminSaasPhone: item.AdminSAASContactPhone__c,
+		adminSaasSalutation: item.AdminSAASContactSalutation__c,
+		billingContactFirstName:item.BillingContactFirstName__c,
+		billingContactLastName:item.BillingContactLastName__c,
+		billingContactEMail:item.BillingContactEmail__c,
+		billingContactMobile:item.BillingContactMobilePhone__c,
+		billingContactPhone:item.BillingContactPhone__c,
+ 		billingStreet: item.BillingStreet default "", 
+ 		billingPostalCode: item.BillingPostalCode default "", 
+ 		billingCity: item.BillingCity default "", 
+ 		billingCountry: item.BillingCountry default "", 
+ 		accountPhone: item.Account.Phone default "", 
+ 		accountSirenSiret: item.Account.Siren_Siret__c default "", 
+ 		accountErpNumber: item.Account.ERP_Number__c,
+ 		contactFunction: vars.contact.Function__c[0] default "", 
+ 		contactSalutation: vars.contact.Salutation[0] default "", 
+ 		contactLastName: vars.contact.LastName[0] default "", 
+ 		contactFirstName: vars.contact.FirstName[0] default "", 
+ 		contactEmail: vars.contact.Email[0] default "", 
+ 		contactPhone: vars.contact.MobilePhone[0] default "",
+ 		new_IBANc: item.New_IBAN__c,
+		new_BICc: item.New_BIC__c,
+		new_BankNamec: item.New_Bank_Name__c,
+		new_BankCityc: item.New_Bank_City__c,
+		new_UMRc: item.New_UMR__c,
+		createdDate: item.CreatedDate,
+		purchaseOrder:item.SBQQ__Quote__r.Purchase_Order__c,
+		salesPurpose: item.Sales_Purpose__c,
+ 		salesRepresentativeEmployeeNumber: item.SBQQ__Quote__r.SBQQ__SalesRep__r.EmployeeNumberSBQQ__Quote__r.SBQQ__SalesRep__r.EmployeeNumber default "", 
+ 		salesRepresentativeLastName: item.SBQQ__Quote__r.SBQQ__SalesRep__r.LastName default "", 
+ 		salesRepresentativeFirstName: item.SBQQ__Quote__r.SBQQ__SalesRep__r.FirstName default "", 
+ 		salesRepresentativePhone: item.SBQQ__Quote__r.SBQQ__SalesRep__r.Phone default "", 
+ 		salesRepresentativeEmail: item.SBQQ__Quote__r.SBQQ__SalesRep__r.email default "", 
+ 		accountSic: item.Account.Sic default "", 
+ 		effectiveStartDate: item.EffectiveDate default now() as Date,
+		quotePriceBookId:item.SBQQ__Quote__r.SBQQ__PricebookId__c,
+		quotePriceBookCurrency: item.SBQQ__Quote__r.SBQQ__PriceBook__r.Currency__c default "", 
+ 		quotePriceBookDefaultICS: item.SBQQ__Quote__r.SBQQ__PriceBook__r.Cegid_Entity__r.ICS__c default "", 
+ 		quotePriceBookZuoraEntity: item.SBQQ__Quote__r.SBQQ__PriceBook__r.Cegid_Entity__r.Zuora_Entity__c default "", 
+ 		quoteSubscriptionTerm: item.SBQQ__Quote__r.SBQQ__SubscriptionTerm__c,
+ 		quoteRenewalMode: item.SBQQ__Quote__r.Renewal_Mode__c,
+ 		umr: item.UMR__c default "",
+ 		status: item.Status,
+ 		serviceLevel:item.SBQQ__Quote__r.Service_Level__c,
+ 		paymentTerm: item.SBQQ__PaymentTerm__c,
+ 		paymentMethod: item.Payment_Method__c,
+ 		IBAN: item.IBAN__c,
+		BIC: item.BIC__c,
+		bankName: item.Bank_Name__c,
+		bankCity: item.Bank_City__c,
+		signedDate: item.Signed_Date__c
+ 	}) 
+ }]]></ee:set-payload> 
+			</ee:message>
+		</ee:transform>
+					</when>
+					<otherwise >
+						<ee:transform doc:name="Set payload" doc:id="dea7a752-7d14-4dab-b228-c98f72c1e6c3" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+							<ee:message>
+								<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "success": false,
+  "Error": [
+    {
+      "code": 404,
+      "message": "Cannot find product by key: '" ++ vars.anyId ++"'."
+    }
+  ]
+}]]></ee:set-payload>
+							</ee:message>
+						</ee:transform>
+					</otherwise>
+				</choice>
+			</when>
+			<otherwise >
+				<salesforce:query doc:name="Get Order From Salesforce" doc:id="1927e2d4-3e1f-42e0-a834-35b9e346ad85" config-ref="Salesforce_Config" target="order">
+			<salesforce:salesforce-query><![CDATA[SELECT 
+OrderNumber,EffectiveDate,SBQQ__Quote__r.Purchase_Order__c,SBQQ__Quote__r.SBQQ__PricebookId__c,SBQQ__Quote__r.Recurring_SaaS_Amount_Monthly__c,
+AccountId,SBQQ__quote__r.SBQQ__SubscriptionTerm__c,SBQQ__quote__r.Renewal_Mode__c,AdminSAASContactEmail__c,AdminSAASContactFirstName__c,AdminSAASContactLastName__c,AdminSAASContactMobilePhone__c,AdminSAASContactPhone__c,AdminSAASContactSalutation__c,
+BillingContactEmail__c,SBQQ__Quote__r.Service_level__c,BillingContactFirstName__c,BillingContactLastName__c,BillingContactMobilePhone__c,BillingContactPhone__c,
+BillingCity,
+BillingCountry,
+BillingPostalCode,
+BillingStreet,
+Account.Name,
+Account.Phone,
+Account.Siren_Siret__c,
+Account.ERP_Number__c,
+New_Bank_City__c,
+New_BIC__c,
+New_Bank_Name__c,
+New_IBAN__c,
+New_UMR__c,
+CreatedDate,
+SBQQ__Quote__r.SBQQ__PrimaryContact__r.Salutation,
+SBQQ__Quote__r.SBQQ__PrimaryContact__r.FirstName,
+SBQQ__Quote__r.SBQQ__PrimaryContact__r.LastName,
+SBQQ__Quote__r.SBQQ__SalesRep__r.EmployeeNumber,
+SBQQ__Quote__r.SBQQ__PrimaryContact__r.Email,
+SBQQ__Quote__r.SBQQ__PrimaryContact__r.Phone,
+SBQQ__Quote__r.SBQQ__PrimaryContact__r.Function__c,
+SBQQ__Quote__r.SBQQ__SalesRep__r.FirstName,
+SBQQ__Quote__r.SBQQ__SalesRep__r.LastName,
+SBQQ__Quote__r.SBQQ__SalesRep__r.Phone,
+SBQQ__Quote__r.SBQQ__SalesRep__r.email,
+account.sic,
+SBQQ__PaymentTerm__c,
+SBQQ__Quote__r.SBQQ__PriceBook__r.Currency__c,
+SBQQ__Quote__r.SBQQ__PriceBook__r.cegid_entity__r.ICS__c,
+SBQQ__Quote__r.SBQQ__PriceBook__r.cegid_entity__r.Zuora_Entity__c,Status,
+umr__c,
+Sales_Purpose__c,
+Payment_Method__c,
+IBAN__c,
+BIC__c,
+Bank_Name__c,
+Bank_City__c,
+Signed_Date__c
+FROM Order   WHERE OrderNumber=':ID']]></salesforce:salesforce-query>
+			<salesforce:parameters><![CDATA[#[output application/java
+ --- { 	ID : vars.anyId }]]]></salesforce:parameters> 
+		</salesforce:query>
+				<salesforce:query doc:name="contact" doc:id="e21af14c-4e76-4d22-a70f-708706361752" config-ref="Salesforce_Config" target="contact">
+					<salesforce:salesforce-query>SELECT Email,FirstName,LastName,MobilePhone,Phone FROM Contact WHERE 
+AccountId = ':accountId' 
+ORDER BY CreatedDate ASC NULLS LAST LIMIT 1</salesforce:salesforce-query>
+					<salesforce:parameters><![CDATA[#[output application/java
+ --- { 	accountId: vars.order.AccountId[0]}]]]></salesforce:parameters>
+				</salesforce:query>
+				<ee:transform doc:name="Map to OrderPivot" doc:id="9fe1e83d-bb0a-40e3-b28a-2579fe0cf06e" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	(vars.order map(item, index) -> {
+		orderNumber: item.OrderNumber default "",
+		accountId: item.AccountId default "",
+		accountName: item.Account.Name default "",
+		amountMounthly: item.SBQQ__Quote__r.Recurring_SaaS_Amount_Monthly__c,
+		adminSaasEmail: item.AdminSAASContactEmail__c,
+		adminSaasFirstName: item.AdminSAASContactFirstName__c,
+		adminSaasLastName: item.AdminSAASContactLastName__c,
+		adminSaasMobile: item.AdminSAASContactMobilePhone__c,
+		adminSaasPhone: item.AdminSAASContactPhone__c,
+		adminSaasSalutation: item.AdminSAASContactSalutation__c,
+		billingContactFirstName: item.BillingContactFirstName__c,
+		billingContactLastName: item.BillingContactLastName__c,
+		billingContactEMail: item.BillingContactEmail__c,
+		billingContactMobile: item.BillingContactMobilePhone__c,
+		billingContactPhone: item.BillingContactPhone__c,
+		billingStreet: item.BillingStreet default "",
+		billingPostalCode: item.BillingPostalCode default "",
+		billingCity: item.BillingCity default "",
+		billingCountry: item.BillingCountry default "",
+		accountPhone: item.Account.Phone default "",
+		accountSirenSiret: item.Account.Siren_Siret__c default "",
+		accountErpNumber: item.Account.ERP_Number__c,
+		amountMounthly: item.SBQQ__Quote__r.Recurring_SaaS_Amount_Monthly__c,
+		contactFunction: vars.contact.Function__c default "", 
+ 		contactSalutation: vars.contact.Salutation[0] default "", 
+ 		contactLastName: vars.contact.LastName[0] default "", 
+ 		contactFirstName: vars.contact.FirstName[0] default "", 
+ 		contactEmail: vars.contact.Email[0] default "", 
+ 		contactPhone: vars.contact.MobilePhone[0] default "",
+ 		new_IBANc: item.New_IBAN__c,
+		new_BICc: item.New_BIC__c,
+		new_BankNamec: item.New_Bank_Name__c,
+		new_BankCityc: item.New_Bank_City__c,
+		new_UMRc: item.New_UMR__c,
+		createdDate: item.CreatedDate,
+		purchaseOrder:item.SBQQ__Quote__r.Purchase_Order__c,
+		salesPurpose: item.Sales_Purpose__c,
+ 		salesRepresentativeEmployeeNumber: item.SBQQ__Quote__r.SBQQ__SalesRep__r.EmployeeNumberSBQQ__Quote__r.SBQQ__SalesRep__r.EmployeeNumber default "",
+		salesRepresentativeLastName: item.SBQQ__Quote__r.SBQQ__SalesRep__r.LastName default "",
+		salesRepresentativeFirstName: item.SBQQ__Quote__r.SBQQ__SalesRep__r.FirstName default "",
+		salesRepresentativePhone: item.SBQQ__Quote__r.SBQQ__SalesRep__r.Phone default "",
+		salesRepresentativeEmail: item.SBQQ__Quote__r.SBQQ__SalesRep__r.email default "",
+		accountSic: item.Account.Sic default "",
+		effectiveStartDate: item.EffectiveDate default now() as Date,
+		quotePriceBookId:item.SBQQ__Quote__c.SBQQ__PricebookId__c,
+		quotePriceBookCurrency: item.SBQQ__Quote__r.SBQQ__PriceBook__r.Currency__c default "",
+		quotePriceBookDefaultICS: item.SBQQ__Quote__r.SBQQ__PriceBook__r.Cegid_Entity__r.ICS__c default "",
+		quotePriceBookZuoraEntity: item.SBQQ__Quote__r.SBQQ__PriceBook__r.Cegid_Entity__r.Zuora_Entity__c default "",
+		quoteSubscriptionTerm: item.SBQQ__Quote__r.SBQQ__SubscriptionTerm__c,
+		quoteRenewalMode: item.SBQQ__Quote__r.Renewal_Mode__c,
+		umr: item.UMR__c default "",
+		status: item.Status,
+		serviceLevel: item.SBQQ__Quote__r.Service_Level__c,
+		paymentTerm: item.SBQQ__PaymentTerm__c,
+		paymentMethod: item.Payment_Method__c,
+ 		IBAN: item.IBAN__c,
+		BIC: item.BIC__c,
+		bankName: item.Bank_Name__c,
+		bankCity: item.Bank_City__c,
+		signedDate: item.Signed_Date__c
+	})
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+</flow>
+ <flow name="patch:\orders\(anyId):application\json:sys-cegid-salesforce-api-config">
+        <ee:transform doc:name="set id">
+            <ee:variables>
+                <ee:set-variable variableName="anyId"><![CDATA[attributes.uriParams.'anyId']]></ee:set-variable>
+				<ee:set-variable variableName="patchBody" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "op": "replace",
+  "path": "/Order_Number__c",
+  "value": payload.value 
+}]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <salesforce:query doc:name="Retrieve order by orderNumber" doc:id="6c36851c-48f9-4571-bf4c-b39f9e43e26e" config-ref="Salesforce_Config" target="records">
+			<repeatable-in-memory-iterable />
+			<salesforce:salesforce-query >SELECT 
+OrderNumber,
+AccountId,Id FROM Order  WHERE OrderNumber=':anyId'</salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[output application/java
+---
+{
+	anyId: vars.anyId
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform doc:name="Set new field value" doc:id="31ddbf9b-f4c9-438a-b211-4953f780fde7" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+ vars.records map (record) -> {
+ 	(record mapObject (value, key) -> {
+	 	((splitBy(vars.patchBody.path, "/")[1]): vars.patchBody.value) if(key as String == splitBy(vars.patchBody.path, "/")[1]),
+	 	((key): value) if(key as String != (splitBy(vars.patchBody.path, "/")[1]) and key as String != 'type')
+ 	})
+ }
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="update order_number__c" doc:id="c78d6099-7bec-49ef-b1f9-096b7ddb8963">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+payload map(item, index) -> {
+	Id: item.Id,
+	Order_Number__c: vars.patchBody.value
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:update doc:name="Update Field" doc:id="70003886-2658-4979-b05d-e6b9c59572c1" config-ref="Salesforce_Config" type="Order"/>
+		<ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="8ed778ab-8f10-43bf-8eab-1faa7f62cb8c" doc:name="204 - No content">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  message: "No content"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+ <flow name="get:\orders\(anyId)\orderItems:sys-cegid-salesforce-api-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" doc:id="db29a3a9-01b9-4a9c-93af-e8aeacfc7934" doc:name="Set orderId | includedQuantity">
+            <ee:variables>
+                <ee:set-variable variableName="orderID"><![CDATA[attributes.uriParams.'anyId']]></ee:set-variable>
+				<ee:set-variable variableName="includedQuantities" ><![CDATA[%dw 2.0
+output application/json
+---
+[]]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+		<scatter-gather doc:name="Scatter-Gather" doc:id="77d46c58-162e-4584-955f-e480fb0ad7c0" >
+			<route >
+				<salesforce:query doc:name="Get Order From Salesforce" doc:id="65e33bd0-f2fa-40f2-b32c-a0fa8ad19f87" config-ref="Salesforce_Config" target="orderItems">
+			<salesforce:salesforce-query>SELECT Designation_Produit__c,Quantity,SBQQ__BlockPrice__c,SBQQ__ChargeType__c,SBQQ__DiscountSchedule__c,SBQQ__PricingMethod__c,TotalPrice,Net_Unit_Price__c,Product2Id, SBQQ__QuoteLine__r.SBQQ__NetTotal__c, SBQQ__QuoteLine__r.SBQQ__SubscriptionTerm__c,SBQQ__QuoteLine__r.StructureLevel1__c,SBQQ__QuoteLine__r.SBQQ__ChargeType__c, SBQQ__QuoteLine__r.Total_Included_Quantity__c,SBQQ__QuoteLine__r.Reference_Number__c FROM OrderItem WHERE OrderId=':ID' </salesforce:salesforce-query>
+			<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	ID : vars.orderID
+}]]]></salesforce:parameters>
+		</salesforce:query>
+				<ee:transform doc:name="orderItems" doc:id="17244d29-d151-4bba-870b-05502ccd9411" >
+					<ee:message >
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="orderItems" ><![CDATA[%dw 2.0
+output application/json
+---
+vars.orderItems map(item, index) -> {
+		orderId: vars.orderID,
+		productId: item.Product2Id,
+		productName: item.Designation_Produit__c,
+		referenceNumber:item.SBQQ__QuoteLine__r.Reference_Number__c,
+		quantity: item.Quantity,
+		unitPrice: item.Net_Unit_Price__c,
+		netTotalPrice: item.SBQQ__QuoteLine__r.SBQQ__NetTotal__c,
+		chargeType: item.SBQQ__ChargeType__c,
+		discountSchedule: item.SBQQ__DiscountSchedule__c,
+		blockPrice: item.SBQQ__BlockPrice__c,
+		pricingMethod: item.SBQQ__PricingMethod__c,
+		subscriptionTerm:item.SBQQ__QuoteLine__r.SBQQ__SubscriptionTerm__c,
+		structureLevel: item.SBQQ__QuoteLine__r.StructureLevel1__c,
+		includedQuantity: item.SBQQ__QuoteLine__r.Total_Included_Quantity__c}]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</route>
+			<route >
+				<salesforce:query doc:name="Get IncludedQuantity From QuoteLine" doc:id="f6a45660-bc7b-4d0c-84ea-0b96512256b6" config-ref="Salesforce_Config" target="quoteLineRecords">
+					<salesforce:salesforce-query>SELECT Id,Reference_Number__c,SBQQ__NetPrice__c,SBQQ__NetTotal__c,SBQQ__ProductName__c,SBQQ__Quantity__c,SBQQ__DiscountSchedule__c,SBQQ__PricingMethod__c,SBQQ__BlockPrice__c,SBQQ__Product__c,SBQQ__ChargeType__c,StructureLevel1__c,SBQQ__SubscriptionTerm__c,Total_Included_Quantity__c FROM SBQQ__QuoteLine__c WHERE SBQQ__Quote__c IN (SELECT SBQQ__Quote__c FROM Order WHERE id =':ID' ) and sbqq__product__r.main_charge_product__c != null</salesforce:salesforce-query>
+					<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	ID : vars.orderID
+}]]]></salesforce:parameters>
+				</salesforce:query>
+				<choice doc:name="add usage or not" doc:id="93b77c40-02ea-4b35-8266-c44a9f6e7537" >
+					<when expression="#[!isEmpty(vars.quoteLineRecords)]">
+						<ee:transform doc:name="usageFromOrder" doc:id="b426aa12-5641-4509-b115-379aae165600">
+					<ee:message>
+					</ee:message>
+							<ee:variables >
+								<ee:set-variable variableName="usageQuoteLines" ><![CDATA[%dw 2.0
+output application/json
+---
+vars.quoteLineRecords map(item02,index)->{
+		orderId: vars.orderID,
+		productId: item02.SBQQ__Product__c,		
+		productName: item02.SBQQ__ProductName__c,
+		referenceNumber:item02.Reference_Number__c,
+		quantity: item02.SBQQ__Quantity__c,
+		unitPrice: item02.SBQQ__NetPrice__c,
+		netTotalPrice: item02.SBQQ__NetTotal__c,
+		chargeType: item02.SBQQ__ChargeType__c,
+		discountSchedule: item02.SBQQ__DiscountSchedule__c,
+		blockPrice: item02.SBQQ__BlockPrice__c,
+		pricingMethod: item02.SBQQ__PricingMethod__c,
+		subscriptionTerm:item02.SBQQ__SubscriptionTerm__c,
+		structureLevel: item02.StructureLevel1__c,
+		includedQuantity: item02.Total_Included_Quantity__c	}]]></ee:set-variable>
+							</ee:variables>
+				</ee:transform>
+					</when>
+				</choice>
+			</route>
+		</scatter-gather>
+		<ee:transform doc:name="map  OrderCompleteItems" doc:id="5971aef8-52b6-4012-b5f8-da1858f67e20" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+(if(!isEmpty(vars.quoteLineRecords)){
+	response: vars.orderItems ++ vars.usageQuoteLines
+}else{
+	response: vars.orderItems 
+})]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="response" doc:id="85632d67-dec4-459a-afa1-d0d6468da306" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.response
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+</flow>
+    <flow name="patch:\quotes\(id):application\json:sys-cegid-salesforce-api-config">
+        <ee:transform doc:name="Set  QuoteId">
+            <ee:variables>
+                <ee:set-variable variableName="id"><![CDATA[attributes.uriParams.'id']]></ee:set-variable>
+				<ee:set-variable variableName="patchBody" ><![CDATA[payload]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+		<salesforce:query doc:name="Query" doc:id="99d2a7d2-00c3-41dd-8639-1f1ddac952b6" config-ref="Salesforce_Config" target="records">
+			<salesforce:salesforce-query ><![CDATA[SELECT Id, Saas_Admin_found__c FROM SBQQ__Quote__c  WHERE  Id =':quoteId']]></salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[output application/java
+---
+{
+	quoteId: vars.id
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform doc:name="Set new field value" doc:id="dad0312e-6f33-4b10-b285-bda565dd1a8b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+ vars.records map (record) -> {
+ 	(record mapObject (value, key) -> {
+	 	((splitBy(vars.patchBody.path, "/")[1]): vars.patchBody.value as Boolean) if(key as String == splitBy(vars.patchBody.path, "/")[1]),
+	 	((key): value) if(key as String != (splitBy(vars.patchBody.path, "/")[1]) and key as String != 'type')
+ 	})
+ }
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:update doc:name="Update" doc:id="b9defbcd-08aa-4da2-877c-efd4810b76f8" config-ref="Salesforce_Config" type="SBQQ__Quote__c"/>
+		<ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="204 No content">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  message: "No content"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+<flow name="patch:\accounts\(Id):application\json:sys-cegid-salesforce-api-config">
+        <ee:transform doc:id="0d6b2884-a43f-4f31-853c-544914e16d78" doc:name="Set accountId">
+            <ee:variables>
+				<ee:set-variable variableName="patchBody" ><![CDATA[payload]]></ee:set-variable>
+				<ee:set-variable variableName="id" ><![CDATA[attributes.uriParams.'Id']]></ee:set-variable>
+            
+</ee:variables>
+        </ee:transform>
+        <salesforce:query doc:name="Retrieve Account by accountId" doc:id="29204fb9-f5d7-4d4e-919c-60ad420d5364" config-ref="Salesforce_Config" target="records">
+			<repeatable-in-memory-iterable />
+			<salesforce:salesforce-query >SELECT Id, Name, Siren_Siret__c, National_ID__c, BillingPostalCode, BillingCity, BillingCountry, BillingStreet, Industry_Code__c, Phone, Sic ,ERP_Number__c, Update_error_in_IS__c ,National_ID_Exception__c FROM Account where Id=':accountId'</salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[output application/java
+---
+{
+	accountId: vars.id
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform doc:name="Set new field value" doc:id="99ec820e-34b8-479f-b942-de356b5bc77c">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+ vars.records map (record) -> {
+ 	(record mapObject (value, key) -> {
+	 	((splitBy(vars.patchBody.path, "/")[1]): vars.patchBody.value) if(key as String == splitBy(vars.patchBody.path, "/")[1]),
+	 	((key): value) if(key as String != (splitBy(vars.patchBody.path, "/")[1]) and key as String != 'type')
+ 	})
+ }
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:update doc:name="Update Field" doc:id="471c06cd-1e6e-466c-8b64-db5157bcb146" config-ref="Salesforce_Config" type="Account"/>
+		<ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="6d7ac14d-7ace-4503-9afb-10616a0fdfe2" doc:name="204 - No content">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  message: "No content"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\accounts\(Id):sys-cegid-salesforce-api-config">
+        <ee:transform doc:id="8e07c19f-96e8-4b08-a2da-43a49dca8dd3" doc:name="Set accountId">
+            <ee:variables>
+				<ee:set-variable variableName="id" ><![CDATA[attributes.uriParams.'Id']]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+		<scatter-gather doc:name="Scatter-Gather" doc:id="a6bdb320-3377-4bf4-a2e8-11d41c98c071" >
+			<route >
+				<salesforce:query doc:name="contact info by accountId" doc:id="ce26680c-5028-4b75-a4b0-d3edccada4b7" config-ref="Salesforce_Config" target="contact">
+			<salesforce:salesforce-query>SELECT Email,FirstName,LastName, FunctionId__c, Salutation FROM Contact where AccountId=':accountId' ORDER BY CreatedDate ASC NULLS FIRST</salesforce:salesforce-query>
+			<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	accountId : vars.id
+}]]]></salesforce:parameters>
+		</salesforce:query>
+			</route>
+			<route >
+				<salesforce:query doc:name="account info by accountId" doc:id="28792cda-6c0d-4e7f-8b02-136889553dda" config-ref="Salesforce_Config" target="account">
+			<salesforce:salesforce-query><![CDATA[SELECT Id, Name, Siren_Siret__c, National_ID__c, ERP_Number__c, BillingPostalCode, BillingCity, BillingCountryCode, BillingStreet, Industry_Code_Text__c, Phone, Server_Site__c, Partnership__c, IntercommunityVATnumber__c, Website, Nature__c, Type__c, Main_Partner__c, Collection_Status__c, Brand__r.Name, Industry_Code__r.Name, Reasonforclosing__c, parentId, Prescriber__c, LastModifiedBy.UserName, NumberOfEmployees, No_of_Employees_Group__c, Headquarter__c,  AnnualRevenue, National_ID_Exception__c, Customer_Of__c, OwnerId, CurrencyIsoCode, CreatedDate, BillingStateCode, BillingAddress FROM Account where Id=':accountId']]></salesforce:salesforce-query>
+			<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	accountId: vars.id
+}]]]></salesforce:parameters>
+		</salesforce:query>
+				<scatter-gather doc:name="Scatter-Gather" doc:id="1abe2017-0948-4006-b951-1334a6b8929a" >
+					<route >
+						<choice doc:name="Choice" doc:id="ee2b35a8-9c76-4c11-824c-791c46dadfed" >
+							<when expression="#[vars.account.ParentId[0] != null]">
+								<salesforce:query doc:name="Query societeGroup" doc:id="938b12f3-e566-41b8-951d-6cbd3514b19d" config-ref="Salesforce_Config" target="societegroup">
+								<salesforce:salesforce-query>SELECT ERP_Number__c  FROM Account where Id=':groupId'</salesforce:salesforce-query>
+								<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	"groupId" : vars.account.ParentId[0]
+}]]]></salesforce:parameters>
+							</salesforce:query>
+							</when>
+						</choice>
+					</route>
+					<route >
+						<choice doc:name="Choice" doc:id="cd7203a6-4a70-45ef-aab3-03ed4a63957d" >
+							<when expression="#[vars.account.Prescriber__c[0] != null]">
+								<salesforce:query doc:name="Query Prescriber" doc:id="90665b9b-48d4-4b42-bdc3-1dfed953adfb" config-ref="Salesforce_Config" target="prescripteur">
+								<salesforce:salesforce-query>SELECT ERP_Number__c  FROM Account where Id=':prescribtId'</salesforce:salesforce-query>
+								<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	"prescribtId" : vars.account.Prescriber__c[0]
+}]]]></salesforce:parameters>
+							</salesforce:query>
+							</when>
+						</choice>
+					</route>
+					<route >
+						<choice doc:name="Choice" doc:id="85ec6223-83bf-458e-a673-dc161a9a398f" >
+							<when expression="#[vars.account.Server_Site__c[0] != null]">
+								<salesforce:query doc:name="Query ServerSite" doc:id="3a4db474-b373-447a-9a38-7eecd8a67c8b" config-ref="Salesforce_Config" target="siteServeur">
+								<salesforce:salesforce-query>SELECT ERP_Number__c  FROM Account where Id=':serverId'</salesforce:salesforce-query>
+								<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	"serverId" : vars.account.Server_Site__c[0]
+}]]]></salesforce:parameters>
+							</salesforce:query>
+							</when>
+						</choice>
+					</route>
+					<route >
+						<choice doc:name="Choice" doc:id="827723dc-3a7c-4db0-8ea7-e2f3105d82ca" >
+							<when expression="#[vars.account.Main_Partner__c[0] != null]">
+								<salesforce:query doc:name="Query mainPartner" doc:id="318aa3ee-8d06-478d-96fd-3ab83814463a" config-ref="Salesforce_Config" target="distributeur">
+								<salesforce:salesforce-query>SELECT ERP_Number__c  FROM Account where Id=':partnerId'</salesforce:salesforce-query>
+								<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	"partnerId" : vars.account.Main_Partner__c[0]
+}]]]></salesforce:parameters>
+							</salesforce:query>
+							</when>
+						</choice>
+					</route>
+				</scatter-gather>
+			</route>
+			<route >
+				<salesforce:query doc:name="ownerID from opportunity" doc:id="e26fc7da-4771-4923-8037-a63723bbf714" config-ref="Salesforce_Config" target="opportunity">
+					<salesforce:salesforce-query><![CDATA[SELECT AccountId,Territory2Id,Territory2.TerritoryCode__c,UserId FROM AccountUserTerritory2View  where AccountId=':accountId']]></salesforce:salesforce-query>
+					<salesforce:parameters><![CDATA[#[output application/json
+---
+{
+	accountId: vars.id
+}]]]></salesforce:parameters>
+				</salesforce:query>
+			</route>
+		</scatter-gather>
+		<logger level="INFO" doc:name="Logger" doc:id="66acf2dc-5e9c-450e-a02f-737c4c489c1d" />
+		<ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="a82daca4-4546-4f0e-bac0-08548b9d8b6a" doc:name="Salesforce Account to Pivot">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+		accountId: vars.account.Id[0] default "",
+		accountPhone: vars.account.Phone[0] default "",
+		accountSirenSiret: vars.account.Siren_Siret__c[0] default "",
+		accountName: vars.account.Name[0] default "",
+		accountNationaId: vars.account.National_ID__c[0] default "",
+		fonctionCodee: vars.contact.FunctionId__c[0],
+		contactLastName: (vars.contact.LastName)[0],
+		contactFirstName: (vars.contact.FirstName)[0],
+		contactEmail: (vars.contact.Email)[0],
+		salutation: vars.contact.Salutation[0],
+		
+		billingStreet: vars.account.BillingStreet[0] default "",
+		billingPostalCode: vars.account.BillingPostalCode[0] default "",
+		billingCountry: vars.account.BillingCountryCode[0] default "",
+		billingCity: vars.account.BillingCity[0] default "",
+		
+		industryCode: vars.account.Industry_Code_Text__c[0] default "",
+		erpNumber: vars.account.ERP_Number__c[0],
+		phone: vars.account.Phone[0],
+		
+		serverSiteErpNumber: vars.siteServeur.ERP_Number__c[0],
+		typePartenaire: vars.account.Partnership__c[0],
+		nif: vars.account.IntercommunityVATnumber__c[0],
+		
+		website: vars.account.Website[0],
+		typeCli: vars.account.Type__c[0],
+		distributeur: vars.distributeur.ERP_Number__c[0],
+		etatRisque: if (vars.account.Collection_Status__c[0] == "Green")('V') else if (vars.account.Collection_Status__c[0] == "Orange") ('O') else if (vars.account.Collection_Status__c[0] == "Black") ('R') else "",
+		enseigne: vars.account.Brand__r.Name[0],
+		industryCodeName: vars.account.Industry_Code__r.Name[0],
+		
+		societeGroupe: vars.societegroup.ERP_Number__c[0],
+		lastUser: vars.account.LastModifiedBy.Username[0],
+		prescripteur: vars.prescripteur.ERP_Number__c[0],
+		effectifSite: vars.account.NumberOfEmployees[0],
+		effectifFrance: vars.account.No_of_Employees_Group__c[0],
+		siege: vars.account.Headquarter__c[0] ,
+		CA: vars.account.AnnualRevenue[0],
+		nationaIdException: vars.account.National_ID_Exception__c,
+		territoryId: vars.opportunity.Territory2Id[0],
+		territoryCode: vars.opportunity.Territory2.TerritoryCode__c[0],
+		MOTIFFERMETURE: vars.Reasonforclosing__c[0],
+		ClientDe:vars.Customer_Of__c[0],
+		currencyIsoCode: vars.account.CurrencyIsoCode[0],
+		createdDate: vars.account.CreatedDate[0],
+		billingStateCode: vars.account.BillingStateCode[0],
+		nature: vars.account.Nature__c[0]
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+</flow>
+ <flow name="patch:\products\(Id)\serviceLevelPrices\(referenceNumber):application\json:sys-cegid-salesforce-api-config">
+        <ee:transform doc:id="c032de7b-0f76-4901-818b-fd202c69d42d" doc:name="set variables and payload">
+            <ee:variables>
+                <ee:set-variable variableName="Id"><![CDATA[attributes.uriParams.'Id']]></ee:set-variable>
+                <ee:set-variable variableName="referenceNumber"><![CDATA[attributes.uriParams.'referenceNumber']]></ee:set-variable>
+				<ee:set-variable variableName="patchBody" ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <salesforce:query doc:name="Query" doc:id="65cc0b4f-9764-44ee-9a60-7847323b7cd0" config-ref="Salesforce_Config" target="records">
+			<salesforce:salesforce-query >SELECT Id,RecordTypeId,ZuoraChargeId__c FROM  Service_Level_Price__c  where product__c=':Id'  and Reference_Number__c=':referenceNumber'</salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[output application/java
+---
+{
+	referenceNumber : vars.referenceNumber,
+	Id : vars.Id
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform doc:name="prepare To Update" doc:id="99d680c0-aa26-45ba-8ad7-cc65041db1c5" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+ vars.records map (record) -> {
+ 	(record mapObject (value, key) -> {
+	 	((splitBy(vars.patchBody.path, "/")[1]): vars.patchBody.value) if(key as String == splitBy(vars.patchBody.path, "/")[1]),
+	 	((key): value) if(key as String != (splitBy(vars.patchBody.path, "/")[1]) and key as String != 'type')
+ 	})
+ }
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:update doc:name="Update" doc:id="67297203-9b92-4ca9-84ce-cae581921839" config-ref="Salesforce_Config" type="Service_Level_Price__c"/>
+		<ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="d7d3c28e-5f71-4dac-abb3-068cde921724" doc:name="response">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  message: "No content"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="patch:\products\(Id):application\json:sys-cegid-salesforce-api-config">
+        <ee:transform doc:id="4eaa30d4-25d3-4438-a87f-bd2b926f348d" doc:name="set variables and payload">
+            <ee:message >
+			</ee:message>
+			<ee:variables>
+                <ee:set-variable variableName="Id"><![CDATA[attributes.uriParams.'Id']]></ee:set-variable>
+				<ee:set-variable variableName="patchBody" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "op": "replace",
+  "path": "/Synchronization_Date_Zuora__c",
+  "value": payload.value as Date
+}]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+		<salesforce:query doc:name="Query" doc:id="7fca61c4-ee9c-4a49-b9d5-701291f65b15" config-ref="Salesforce_Config" target="records">
+			<salesforce:salesforce-query>SELECT Id,Synchronization_Date_Zuora__c FROM Product2 where Id=':Id' </salesforce:salesforce-query>
+			<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	Id : vars.Id
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="523cd75c-7e7d-4aa7-9d01-5ec2dd20bd13" doc:name="prepare to Update">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+ vars.records map (record) -> {
+ 	(record mapObject (value, key) -> {
+	 	((splitBy(vars.patchBody.path, "/")[1]): vars.patchBody.value) if(key as String == splitBy(vars.patchBody.path, "/")[1]),
+	 	((key): value) if(key as String != (splitBy(vars.patchBody.path, "/")[1]) and key as String != 'type')
+ 	})
+ }
+]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+		<ee:transform doc:name="Date format" doc:id="4d3feb68-f1ab-43fe-84b2-1aee978b7362" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload map(item, index) -> {
+	Id: item.Id,
+	Synchronization_Date_Zuora__c: item.Synchronization_Date_Zuora__c as Date {format: "yyyy-MM-dd"}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:update doc:name="Update" doc:id="209d7116-0ac9-4a7c-8233-6404c84218b9" config-ref="Salesforce_Config" type="Product2">
+		</salesforce:update>
+		<ee:transform doc:name="response" doc:id="1884df0a-afb4-4568-9517-2fe6c42d1217">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<flow-ref doc:name="unCheckSynchroniseZuora" doc:id="29dabc06-45cf-4d3f-91a1-605638b6df4a" name="unCheckSynchroniseZuora"/>
+    </flow>
+    <sub-flow name="unCheckSynchroniseZuora" doc:id="8a2f1daa-a5e6-430e-bc59-b15293dafd15" >
+		<salesforce:update doc:name="Update" doc:id="da547a7b-3d25-4b91-ac74-c39d7ca94191" config-ref="Salesforce_Config" type="Product2">
+			<salesforce:records ><![CDATA[#[[{
+	id:vars.Id,
+	Synchronisation_Zuora__c: false as Boolean }]]]]></salesforce:records>
+		</salesforce:update>
+		<ee:transform doc:name="response" doc:id="563a99cc-2fbe-4d22-9f4c-776a037d3978">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<flow name="get:\pricebooks\(priceBookId)\products:sys-cegid-salesforce-api-config">
+        <ee:transform doc:id="8034a028-9c56-4558-8792-c3e779b31628" doc:name="set priceBoookId">
+            <ee:variables>
+                <ee:set-variable variableName="priceBookId"><![CDATA[attributes.uriParams.'priceBookId']]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <salesforce:query doc:name="get pricebooks" doc:id="d2e76646-b42f-4ed9-b2a5-35960287f589" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query >SELECT Name,Id,Price_Book__c,Product__c,Product__r.SolutionRange__c,Reference_Number__c , Product__r.Commercial_Launch__c,Product__r.Name,Product__r.id,Service_Level__c,
+Product__r.End_of_Commercialization__c, Price_book__r.Cegid_Entity__r.Zuora_entity__c FROM Service_Level_Price__c where Price_Book__c=':priceBookId'</salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[output application/java
+---
+{
+	priceBookId : vars.priceBookId
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="cd1f3162-8bad-4881-b377-889f14f7275a" doc:name="mapping  to list of products">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload map ( item , indexOfpayload01 ) ->{
+	referenceNumber: item.Reference_Number__c,
+    productName: item.Product__r.Name ,
+    solutionRange: item.Product__r.SolutionRange__c,
+    commercialLaunch: item.Product__r.Commercial_Launch__c,
+    endOfCommercialization: item.Product__r.End_of_Commercialization__c,
+    serviceLevels: item.Name,
+    productServiceLevels: item.Service_Level__c,
+    productId: item.Product__r.Id,
+    priceBookId: item.Price_Book__c,
+    zuoraEntityId: item.Price_Book_r.Zuora_Entity__c,
+    id:item.Id
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\products\(Id)\serviceLevelPrices\(referenceNumber):sys-cegid-salesforce-api-config">
+        <ee:transform doc:id="9555f7d9-ffc2-4d23-b04d-f3e24cdce89b" doc:name="set variables">
+            <ee:variables>
+                <ee:set-variable variableName="Id"><![CDATA[attributes.uriParams.'Id']]></ee:set-variable>
+                <ee:set-variable variableName="referenceNumber"><![CDATA[attributes.uriParams.'referenceNumber']]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+		<scatter-gather doc:name="Scatter-Gather" doc:id="7449e4e0-1211-4a75-a48a-9492635570a8" >
+			<route >
+				<salesforce:query doc:name="get levelprice" doc:id="d8dca2f7-c1e7-4896-b356-7b6cf2567470" config-ref="Salesforce_Config" target="serviceLevels">
+			<salesforce:salesforce-query>SELECT Discount_Schedule__c,Name,Service_Level__c,Product__r.Reference_Number__c,Product__r.SolutionRange__c,Product__r.Commercial_Launch__c,Product__r.End_of_Commercialization__c,Product__r.Name,Product__r.PricingModel__c,RecordType.DeveloperName, RegularPrice__c,Sales_purpose__c,Price_book__c,Price_book__r.name FROM Service_Level_Price__c WHERE (RecordType.DeveloperName != 'Block_Pricing' or Lower_Bound__c= 1) AND Product__r.isactive=true AND Product__r.isdeleted=false AND Product__c =':id' AND Product__r.Reference_Number__c=':referenceNumber' order by sales_purpose__c desc, price_book__c, service_level__c</salesforce:salesforce-query>
+			<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	referenceNumber : vars.referenceNumber,
+	id : vars.Id
+}]]]></salesforce:parameters>
+		</salesforce:query>
+			</route>
+			<route >
+				<salesforce:query doc:name="get levelprice product without serviceLevels" doc:id="0ed302da-e193-4c34-b82c-7616b82714b2" config-ref="Salesforce_Config" target="productWithoutOwnServices">
+			<salesforce:salesforce-query>SELECT Discount_Schedule__c,Name,Service_Level__c,Product__r.Reference_Number__c,Product__r.SolutionRange__c,Product__r.Commercial_Launch__c,Product__r.End_of_Commercialization__c,Product__r.Name,Product__r.PricingModel__c,RecordType.DeveloperName, RegularPrice__c,Sales_purpose__c,Price_book__c,Price_book__r.name FROM Service_Level_Price__c
+WHERE (RecordType.DeveloperName != 'Block_Pricing' or Lower_Bound__c= 1)
+AND Product__r.isactive=true
+AND Product__r.isdeleted=false
+AND Product__c in (select main_charge_product__c from product2 where id = ':id')
+order by sales_purpose__c desc, price_book__c, service_level__c</salesforce:salesforce-query>
+			<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	referenceNumber : vars.referenceNumber,
+	id : vars.Id
+}]]]></salesforce:parameters>
+		</salesforce:query>
+			</route>
+		</scatter-gather>
+		<ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="314ab03d-4863-436b-8a55-460dbef59eb5" doc:name="map to servicelevelPrice">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+if(!isEmpty(vars.productWithoutOwnServices) and isEmpty(vars.serviceLevels))
+vars.productWithoutOwnServices map (item, index) -> {
+	discountSchedule: item.Discount_Schedule__c,
+	serviceLevelName: item.Name,
+	serviceLevel: item.Service_Level__c,
+	referenceNumber: item.Product__r.Reference_Number__c,
+	solutionRange: item.Product__r.SolutionRange__c,
+	commercialLaunch: item.Product__r.Commercial_Launch__c,
+	endOfCommercialization: item.Product__r.End_of_Commercialization__c,
+	productName: item.Product__r.Name,
+	priceBookName: item.Price_Book__r.Name,
+	priceBookId:item.Price_Book__c,
+	salesPurpose:item.Sales_Purpose__c,
+	"type":item.RecordType.DeveloperName,
+	pricingModel: item.Product__r.PricingModel__c,
+	regularPrice: item.RegularPrice__c
+}else
+	vars.serviceLevels map (item, index) -> {
+	discountSchedule: item.Discount_Schedule__c,
+	serviceLevelName: item.Name,
+	serviceLevel: item.Service_Level__c,
+	referenceNumber: item.Product__r.Reference_Number__c,
+	solutionRange: item.Product__r.SolutionRange__c,
+	commercialLaunch: item.Product__r.Commercial_Launch__c,
+	endOfCommercialization: item.Product__r.End_of_Commercialization__c,
+	productName: item.Product__r.Name,
+	priceBookName: item.Price_Book__r.Name,
+	priceBookId:item.Price_Book__c,
+	salesPurpose:item.Sales_Purpose__c,
+	"type":item.RecordType.DeveloperName,
+	pricingModel: item.Product__r.PricingModel__c,
+	regularPrice: item.RegularPrice__c
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\products\(Id)\discountSchedules\(discountScheduleId):sys-cegid-salesforce-api-config">
+        <ee:transform doc:id="53f7a081-1968-4fae-9977-3b7be00932f0" doc:name="set variables">
+            <ee:variables>
+				<ee:set-variable variableName="discountScheduleId" ><![CDATA[attributes.uriParams.'discountScheduleId']]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+		<salesforce:query doc:name="get schedule discount" doc:id="4eaa3908-b4cc-487e-af84-06105ebd17ed" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query >SELECT 
+SBQQ__Schedule__r.SBQQ__Type__c ,
+CreatedById,
+CreatedDate,
+CurrencyIsoCode,
+Id,
+IsDeleted,
+LastModifiedById,
+LastModifiedDate,
+Name,
+SBQQ__DiscountAmount__c,
+SBQQ__Discount__c,
+SBQQ__LowerBound__c,
+SBQQ__Number__c,
+SBQQ__Price__c,
+SBQQ__Schedule__c,
+SBQQ__UpperBound__c,
+SystemModstamp FROM SBQQ__DiscountTier__c  where SBQQ__Schedule__c=':id'  Order By SBQQ__LowerBound__c</salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[output application/java
+---
+{
+	id : vars.discountScheduleId
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="90e5eb77-f170-49c7-931c-4abc2c27ffbe" doc:name="discount Infos">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload map ( payload01 , indexOfpayload01 ) ->{
+ createById: payload01.CreatedById default "",
+    createDate: payload01.CreatedDate,
+    currencyIsoCode: payload01.CurrencyIsoCode default "",
+    id: payload01.Id default "",
+    isDeleted: payload01.IsDeleted default false,
+    lastModifiedById: payload01.LastModifiedById default "",
+    lastModifiedDate: payload01.lastModifiedDate,
+    discountTiers: payload01.SBQQ__DiscountTier__c.Name default "",
+    discountAmount: payload01.SBQQ__DiscountAmount__c,
+    discount: payload01.SBQQ__Discount__c,
+    discountType:payload01.SBQQ__Schedule__r.SBQQ__Type__c ,
+    number: payload01.SBQQ__Number__c,
+    lowerBound: payload01.SBQQ__LowerBound__c,
+    price: payload01.SBQQ__Price__c,
+    schedule: payload01.SBQQ__Schedule__c,
+    upperBound: payload01.SBQQ__UpperBound__c,
+    systemModStamp: payload01.SystemModstamp
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\products\(Id):sys-cegid-salesforce-api-config">
+        <ee:transform doc:id="338860f1-f31b-40fa-9a85-9781d5ca1345" doc:name="set product Id">
+            <ee:variables>
+                <ee:set-variable variableName="Id"><![CDATA[attributes.uriParams.'Id']]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+		<scatter-gather doc:name="Scatter-Gather" doc:id="adbf5002-70ae-4066-a22c-65be22a030f3" >
+			<route >
+				<salesforce:query doc:name="get Articles Info from product" doc:id="082717f4-4559-49d2-835f-d5036cbfbf1c" config-ref="Salesforce_Config" target="articlesInfo">
+			<salesforce:salesforce-query>SELECT SBQQ__ConfiguredSKU__c,SBQQ__OptionalSKU__c,
+SBQQ__OptionalSKU__r.SaaS_production_code__c,
+SBQQ__OptionalSKU__r.Purchasing_Price__c,
+SBQQ__OptionalSKU__r.Recordtype.DeveloperName
+FROM SBQQ__ProductOption__c WHERE SBQQ__ConfiguredSKU__c =':id' and SBQQ__OptionalSKU__r.Recordtype.DeveloperName = 'Article'</salesforce:salesforce-query>
+			<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	id : vars.Id
+	
+}]]]></salesforce:parameters>
+		</salesforce:query>
+			</route>
+			<route >
+				<salesforce:query doc:name="get Product Info" doc:id="ac20df87-1a21-4c78-b62d-9dc99fc321bb" config-ref="Salesforce_Config" target="productInfo">
+			<salesforce:salesforce-query>SELECT  Discount_Schedule__c,Product__r.Purchasing_Price__c,Product__r.Included_Quantity__c,Product__r.Category__c,Product__r.Asset_Code__c,Product__r.Expertise__c,Product__r.Operating_Typology__c,Id,Lower_Bound__c,Maximum_Price__c,Product__r.Commercial_Launch__c,Product__r.End_of_Commercialization__c,Name,Price_book__r.cegid_entity__r.Zuora_entity__c,Service_Level__c,Price_Book__c,Price_Book__r.Currency__c,Product__c,RecordType.DeveloperName,RegularPrice__c,Upper_Bound__c,Product__r.Excess_Pricing_Method__c,Product__r.Excess_Unit_Price_Coeff__c,Product__r.core_business__c,Product__r.IsActive,Product__r.IsLicensesOrSaaS__c,Product__r.Marketing_Status__c,Product__r.Maximum_Quantity__c,Product__r.Metric__c,Product__r.Name,Product__r.Service_Levels__c,Product__r.NoRoyalty__c,Product__r.Consommation_Code__c,Product__r.Offer__c,Product__r.Product_Line__r.API_Code__c,Product__r.Possible_Billing_Modes__c,Product__r.Prepaid__c,Product__r.PricingModel__c,Product__r.ProductCode,Product__r.QuantityUnitOfMeasure,Product__r.RecordType.DeveloperName,Product__r.ReferenceSequence__c,Product__r.Reference_Number__c,Product__r.SaaS_production_code__c,Product__r.SBQQ__Optional__c,Product__r.SBQQ__TaxCode__c,Product__r.SBQQ__ChargeType__c,Product__r.Schedulable__c,Product__r.Service_Term__c,Product__r.ShortDescription__c,Product__r.SolutionRange__c,Product__r.StockKeepingUnit,Product__r.StructureLevel2__c,Product__r.SubscriptionLength__c,Product__r.SBQQ__DiscountSchedule__r.SBQQ__Type__c 
+FROM Service_Level_Price__c where Product__c=':id'</salesforce:salesforce-query>
+			<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	id : vars.Id
+	
+}]]]></salesforce:parameters>
+		</salesforce:query>
+			</route>
+			<route >
+				<salesforce:query doc:name="get Product Info from a Charge" doc:id="4e3073ae-1f06-4cca-b5f6-801092a6a1da" config-ref="Salesforce_Config" target="productInfoCharge">
+					<salesforce:salesforce-query>SELECT  Discount_Schedule__c,Product__r.Purchasing_Price__c,Product__r.Included_Quantity__c,Product__r.Category__c,Product__r.Asset_Code__c,Product__r.Expertise__c,Product__r.Operating_Typology__c,Id,Lower_Bound__c,Maximum_Price__c,Product__r.Commercial_Launch__c,Product__r.End_of_Commercialization__c,Name,Price_book__r.cegid_entity__r.Zuora_entity__c,Service_Level__c,Price_Book__c,Price_Book__r.Currency__c,Product__c,RecordType.DeveloperName,RegularPrice__c,Upper_Bound__c,Product__r.Excess_Pricing_Method__c,Product__r.Excess_Unit_Price_Coeff__c,Product__r.core_business__c,Product__r.IsActive,Product__r.IsLicensesOrSaaS__c,Product__r.Marketing_Status__c,Product__r.Maximum_Quantity__c,Product__r.Metric__c,Product__r.Name,Product__r.Service_Levels__c,Product__r.NoRoyalty__c,Product__r.Consommation_Code__c,Product__r.Offer__c,Product__r.Product_Line__r.API_Code__c,Product__r.Possible_Billing_Modes__c,Product__r.Prepaid__c,Product__r.PricingModel__c,Product__r.ProductCode,Product__r.QuantityUnitOfMeasure,Product__r.RecordType.DeveloperName,Product__r.ReferenceSequence__c,Product__r.Reference_Number__c,Product__r.SaaS_production_code__c,Product__r.SBQQ__Optional__c,Product__r.SBQQ__TaxCode__c,Product__r.SBQQ__ChargeType__c,Product__r.Schedulable__c,Product__r.Service_Term__c,Product__r.ShortDescription__c,Product__r.SolutionRange__c,Product__r.StockKeepingUnit,Product__r.StructureLevel2__c,Product__r.SubscriptionLength__c,Product__r.SBQQ__DiscountSchedule__r.SBQQ__Type__c 
+FROM Service_Level_Price__c where product__c in (select main_charge_product__c from product2 where id = ':id')</salesforce:salesforce-query>
+					<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	id : vars.Id
+	
+}]]]></salesforce:parameters>
+				</salesforce:query>
+			</route>
+		</scatter-gather>
+		<ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="bad8fed8-ae55-4af7-b29a-0053c3f0489e" doc:name="product pivot">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+(if(sizeOf((vars.articlesInfo default []))>0){
+	discountSchedule: vars.productInfo.Discount_Schedule__c distinctBy (value) -> {
+		"unique" : value
+	},
+	referenceNumber: vars.productInfo[0].Product__r.Reference_Number__c,
+	productName: vars.productInfo[0].Product__r.Name,
+	solutionRange: vars.productInfo[0].Product__r.SolutionRange__c,
+	commercialLaunch: vars.productInfo[0].Product__r.Commercial_Launch__c,
+	endOfCommercialization: vars.productInfo[0].Product__r.End_of_Commercialization__c,
+	productLine: vars.productInfo[0].Product__r.Product_Line__r.API_Code__c,
+	gamme: vars.productInfo[0].Product__r.Offer__c default "1110",
+	expertise: vars.productInfo[0].Product__r.Expertise__c,
+	serviceLevels: vars.productInfo.Name,
+	category: vars.productInfo[0].Product__r.Category__c,
+	coreBusiness: vars.productInfo[0].Product__r.Core_Business__c,
+	productServiceLevels: vars.productInfo[0].Product__r.Service_Levels__c,
+	productId: vars.productInfo[0].Product__c,
+	purchasingPrice: sum((vars.articlesInfo.SBQQ__OptionalSKU__r.Purchasing_Price__c default [])),
+	pricebookId: vars.productInfo.Price_Book__c distinctBy (value) -> {
+		"unique" : value
+	},
+	zuoraEntityName: vars.productInfo[0].Zuora_Entity__c,
+	synchronisationDateZuora: vars.productInfo[0].Product__r.Synchronization_Date_Zuora__c,
+	isActive: vars.productInfo[0].Product__r.IsActive,
+	excessPricingMethod: vars.productInfo[0].Product__r.Excess_Pricing_Method__c,
+	excessUnitPriceCoeff: vars.productInfo[0].Product__r.Excess_Unit_Price_Coeff__c,
+	family: vars.productInfo[0].Product__r.Family,
+	functional: vars.productInfo[0].Product__r.core_business__c,
+	isLicensesOrSaas: vars.productInfo[0].Product__r.IsLicensesOrSaaS__c,
+	marketingStatus: vars.productInfo[0].Product__r.Marketing_Status__c,
+	maximumQuantity: vars.productInfo[0].Product__r.Maximum_Quantity__c,
+	metric: vars.productInfo[0].Product__r.Metric__c,
+	noRoyalty: vars.productInfo[0].Product__r.NoRoyalty__c,
+	consommationCode: vars.productInfo[0].Product__r.Consommation_Code__c,
+	offer: vars.productInfo[0].Product__r.Offer__c,
+	oneTimePurchases: vars.productInfo[0].Product__r.One_Time_Purchases__c,
+	possibleBillingModes: vars.productInfo[0].Product__r.Possible_Billing_Modes__c,
+	prepaid: vars.productInfo[0].Product__r.Prepaid__c,
+	pricingModel: vars.productInfo[0].Product__r.PricingModel__c,
+	productCode: vars.productInfo[0].Product__r.ProductCode,
+	productAssetCode: vars.productInfo[0].Product__r.Asset_Code__c,
+	chargeType: vars.productInfo[0].Product__r.SBQQ__ChargeType__c,
+	quantityUnitOfMeasure: vars.productInfo[0].Product__r.QuantityUnitOfMeasure,
+	operatingTypology: vars.productInfo[0].Product__r.Operating_Typology__c,
+	recordTypeDeveloperName: vars.productInfo[0].Product__r.RecordType.DeveloperName,
+	recurringPurchase: vars.productInfo[0].Product__r.recurring_purchase__c,
+	referenceSequence: vars.productInfo[0].Product__r.ReferenceSequence__c,
+	regularPrice: vars.productInfo[0].RegularPrice__c,
+	currency: vars.productInfo[0].Price_Book__r.Currency__c,
+	supplierId: vars.productInfo[0].Product__r.brand__c,
+	subscriptionLength: vars.productInfo[0].Product__r.SubscriptionLength__c,
+	structureLevel2: vars.productInfo[0].Product__r.StructureLevel2__c,
+	sku: vars.productInfo[0].Product__r.StockKeepingUnit,
+	shortDescription: vars.productInfo[0].Product__r.ShortDescription__c,
+	serviceTerm: vars.productInfo[0].Product__r.Service_Term__c,
+	schedulable: vars.productInfo[0].Product__r.Schedulable__c,
+	taxCode: vars.productInfo[0].Product__r.SBQQ__TaxCode__c,
+	includedQuantity: vars.productInfo[0].Product__r.Included_Quantity__c,
+	optional: vars.productInfo[0].Product__r.SBQQ__Optional__c,
+	saasProductionCode: vars.articlesInfo.SBQQ__OptionalSKU__r.SaaS_production_code__c
+}else if(sizeOf((vars.articlesInfo default []))>0 and (!isEmpty(vars.productInfoCharge))){
+	discountSchedule: vars.productInfoCharge.Discount_Schedule__c distinctBy (value) -> {
+		"unique" : value
+	},
+	referenceNumber: vars.productInfoCharge[0].Product__r.Reference_Number__c,
+	productName: vars.productInfoCharge[0].Product__r.Name,
+	solutionRange: vars.productInfoCharge[0].Product__r.SolutionRange__c,
+	commercialLaunch: vars.productInfoCharge[0].Product__r.Commercial_Launch__c,
+	endOfCommercialization: vars.productInfoCharge[0].Product__r.End_of_Commercialization__c,
+	productLine: vars.productInfoCharge[0].Product__r.Product_Line__r.API_Code__c,
+	gamme: vars.productInfoCharge[0].Product__r.Offer__c default "1110",
+	expertise: vars.productInfoCharge[0].Product__r.Expertise__c,
+	serviceLevels: vars.productInfoCharge.Name,
+	category: vars.productInfoCharge[0].Product__r.Category__c,
+	coreBusiness: vars.productInfoCharge[0].Product__r.Core_Business__c,
+	productServiceLevels: vars.productInfoCharge[0].Product__r.Service_Levels__c,
+	productId: vars.productInfoCharge[0].Product__c,
+	purchasingPrice: sum((vars.articlesInfo.SBQQ__OptionalSKU__r.Purchasing_Price__c default [])),
+	pricebookId: vars.productInfoCharge.Price_Book__c distinctBy (value) -> {
+		"unique" : value
+	},
+	zuoraEntityName: vars.productInfoCharge[0].Zuora_Entity__c,
+	synchronisationDateZuora: vars.productInfoCharge[0].Product__r.Synchronization_Date_Zuora__c,
+	isActive: vars.productInfoCharge[0].Product__r.IsActive,
+	excessPricingMethod: vars.productInfoCharge[0].Product__r.Excess_Pricing_Method__c,
+	excessUnitPriceCoeff: vars.productInfoCharge[0].Product__r.Excess_Unit_Price_Coeff__c,
+	family: vars.productInfoCharge[0].Product__r.Family,
+	functional: vars.productInfoCharge[0].Product__r.core_business__c,
+	isLicensesOrSaas: vars.productInfoCharge[0].Product__r.IsLicensesOrSaaS__c,
+	marketingStatus: vars.productInfoCharge[0].Product__r.Marketing_Status__c,
+	maximumQuantity: vars.productInfoCharge[0].Product__r.Maximum_Quantity__c,
+	metric: vars.productInfoCharge[0].Product__r.Metric__c,
+	noRoyalty: vars.productInfoCharge[0].Product__r.NoRoyalty__c,
+	consommationCode: vars.productInfoCharge[0].Product__r.Consommation_Code__c,
+	offer: vars.productInfoCharge[0].Product__r.Offer__c,
+	oneTimePurchases: vars.productInfoCharge[0].Product__r.One_Time_Purchases__c,
+	possibleBillingModes: vars.productInfoCharge[0].Product__r.Possible_Billing_Modes__c,
+	prepaid: vars.productInfoCharge[0].Product__r.Prepaid__c,
+	pricingModel: vars.productInfoCharge[0].Product__r.PricingModel__c,
+	productCode: vars.productInfoCharge[0].Product__r.ProductCode,
+	productAssetCode: vars.productInfoCharge[0].Product__r.Asset_Code__c,
+	chargeType: vars.productInfoCharge[0].Product__r.SBQQ__ChargeType__c,
+	quantityUnitOfMeasure: vars.productInfoCharge[0].Product__r.QuantityUnitOfMeasure,
+	operatingTypology: vars.productInfoCharge[0].Product__r.Operating_Typology__c,
+	recordTypeDeveloperName: vars.productInfoCharge[0].Product__r.RecordType.DeveloperName,
+	recurringPurchase: vars.productInfoCharge[0].Product__r.recurring_purchase__c,
+	referenceSequence: vars.productInfoCharge[0].Product__r.ReferenceSequence__c,
+	regularPrice: vars.productInfoCharge[0].RegularPrice__c,
+	currency: vars.productInfoCharge[0].Price_Book__r.Currency__c,
+	supplierId: vars.productInfoCharge[0].Product__r.brand__c,
+	subscriptionLength: vars.productInfoCharge[0].Product__r.SubscriptionLength__c,
+	structureLevel2: vars.productInfoCharge[0].Product__r.StructureLevel2__c,
+	sku: vars.productInfoCharge[0].Product__r.StockKeepingUnit,
+	shortDescription: vars.productInfoCharge[0].Product__r.ShortDescription__c,
+	serviceTerm: vars.productInfoCharge[0].Product__r.Service_Term__c,
+	schedulable: vars.productInfoCharge[0].Product__r.Schedulable__c,
+	taxCode: vars.productInfoCharge[0].Product__r.SBQQ__TaxCode__c,
+	includedQuantity: vars.productInfoCharge[0].Product__r.Included_Quantity__c,
+	optional: vars.productInfoCharge[0].Product__r.SBQQ__Optional__c,
+	saasProductionCode: vars.articlesInfo.SBQQ__OptionalSKU__r.SaaS_production_code__c default [] joinBy ", "}
+else if(sizeOf((vars.articlesInfo default []))<=0 and (!isEmpty(vars.productInfoCharge))){
+	discountSchedule: vars.productInfoCharge.Discount_Schedule__c distinctBy (value) -> {
+		"unique" : value
+	},
+	referenceNumber: vars.productInfoCharge[0].Product__r.Reference_Number__c,
+	productName: vars.productInfoCharge[0].Product__r.Name,
+	solutionRange: vars.productInfoCharge[0].Product__r.SolutionRange__c,
+	commercialLaunch: vars.productInfoCharge[0].Product__r.Commercial_Launch__c,
+	endOfCommercialization: vars.productInfoCharge[0].Product__r.End_of_Commercialization__c,
+	productLine: vars.productInfoCharge[0].Product__r.Product_Line__r.API_Code__c,
+	gamme: vars.productInfoCharge[0].Product__r.Offer__c default "1110",
+	expertise: vars.productInfoCharge[0].Product__r.expertise__c default "320",
+	serviceLevels: vars.productInfoCharge.Name,
+	category: vars.productInfoCharge[0].Product__r.Category__c,
+	coreBusiness: vars.productInfoCharge[0].Product__r.Core_Business__c,
+	productServiceLevels: vars.productInfoCharge[0].Product__r.Service_Levels__c,
+	productId: vars.productInfoCharge[0].Product__c,
+	purchasingPrice: vars.productInfoCharge[0].Product__r.Purchasing_Price__c,
+	pricebookId: vars.productInfoCharge.Price_Book__c distinctBy (value) -> {
+		"unique" : value
+	},
+	zuoraEntityName: vars.productInfoCharge[0].Zuora_Entity__c,
+	synchronisationDateZuora: vars.productInfoCharge[0].Product__r.Synchronization_Date_Zuora__c,
+	isActive: vars.productInfoCharge[0].Product__r.IsActive,
+	excessPricingMethod: vars.productInfoCharge[0].Product__r.Excess_Pricing_Method__c,
+	excessUnitPriceCoeff: vars.productInfoCharge[0].Product__r.Excess_Unit_Price_Coeff__c,
+	family: vars.productInfoCharge[0].Product__r.Family,
+	functional: vars.productInfoCharge[0].Product__r.core_business__c,
+	isLicensesOrSaas: vars.productInfoCharge[0].Product__r.IsLicensesOrSaaS__c,
+	marketingStatus: vars.productInfoCharge[0].Product__r.Marketing_Status__c,
+	maximumQuantity: vars.productInfoCharge[0].Product__r.Maximum_Quantity__c,
+	metric: vars.productInfoCharge[0].Product__r.Metric__c,
+	noRoyalty: vars.productInfoCharge[0].Product__r.NoRoyalty__c,
+	consommationCode: vars.productInfoCharge[0].Product__r.Consommation_Code__c,
+	offer: vars.productInfoCharge[0].Product__r.Offer__c,
+	oneTimePurchases: vars.productInfoCharge[0].Product__r.One_Time_Purchases__c,
+	possibleBillingModes: vars.productInfoCharge[0].Product__r.Possible_Billing_Modes__c,
+	prepaid: vars.productInfoCharge[0].Product__r.Prepaid__c,
+	pricingModel: vars.productInfoCharge[0].Product__r.PricingModel__c,
+	productCode: vars.productInfoCharge[0].Product__r.ProductCode,
+	productAssetCode: vars.productInfoCharge[0].Product__r.Asset_Code__c,
+	chargeType: vars.productInfoCharge[0].Product__r.SBQQ__ChargeType__c,
+	quantityUnitOfMeasure: vars.productInfoCharge[0].Product__r.QuantityUnitOfMeasure,
+	operatingTypology: vars.productInfoCharge[0].Product__r.Operating_Typology__c,
+	recordTypeDeveloperName: vars.productInfoCharge[0].Product__r.RecordType.DeveloperName,
+	recurringPurchase: vars.productInfoCharge[0].Product__r.recurring_purchase__c,
+	referenceSequence: vars.productInfoCharge[0].Product__r.ReferenceSequence__c,
+	regularPrice: vars.productInfoCharge[0].RegularPrice__c,
+	currency: vars.productInfoCharge[0].Price_Book__r.Currency__c,
+	supplierId: vars.productInfoCharge[0].Product__r.brand__c,
+	subscriptionLength: vars.productInfoCharge[0].Product__r.SubscriptionLength__c,
+	structureLevel2: vars.productInfoCharge[0].Product__r.StructureLevel2__c,
+	sku: vars.productInfoCharge[0].Product__r.StockKeepingUnit,
+	shortDescription: vars.productInfoCharge[0].Product__r.ShortDescription__c,
+	serviceTerm: vars.productInfoCharge[0].Product__r.Service_Term__c,
+	schedulable: vars.productInfoCharge[0].Product__r.Schedulable__c,
+	taxCode: vars.productInfoCharge[0].Product__r.SBQQ__TaxCode__c,
+	optional: vars.productInfoCharge[0].Product__r.SBQQ__Optional__c,
+	includedQuantity: vars.productInfoCharge[0].Product__r.Included_Quantity__c ,
+	saasProductionCode: vars.productInfoCharge[0].Product__r.SaaS_production_code__c 
+}else
+{
+	discountSchedule: vars.productInfo.Discount_Schedule__c distinctBy (value) -> {
+		"unique" : value
+	},
+	referenceNumber: vars.productInfo[0].Product__r.Reference_Number__c,
+	productName: vars.productInfo[0].Product__r.Name,
+	solutionRange: vars.productInfo[0].Product__r.SolutionRange__c,
+	commercialLaunch: vars.productInfo[0].Product__r.Commercial_Launch__c,
+	endOfCommercialization: vars.productInfo[0].Product__r.End_of_Commercialization__c,
+	productLine: vars.productInfo[0].Product__r.Product_Line__r.API_Code__c,
+	gamme: vars.productInfo[0].Product__r.Offer__c default "1110",
+	expertise: vars.productInfo[0].Product__r.expertise__c default "320",
+	serviceLevels: vars.productInfo.Name,
+	category: vars.productInfo[0].Product__r.Category__c,
+	coreBusiness: vars.productInfo[0].Product__r.Core_Business__c,
+	productServiceLevels: vars.productInfo[0].Product__r.Service_Levels__c,
+	productId: vars.productInfo[0].Product__c,
+	purchasingPrice: vars.productInfo[0].Product__r.Purchasing_Price__c,
+	pricebookId: vars.productInfo.Price_Book__c distinctBy (value) -> {
+		"unique" : value
+	},
+	zuoraEntityName: vars.productInfo[0].Zuora_Entity__c,
+	synchronisationDateZuora: vars.productInfo[0].Product__r.Synchronization_Date_Zuora__c,
+	isActive: vars.productInfo[0].Product__r.IsActive,
+	excessPricingMethod: vars.productInfo[0].Product__r.Excess_Pricing_Method__c,
+	excessUnitPriceCoeff: vars.productInfo[0].Product__r.Excess_Unit_Price_Coeff__c,
+	family: vars.productInfo[0].Product__r.Family,
+	functional: vars.productInfo[0].Product__r.core_business__c,
+	isLicensesOrSaas: vars.productInfo[0].Product__r.IsLicensesOrSaaS__c,
+	marketingStatus: vars.productInfo[0].Product__r.Marketing_Status__c,
+	maximumQuantity: vars.productInfo[0].Product__r.Maximum_Quantity__c,
+	metric: vars.productInfo[0].Product__r.Metric__c,
+	noRoyalty: vars.productInfo[0].Product__r.NoRoyalty__c,
+	consommationCode: vars.productInfo[0].Product__r.Consommation_Code__c,
+	offer: vars.productInfo[0].Product__r.Offer__c,
+	oneTimePurchases: vars.productInfo[0].Product__r.One_Time_Purchases__c,
+	possibleBillingModes: vars.productInfo[0].Product__r.Possible_Billing_Modes__c,
+	prepaid: vars.productInfo[0].Product__r.Prepaid__c,
+	pricingModel: vars.productInfo[0].Product__r.PricingModel__c,
+	productCode: vars.productInfo[0].Product__r.ProductCode,
+	productAssetCode: vars.productInfo[0].Product__r.Asset_Code__c,
+	chargeType: vars.productInfo[0].Product__r.SBQQ__ChargeType__c,
+	quantityUnitOfMeasure: vars.productInfo[0].Product__r.QuantityUnitOfMeasure,
+	operatingTypology: vars.productInfo[0].Product__r.Operating_Typology__c,
+	recordTypeDeveloperName: vars.productInfo[0].Product__r.RecordType.DeveloperName,
+	recurringPurchase: vars.productInfo[0].Product__r.recurring_purchase__c,
+	referenceSequence: vars.productInfo[0].Product__r.ReferenceSequence__c,
+	regularPrice: vars.productInfo[0].RegularPrice__c,
+	currency: vars.productInfo[0].Price_Book__r.Currency__c,
+	supplierId: vars.productInfo[0].Product__r.brand__c,
+	subscriptionLength: vars.productInfo[0].Product__r.SubscriptionLength__c,
+	structureLevel2: vars.productInfo[0].Product__r.StructureLevel2__c,
+	sku: vars.productInfo[0].Product__r.StockKeepingUnit,
+	shortDescription: vars.productInfo[0].Product__r.ShortDescription__c,
+	serviceTerm: vars.productInfo[0].Product__r.Service_Term__c,
+	schedulable: vars.productInfo[0].Product__r.Schedulable__c,
+	taxCode: vars.productInfo[0].Product__r.SBQQ__TaxCode__c,
+	optional: vars.productInfo[0].Product__r.SBQQ__Optional__c,
+	includedQuantity: vars.productInfo[0].Product__r.Included_Quantity__c ,
+	saasProductionCode: vars.productInfo[0].Product__r.SaaS_production_code__c 
+})]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\products\(Id)\pricebooks:sys-cegid-salesforce-api-config">
+        <ee:transform doc:id="fa8463b3-b3a6-43ac-a8ee-af96e50f1385" doc:name="set product Id">
+            <ee:variables>
+                <ee:set-variable variableName="Id"><![CDATA[attributes.uriParams.'Id']]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <salesforce:query doc:name="get list of priceBooks" doc:id="a4f6f75e-be89-4a5f-aea8-dc70623335b9" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query >SELECT Price_Book__c,Product__c,price_book__r.cegid_entity__r.zuora_entity__c,
+price_book__r.cegid_entity__r.price_multiplicator__c,
+price_book__r.cegid_entity__r.tax_model__c,
+price_book__r.cegid_entity__r.ICS__c,Price_Book__r.Currency__c FROM  Service_Level_Price__c WHERE Product__c=':id'</salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[output application/java
+---
+{
+	id: vars.Id
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="476fdcf7-978b-4cd0-85e7-f9711bc8804a" doc:name="pricebooks list">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload map ( payload01 , indexOfPayload01 ) -> {
+	priceBookId: payload01.Price_Book__c,
+	productId: payload01.Product__c,
+	zuoraEntityName: payload01.Price_Book__r.Cegid_Entity__r.Zuora_Entity__c,
+	defaultCurrency: payload01.Price_Book__r.Currency__c default "EUR",
+    priceMultiplicator:payload01.Price_Book__r.Cegid_Entity__r.Price_Multiplicator__c default "1",
+    taxModel: payload01.Price_Book__r.Cegid_Entity__r.Tax_Model__c default "",
+    ics: payload01.Price_Book__r.Cegid_Entity__r.ICS__c
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+     <flow name="get:\products\(Id)\charges:sys-cegid-salesforce-api-config">
+        <ee:transform doc:name="set product Id">
+            <ee:variables>
+                <ee:set-variable variableName="Id">attributes.uriParams.'Id'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <salesforce:query doc:name="get charges" doc:id="15637611-a639-4346-8372-5c2a4b965c6e" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query>SELECT Discount_Schedule__c,
+Id,
+Lower_Bound__c,
+Maximum_Price__c,
+Name,
+Service_Level__c,
+Price_Book__c,
+Price_Book__r.Currency__c,
+Product__c,
+RecordType.DeveloperName,
+RegularPrice__c,
+Upper_Bound__c,
+Product__r.Synchronization_Date_Zuora__c,
+Product__r.End_of_Commercialization__c,
+Product__r.Excess_Pricing_Method__c,
+Product__r.Excess_Unit_Price_Coeff__c,
+Product__r.Family,
+Product__r.core_business__c,
+Product__r.IsActive,
+Product__r.IsLicensesOrSaaS__c,
+Product__r.Marketing_Status__c,
+Product__r.Maximum_Quantity__c,
+Product__r.Metric__c,
+Product__r.Name,
+Product__r.Service_Levels__c,
+Product__r.NoRoyalty__c,
+Product__r.Consommation_Code__c,
+Product__r.Offer__c,
+Product__r.Possible_Billing_Modes__c,
+Product__r.Prepaid__c,
+Product__r.PricingModel__c,
+Product__r.ProductCode,
+Product__r.QuantityUnitOfMeasure,
+Product__r.RecordType.DeveloperName,
+Product__r.ReferenceSequence__c,
+Product__r.Reference_Number__c,
+Product__r.SaaS_production_code__c,
+Product__r.SBQQ__Optional__c,
+Product__r.SBQQ__TaxCode__c ,
+Product__r.SBQQ__ChargeType__c,
+Product__r.Schedulable__c,
+Product__r.Service_Term__c,
+Product__r.ShortDescription__c,
+Product__r.SolutionRange__c,
+Product__r.StockKeepingUnit,
+Product__r.StructureLevel2__c,
+Product__r.SubscriptionLength__c
+,Product__r.Declarative_Royalties__c,Product__r.Included_Quantity__c
+FROM Service_Level_Price__c  where  Product__r.Main_Charge_Product__c=':id' and Product__r.RecordType.DeveloperName='Charge' </salesforce:salesforce-query>
+			<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	id: vars.Id
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="list of charges| response">
+            <ee:message>
+            </ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="charges" ><![CDATA[%dw 2.0
+output application/json
+---
+payload map (item, index )->
+  {
+  	productId: item.Id,
+  	discountSchedule: payload.Discount_Schedule__c,
+    priceBookId: item.Price_Book__c,
+    accountCode: item.id default "On Demand",
+    deferredRevenueAccount: "On Demand",
+    recognizedRevenueAccount: "On Demand",
+    declaratifsRoyalties: item.Product__r.Declarative_Royalties__c,
+    currency:item.Price_Book__r.Currency__c default 'EUR',
+    regularPrice:item.RegularPrice__c,
+    modelCharge: "",
+    includedQuantity: item.Product__r.Included_Quantity__c,
+    uom: item.Product__r.Metric__c,
+    name: item.Name,
+    serviceLevel: item.Service_Level__c,
+    event: "Service Activation",
+    chargeType: item.Product__r.SBQQ__ChargeType__c,
+    discountRate: 100,
+    productAssetCode: item.Product.Asset_code__c default "",
+    saaSproductionCode: item.Saas_production_code_c,
+    productName: item.Product__r.Name,
+    recordTypeDeveloperName: item.Product__r.RecordType.DeveloperName,
+    consommationCode: item.Consommation_Code__c,
+    description: "",
+    chargePricingMethod:item.Product__r.Excess_Pricing_Method__c,
+    revenueRules: "Recognize upon invoicing",
+    billingPeriod: "Month",
+    marketingStatus: item.Product__r.Marketing_Status__c
+  }]]></ee:set-variable>
+				<ee:set-variable variableName="response" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+}]]></ee:set-variable>
+			</ee:variables>
+        </ee:transform>
+		<salesforce:query doc:name="get Charges secondaires" doc:id="7d741145-6a27-452e-99b9-0166f149e312" config-ref="Salesforce_Config" target="chargeSecondaires" targetValue="#[%dw 2.0
+output application/json
+---
+payload]">
+			<salesforce:salesforce-query>SELECT Id,
+Synchronization_Date_Zuora__c,End_of_Commercialization__c,Included_Quantity__c,Excess_Pricing_Method__c,Excess_Unit_Price_Coeff__c,Family,core_business__c,IsActive,IsLicensesOrSaaS__c,Marketing_Status__c,Maximum_Quantity__c,Metric__c,Name,Service_Levels__c,NoRoyalty__c,Consommation_Code__c,Offer__c,Possible_Billing_Modes__c,Prepaid__c,PricingModel__c,ProductCode,QuantityUnitOfMeasure,RecordType.DeveloperName,ReferenceSequence__c,Reference_Number__c,SaaS_production_code__c,SBQQ__Optional__c,SBQQ__TaxCode__c ,SBQQ__ChargeType__c,Schedulable__c,Service_Term__c,ShortDescription__c,SolutionRange__c,StockKeepingUnit,StructureLevel2__c,SubscriptionLength__c
+,Declarative_Royalties__c
+FROM Product2  where  Main_Charge_Product__c=':id' </salesforce:salesforce-query>
+			<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	id: vars.Id
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<choice doc:name="Choice" doc:id="1100f346-2e98-4cb4-90ae-10625ea6bef1" >
+			<when expression="#[!isEmpty(vars.chargeSecondaires)]">
+				<foreach doc:name="For Each" doc:id="bbff26bd-0819-4fcf-9edf-3f1dc2ef1d2f" collection="#[vars.chargeSecondaires]">
+					<salesforce:query doc:name="regular price" doc:id="91eb76a3-3c63-4c32-a825-c78ff2c38244" config-ref="Salesforce_Config" target="prices">
+			<salesforce:salesforce-query>SELECT Id,Discount_Schedule__c,name,
+RegularPrice__c,price_book__c,service_level__c,CurrencyIsoCode,sales_purpose__c,Product__r.Included_Quantity__c
+FROM service_level_price__c where (lower_bound__c = 1 or lower_bound__c = null) and sales_purpose__c = '111' and Product__c = ':id'</salesforce:salesforce-query>
+			<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	(if(payload.Excess_Pricing_Method__c=="Fixed Unit Price"){id:payload.Id}else{id: vars.Id})
+}]]]></salesforce:parameters>
+		</salesforce:query>
+					<ee:transform doc:name="charges secondaires" doc:id="cee3274c-fa09-4c8c-a18a-e2ff8920377b">
+					<ee:message>
+					</ee:message>
+			<ee:variables>
+					<ee:set-variable variableName="resultats"><![CDATA[%dw 2.0
+import * from dw::core::Strings
+output application/json
+---
+(vars.charges default []) ++ ((vars.prices default []) map (item, index )->{
+	productId: payload.Id,
+	"type": "secondaire",
+  	discountSchedule: item.Discount_Schedule__c,
+    priceBookId:item.Price_Book__c,
+    accountCode: item.id default "On Demand",
+    deferredRevenueAccount: "On Demand",
+    recognizedRevenueAccount: "On Demand",
+    declaratifsRoyalties: payload.Declarative_Royalties__c,
+    currency: item.CurrencyIsoCode,
+    regularPrice:item.RegularPrice__c,
+  (if(item.Product__r.Included_Quantity__c==null){
+  	includedQuantity:payload.Included_Quantity__c, 
+  }else{includedQuantity:item.Product__r.Included_Quantity__c, }) ,
+    modelCharge: "",
+    uom: payload.Metric__c,
+    productName: payload.Name,
+    serviceLevel: item.Service_Level__c,
+    event: "Service Activation",
+    chargeType: payload.SBQQ__ChargeType__c,
+    discountRate: 100,
+    productAssetCode: payload.Asset_code__c default "",
+    saaSproductionCode: payload.Saas_production_code_c,
+    name: "product-" ++ (payload.Reference_Number__c[(sizeOf(payload.Reference_Number__c)-5) to (sizeOf(payload.Reference_Number__c)-1)] ++ (item.Name[(sizeOf(item.Name)-5) to (sizeOf(item.Name)-1)])),
+    recordTypeDeveloperName: payload.RecordType.DeveloperName,
+    consommationCode: payload.Consommation_Code__c,
+    description: "",
+    chargePricingMethod:payload.Excess_Pricing_Method__c,
+    revenueRules: "Recognize upon invoicing",
+    billingPeriod: "Month",
+    marketingStatus: payload.Marketing_Status__c
+})
+]]></ee:set-variable>
+			</ee:variables>
+				</ee:transform>
+					<ee:transform doc:name="resultat charges secondaires et principales" doc:id="9f50f9ef-d54c-4c83-a9e3-31f268320833">
+				<ee:message>
+				</ee:message>
+				<ee:variables>
+					<ee:set-variable variableName="response"><![CDATA[%dw 2.0
+output application/json
+---
+ (if(sizeOf((vars.chargeSecondaires default []))==0){
+ 	result:vars.charges
+ }else{
+ 	result:(vars.charges default []) ++ (vars.resultats default [])
+ })]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+				</foreach>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="charges principales" doc:id="3f0112dc-21e2-4a3a-aa08-e68f5b8a147b" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{result:vars.charges}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+		<ee:transform doc:name="response" doc:id="b073403e-8dad-428a-9250-096785e1c8e6" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+vars.response.result
+
+ ]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+    </flow>
+    <flow name="get:\products\(Id)\options:sys-cegid-salesforce-api-config">
+        <ee:transform doc:name="set product Id">
+            <ee:variables>
+                <ee:set-variable variableName="Id">attributes.uriParams.'Id'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <salesforce:query doc:name="get list of product's options" doc:id="0facf1a4-2f6c-436a-ac26-fe39b902a566" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query>SELECT SBQQ__OptionalSKU__c, SBQQ__OptionalSKU__r.recordtype.developername  FROM SBQQ__ProductOption__c
+where SBQQ__ConfiguredSKU__c = ':id' and SBQQ__Bundled__c = false
+and SBQQ__OptionalSKU__r.recordtype.developername = 'Product'</salesforce:salesforce-query>
+			<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	id: vars.Id
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="product's options">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload map (item, index )->
+  {
+  	productId:item.SBQQ__OptionalSKU__c
+  }]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+     <flow name="delete:\contracts\(Id):sys-cegid-salesforce-api-config">
+		<set-variable value="#[attributes.uriParams.'Id']" doc:name="contract" doc:id="f6343f01-458b-42f7-b376-030a1c5e5a60" variableName="contract" />
+		<salesforce:delete doc:name="contract" doc:id="1049bc3d-3451-4275-a9b3-74ec1ec6873d" config-ref="Salesforce_Config">
+			<salesforce:delete-ids ><![CDATA[#[[vars.contract]]]]></salesforce:delete-ids>
+		</salesforce:delete>
+		<ee:transform doc:name="contract deleted" doc:id="de485f3f-9cd8-4aa7-b952-f864af58535a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+"contract deleted"]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+    </flow>
+    <flow name="delete:\subscriptions\(Id):sys-cegid-salesforce-api-config">
+		<salesforce:query doc:name="Query" doc:id="5cf9eb9d-4714-416f-9108-a864780dbda9" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query >SELECT id FROM SBQQ__Subscription__c WHERE SBQQ__Contract__c = ':id'</salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[output application/java
+---
+{
+	id : attributes.uriParams."Id"
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform doc:name="list of subscriptions Id" doc:id="215854f3-f2f9-4b24-a0ed-bafe2bf79c9e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map(item,index) ->{
+	id: item.Id
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:delete-multiple doc:name="subscriptions" doc:id="96dffbd6-596f-4491-b6dc-dd68dce1d53b" config-ref="Salesforce_Config">
+			<salesforce:delete-ids ><![CDATA[#[payload.id]]]></salesforce:delete-ids>
+		</salesforce:delete-multiple>
+		<ee:transform doc:name="subscriptions deleted" doc:id="075c5e57-d6de-4ef3-97ed-4f0197fb29c4">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+"subscriptions deleted"]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+    </flow>
+    <flow name="get:\products\chargeNumber\(chargeNumber):sys-cegid-salesforce-api-config">
+		<ee:transform doc:name="set name service Level to get contract details">
+            <ee:variables>
+				<ee:set-variable variableName="name"><![CDATA["LvlSP-" ++ attributes.uriParams.'chargeNumber']]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+		<salesforce:query doc:name="get contract details" doc:id="72455a04-c361-4140-804c-113580705543" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query >SELECT CurrencyIsoCode,Id,Lower_Bound__c,Max_UpperBound__c,Name,Service_Level__c,Price_Book__c,Product__c,RegularPrice__c,Upper_Bound__c,Discount_Schedule__c FROM Service_Level_Price__c  where name=':name'</salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[output application/java
+---
+{
+	name : vars.name
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="Response">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  currency: payload[0].CurrencyIsoCode,
+  lowerBound: payload[0].Lower_Bound__c,
+  maxUpperBound: payload[0].Max_UpperBound__c,
+  serviceLevel: payload[0].Service_Level__c,
+  priceBookId: payload[0].Price_Book__c,
+  product: payload[0].Product__c,
+  regularPrice: payload[0].RegularPrice__c,
+  upperBound: payload[0].Upper_Bound__c,
+  discountSchedule: payload[0].Discount_Schedule__c,
+  status: "Active"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="post:\contracts:application\json:sys-cegid-salesforce-api-config">
+        <ee:transform doc:name="set to Salesforce Format" doc:id="cc22eb7e-ef87-4478-95e0-c745abc54d20" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+ output application/java
+ ---
+ {
+    StartDate: payload.startDate as Date {format :"yyyy-MM-dd"},
+    ContractTerm : payload.contractTerm,
+    AccountId : payload.accountId,
+    Pricebook2Id : payload.priceBookId,
+    SBQQ__AmendmentPricebookId__c : payload.amendmentPriceBookId,
+    SBQQ__AmendmentRenewalBehavior__c :payload.amendmentRenewalBehavior ,
+    Service_Level__c : payload.serviceLevel,
+    Status : payload.status
+  } 
+ ]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:create-single type="contract" doc:name="contract" doc:id="acf53c14-facf-40ac-acdc-db21ce5993f7" config-ref="Salesforce_Config">
+		</salesforce:create-single>
+		<ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="contract created">
+            <ee:message>
+            </ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="id" ><![CDATA[%dw 2.0
+output application/json
+---
+payload.Id]]></ee:set-variable>
+				<ee:set-variable variableName="response" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  	Success: payload.Success,
+  	Id: payload.Id
+}]]></ee:set-variable>
+			</ee:variables>
+        </ee:transform>
+		<flow-ref doc:name="activateContract" doc:id="2d2392e0-673d-4545-b5a9-42616c2ab556" name="activateFlow"/>
+		<ee:transform doc:name="response" doc:id="f0067977-3fb8-43f5-9d68-911bf8262cde" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  	Success: vars.response.Success,
+  	Id: vars.response.Id
+}]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="id" ><![CDATA[%dw 2.0
+output application/json
+---
+payload.Id]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+    </flow>
+    <sub-flow name="activateFlow" doc:id="00e804ec-ad8c-4da6-a7f3-17fd69d4cc36" >
+     <ee:transform doc:id="13f91fc8-65ea-4010-a868-63715bc7528b" doc:name="set variables and payload">
+            <ee:variables>
+				<ee:set-variable variableName="patchBody" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "op": "replace",
+  "path": "/Status",
+  "value": "Activated"
+}]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <salesforce:query doc:name="Query" doc:id="55d5a43d-7d4c-4f2e-b93b-68857b893976" config-ref="Salesforce_Config" target="records">
+			<salesforce:salesforce-query >SELECT Id,Status FROM Contract WHERE Id=':id'</salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[output application/java
+---
+{
+	id : vars.id
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform doc:name="prepare To Update" doc:id="b1ffa419-886a-42d1-b3ad-4c3b66842ea0" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+ vars.records map (record) -> {
+ 	(record mapObject (value, key) -> {
+	 	((splitBy(vars.patchBody.path, "/")[1]): vars.patchBody.value) if(key as String == splitBy(vars.patchBody.path, "/")[1]),
+	 	((key): value) if(key as String != (splitBy(vars.patchBody.path, "/")[1]) and key as String != 'type')
+ 	})
+ }
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:update doc:name="Update" doc:id="5fd4460a-552c-4f97-9e9d-9b6bb3586060" config-ref="Salesforce_Config" type="Contract"/>
+		<ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="25c8be07-80b1-4043-b935-0d6c7d78de51" doc:name="response">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  message: "No content"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+	</sub-flow>
+	<flow name="post:\subscriptions:application\json:sys-cegid-salesforce-api-config">
+		<ee:transform doc:name="set to Salesforce Format" doc:id="a6dce92f-f8ce-4324-8c12-772b10637357">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload map (item,index)->{
+	CurrencyIsoCode: item.currency,
+	SBQQ__Account__c: item.accountSfId,
+	SBQQ__AdditionalDiscountAmount__c: item.additionalDiscountAmount as Number,
+	SBQQ__BillingFrequency__c: item.billingFrequency,
+	SBQQ__BillingType__c: item.billingType,
+	SBQQ__Bundle__c: item.bundle ,
+	SBQQ__BundledQuantity__c: item.bundledQuantity as Number,
+	SBQQ__Bundled__c: item.bundled,
+	SBQQ__ChargeType__c: item.chargeType,
+	SBQQ__Contract__c: item.contractId,
+	SBQQ__DiscountScheduleType__c: item.discountScheduleType,
+	SBQQ__DiscountSchedule__c: item.discountSchedule,
+	SBQQ__ListPrice__c: item.listPrice,
+	SBQQ__MarkupAmount__c: item.markupAmount,
+	SBQQ__MarkupRate__c: item.markupRate,
+	SBQQ__NetPrice__c: item.netPrice,
+	SBQQ__PricingMethod__c: item.pricingMethod,
+	SBQQ__Product__c: item.product,
+	SBQQ__Quantity__c: item.quantity,
+	SBQQ__RegularPrice__c: item.regularPrice ,
+	SBQQ__RequiredById__c: item.requiredById,
+	SBQQ__RequiredByProduct__c: item.requiredByProduct,
+	Service_Level__c: item.serviceLevel,
+	SBQQ__SubscriptionEndDate__c: item.ratePlanEndDate as  Date {format :"yyyy-MM-dd"},
+	SBQQ__SubscriptionStartDate__c: item.ratePlanStartDate as  Date {format :"yyyy-MM-dd"} default now(),
+	SBQQ__TerminatedDate__c: item.terminatedDate as  Date {format :"yyyy-MM-dd"} default null,
+	SBQQ__RenewedDate__c: item.renewedDate  as Date {format :"yyyy-MM-dd"}
+}
+]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="logs" ><![CDATA[%dw 2.0
+output application/json	
+---
+{
+	"method": attributes.method,
+	"id": (payload map (value, index) -> value.accountSfId) joinBy(" ") ,
+	"uri": attributes.requestUri
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<salesforce:create-multiple doc:name="subscriptions" doc:id="8590ea45-f8c2-4a0f-ace9-da4294f7df1e" config-ref="Salesforce_Config" type="SBQQ__Subscription__c"/>
+		<ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="subscription created">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  (if(payload.successful)({
+  	Success: payload.successful,
+  	Id: payload.id
+  }) else ({
+  	Success: payload.successful,
+  	Errors: payload.items[0].message
+  }))
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+		<flow-ref doc:name="Flow Reference" doc:id="6224db94-317d-4200-8d10-67b4a6661c3d" name="Log"/>
+    </flow>
+        <flow name="get:\products\(Id)\blockPrice:sys-cegid-salesforce-api-config">
+        <ee:transform doc:name="set variable">
+            <ee:variables>
+                <ee:set-variable variableName="Id"><![CDATA[attributes.uriParams.'Id']]></ee:set-variable>
+				<ee:set-variable variableName="priceBookId"><![CDATA[attributes.queryParams.'priceBookId']]></ee:set-variable>
+				<ee:set-variable variableName="serviceLevel"><![CDATA[attributes.queryParams.'serviceLevel']]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+		<salesforce:query doc:name="Query" doc:id="5be86588-441d-4202-be7b-5e200ae1adfc" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query >SELECT 	
+Discount_Schedule__c,	
+Id,	
+Lower_Bound__c,	
+Maximum_Price__c,	
+Max_UpperBound__c,	
+Name,	
+Service_level__c,	
+Price_Book__c,	
+Price_Book__r.Currency__c,	
+Product__c,	
+RecordType.DeveloperName,	
+RegularPrice__c,	
+Upper_Bound__c,
+Sales_Purpose__c
+FROM Service_level_price__c 	
+where product__c=':id'	
+and Service_level__c = ':serviceLevel'	
+and price_book__c = ':priceBookId'	
+and RecordType.DeveloperName = 'Block_Pricing'	
+order by Lower_Bound__c	</salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[output application/java
+---
+{
+	priceBookId : vars.priceBookId,
+	id : vars.Id,
+	serviceLevel : vars.serviceLevel
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="BlockPrices">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload map (item, index )->{  
+	discountSchedule: item.Discount_Schedule__c,
+	id: item.Id,
+	lowerBound: item.Lower_Bound__c,
+	maxUpperBound: item.Max_UpperBound__c,	
+	upperBound : item.Upper_Bound__c,	
+	maximumPrice: item.Maximum_Price__c,	
+	name: item.Name,
+ 	serviceLevel: item.Service_Level__c,	
+	priceBookId: item.Price_Book__c,	
+ 	currency: item.Price_Book__r.Currency__c,	
+	productId: item.Product__c,
+	salesPurpose: item.Sales_Purpose__c,
+ 	productType: item.RecordType.DeveloperName,
+	regularPrice: item.RegularPrice__c,	
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    
+    <flow name="get:\accounts\(Id)\contracts:sys-cegid-salesforce-api-config">
+        <ee:transform doc:name="set accountId">
+            <ee:variables>
+                <ee:set-variable variableName="Id">attributes.uriParams.'Id'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <salesforce:query doc:name="get contracts from accountId" doc:id="fe57018e-0688-4dab-a961-9e0d8b34f9f8" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query >SELECT Id FROM Contract WHERE AccountId = ':id'</salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[output application/java
+---
+{
+	id : vars.Id
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="list of contract ids">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload map(item,index)->{
+	id: item.Id
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\contracts\(Id)\subscriptions:sys-cegid-salesforce-api-config">
+        <ee:transform doc:name="set contractId">
+            <ee:variables>
+                <ee:set-variable variableName="id"><![CDATA[attributes.uriParams.'Id']]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <salesforce:query doc:name="get subscription ids from contract" doc:id="ef178a28-c8dd-4fd2-a4cb-5f47e490e97e" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query >SELECT Id FROM SBQQ__Subscription__c WHERE SBQQ__Contract__c = ':id'</salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[output application/java
+---
+{
+	id : vars.Id
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="list of subscription ids">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload map(item,index)->{
+	id: item.Id
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+        <flow name="get:\zuoraEntities:sys-cegid-salesforce-api-config">
+		<salesforce:query doc:name="getZuoraEntities" doc:id="e9098424-b0c6-41fe-a680-1eea8997e1b5" config-ref="Salesforce_Config" >
+			<salesforce:salesforce-query >SELECT Cegid_Entity__r.Zuora_Entity__c FROM Pricebook2</salesforce:salesforce-query>
+		</salesforce:query>
+		<ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="zuoraEntities in salesforce">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  name:  payload.Cegid_Entity__r.Zuora_Entity__c default [] distinctBy (value) -> { "unique" : value } 
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <sub-flow name="Log" doc:id="9a8d02f8-e2d5-4784-bca9-fff382ca6949" >
+		<choice doc:name="Choice" doc:id="16648e11-5c59-4174-8dca-07677d08d540" >
+			<when expression="#[vars.logs.method == 'POST']">
+				<set-variable value="#[(vars.logs.uri splitBy('/'))[-1]]" doc:name="Set Variable" doc:id="ed5c7fd3-1d3c-49d6-bcf2-85a18c1f3028" variableName="object"/>
+			</when>
+			<otherwise >
+				<set-variable value="#[(vars.logs.uri splitBy('/'))[-2]]" doc:name="Set Variable" doc:id="db80439c-b553-413a-8da7-30e522667326" variableName="object"/>
+			</otherwise>
+		</choice>
+		<choice doc:name="Choice" doc:id="1488d201-3516-4cc7-b2df-0d6a1f117599">
+			<when expression="#[payload.Success == true]">
+				<logger level="INFO" doc:name="Logger" doc:id="c71f418d-91b3-48c2-b66a-735572aea481" message="#['[INFO] ' ++ vars.object ++ ' ' ++ vars.logs.id ++ ' ' ++ vars.logs.method ++ ' success']" />
+			</when>
+			<otherwise>
+				<logger level="ERROR" doc:name="Logger" doc:id="f5f7840a-62f4-44f9-9c17-d12b88bbda2a" message="#['[ERROR] ' ++ vars.object ++ ' ' ++ vars.logs.id ++ ' ' ++ vars.logs.method ++ ' failed: ' ++ payload.Errors]" />
+			</otherwise>
+		</choice>
+	</sub-flow>
+
+    <flow name="get:\items\(Id):sys-cegid-salesforce-api-config" doc:id="074f9158-d52c-4451-8df2-d12c804398cc" >
+		<ee:transform doc:name="set itemId" doc:id="b9dd9580-eda2-4a28-8f4d-ddf7b3042f7d" >
+			<ee:variables >
+				<ee:set-variable variableName="id" ><![CDATA[attributes.uriParams.'Id']]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<salesforce:query doc:name="get items details" doc:id="e1871c68-190d-4693-933e-ff689c3a9e93" config-ref="Salesforce_Config" >
+			<salesforce:salesforce-query ><![CDATA[Select id,
+reference_number__c,
+name,
+Family,
+StructureLevel2__c,
+Category__c,
+NoRoyalty__c,
+percentage_of_turnover__c,
+Quantity_Declarative__c,
+countermark__c,
+Product_Line__c,
+SBQQ__DefaultQuantity__c,
+Core_Business__c,
+Buying_Metric__c
+FROM Product2 
+WHERE id = ':id'
+AND RecordType.DeveloperName = 'Article'
+AND isactive = true]]></salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[output application/java
+---
+{
+	id : vars.Id
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform doc:name="Map to Item Pivot" doc:id="cfb355e1-304f-49f1-93a9-3709f42d6a15" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  itemId: payload[0].Id,
+  referenceNumber: payload[0].Reference_Number__c,
+  itemName: payload[0].Name,
+  itemFamily: payload[0].Family,
+  structureLevel2: payload[0].StructureLevel2__c,
+  category: payload[0].Category__c,
+  noRoyalty: payload[0].NoRoyalty__c,
+  percentageOfTurnover: payload[0].percentage_of_turnover__c,
+  quantityDeclarative: payload[0].Quantity_Declarative__c,
+  countermark: payload[0].countermark__c,
+  defaultQuantity: payload[0].SBQQ__DefaultQuantity__c,
+  productLine: payload[0].Product_Line__c,
+  coreBusiness: payload[0].Core_Business__c,
+  buyingMetric: payload[0].Buying_Metric__c
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="get:\products\(Id)\items:sys-cegid-salesforce-api-config" doc:id="63658435-234d-48fa-843c-79c8b9a0dd8b" >
+		<ee:transform doc:name="set productId" doc:id="927a687c-6583-42dd-a335-911c8e2016ee" >
+			<ee:variables >
+				<ee:set-variable variableName="id" ><![CDATA[attributes.uriParams.'Id']]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<set-variable value="#[attributes.queryParams.'type']" doc:name="type" doc:id="2926d418-e601-4fe4-97f2-902d36becdb5" variableName="type"/>
+		<choice doc:name="Choice" doc:id="8f61ee03-ce66-4c1f-9f02-0d295555edec" >
+			<when expression="#[vars.'type' == &quot;Product&quot;]">
+				<salesforce:query doc:name="get product items" doc:id="d331e6b9-4a00-4709-99c7-3b36de7130fa" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query><![CDATA[SELECT SBQQ__ConfiguredSKU__c , 
+SBQQ__ConfiguredSKU__r.reference_number__c,
+SBQQ__ConfiguredSKU__r.name,
+SBQQ__ConfiguredSKU__r.Metric__c,
+SBQQ__ConfiguredSKU__r.Family,
+SBQQ__ConfiguredSKU__r.StructureLevel2__c,
+SBQQ__ConfiguredSKU__r.Category__c,
+SBQQ__ConfiguredSKU__r.NoRoyalty__c,
+SBQQ__ConfiguredSKU__r.SBQQ__DefaultQuantity__c,
+SBQQ__OptionalSKU__c,
+SBQQ__OptionalSKU__r.reference_number__c,
+SBQQ__OptionalSKU__r.name,
+SBQQ__OptionalSKU__r.Family,
+SBQQ__OptionalSKU__r.StructureLevel2__c,
+SBQQ__OptionalSKU__r.Category__c,
+SBQQ__OptionalSKU__r.NoRoyalty__c,
+SBQQ__OptionalSKU__r.percentage_of_turnover__c,
+SBQQ__OptionalSKU__r.Quantity_Declarative__c,
+SBQQ__OptionalSKU__r.countermark__c,
+SBQQ__OptionalSKU__r.Product_Line__c,
+SBQQ__OptionalSKU__r.SBQQ__DefaultQuantity__c,
+SBQQ__OptionalSKU__r.Core_Business__c,
+SBQQ__OptionalSKU__r.Buying_Metric__c
+FROM SBQQ__ProductOption__c 
+WHERE SBQQ__ConfiguredSKU__c = ':id' 
+AND SBQQ__OptionalSKU__r.RecordType.DeveloperName = 'Article' 
+AND SBQQ__OptionalSKU__r.isactive = true]]></salesforce:salesforce-query>
+			<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	id : vars.Id
+}]]]></salesforce:parameters>
+		</salesforce:query>
+				<ee:transform doc:name="Map to Item Pivot" doc:id="c3495c0a-374e-4369-9d6e-8fb445d1a8e4" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload map (item, index )->{
+  itemId: item.SBQQ__OptionalSKU__c,
+  referenceNumber: item.SBQQ__OptionalSKU__r.Reference_Number__c,
+  itemName: item.SBQQ__OptionalSKU__r.Name,
+  itemFamily: item.SBQQ__OptionalSKU__r.Family,
+  structureLevel2: item.SBQQ__OptionalSKU__r.StructureLevel2__c,
+  category: item.SBQQ__OptionalSKU__r.Category__c,
+  noRoyalty: item.SBQQ__OptionalSKU__r.NoRoyalty__c,
+  percentageOfTurnover: item.SBQQ__OptionalSKU__r.percentage_of_turnover__c,
+  quantityDeclarative: item.SBQQ__OptionalSKU__r.Quantity_Declarative__c,
+  countermark: item.SBQQ__OptionalSKU__r.countermark__c,
+  optionalSKU: item.SBQQ__OptionalSKU__c,
+  metric: item.SBQQ__ConfiguredSKU__r.Metric__c,
+  defaultQuantity: item.SBQQ__OptionalSKU__r.SBQQ__DefaultQuantity__c,
+  configuredSKU: item.SBQQ__ConfiguredSKU__c,
+  productLine: item.SBQQ__OptionalSKU__r.Product_Line__c,
+  coreBusiness: item.SBQQ__OptionalSKU__r.Core_Business__c,
+  buyingMetric: item.SBQQ__OptionalSKU__r.Buying_Metric__c
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+			</when>
+			<when expression="vars.'type' == &quot;Package&quot;">
+				<salesforce:query doc:name="get package products" doc:id="ecdd35cd-1fa2-4a50-a1d3-e10670df7a2f" config-ref="Salesforce_Config" target="products">
+					<salesforce:salesforce-query><![CDATA[SELECT SBQQ__OptionalSKU__c , 
+SBQQ__OptionalSKU__r.reference_number__c,
+SBQQ__OptionalSKU__r.name,
+SBQQ__OptionalSKU__r.Metric__c,
+SBQQ__OptionalSKU__r.Family,
+SBQQ__OptionalSKU__r.StructureLevel2__c,
+SBQQ__OptionalSKU__r.Category__c,
+SBQQ__OptionalSKU__r.NoRoyalty__c,
+SBQQ__OptionalSKU__r.SBQQ__DefaultQuantity__c
+FROM SBQQ__ProductOption__c 
+WHERE SBQQ__ConfiguredSKU__c = ':id'
+AND SBQQ__OptionalSKU__r.RecordType.DeveloperName = 'Product'
+AND SBQQ__OptionalSKU__r.isactive = true]]></salesforce:salesforce-query>
+					<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	id : vars.Id
+}]]]></salesforce:parameters>
+				</salesforce:query>
+				<ee:transform doc:name="set queryProducts" doc:id="85ce580a-ef8f-47f1-9fe6-ffcbff5ba6d3">
+					<ee:message>
+					</ee:message>
+					<ee:variables>
+						<ee:set-variable variableName="queryProducts"><![CDATA["'" ++ (vars.products.SBQQ__OptionalSKU__c joinBy "', '") ++ "'"]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<salesforce:query doc:name="get products items" doc:id="be585001-367d-4ac8-912d-4b33bfd65437" config-ref="Salesforce_Config">
+					<salesforce:salesforce-query><![CDATA[SELECT SBQQ__ConfiguredSKU__c ,
+SBQQ__ConfiguredSKU__r.Metric__c,
+SBQQ__ConfiguredSKU__r.SBQQ__DefaultQuantity__c,
+SBQQ__OptionalSKU__c,
+SBQQ__OptionalSKU__r.reference_number__c,
+SBQQ__OptionalSKU__r.name,
+SBQQ__OptionalSKU__r.Family,
+SBQQ__OptionalSKU__r.StructureLevel2__c,
+SBQQ__OptionalSKU__r.Category__c,
+SBQQ__OptionalSKU__r.NoRoyalty__c,
+SBQQ__OptionalSKU__r.percentage_of_turnover__c,
+SBQQ__OptionalSKU__r.Quantity_Declarative__c,
+SBQQ__OptionalSKU__r.countermark__c,
+SBQQ__OptionalSKU__r.Product_Line__c,
+SBQQ__OptionalSKU__r.SBQQ__DefaultQuantity__c,
+SBQQ__OptionalSKU__r.Core_Business__c,
+SBQQ__OptionalSKU__r.Buying_Metric__c
+FROM SBQQ__ProductOption__c 
+WHERE SBQQ__ConfiguredSKU__c in (:productsId)
+AND SBQQ__OptionalSKU__r.RecordType.DeveloperName = 'Article'
+AND SBQQ__OptionalSKU__r.isactive = true]]></salesforce:salesforce-query>
+					<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	"productsId" : vars.queryProducts
+}]]]></salesforce:parameters>
+				</salesforce:query>
+				<ee:transform doc:name="Map to Item Pivot" doc:id="60676214-e284-49a0-9b0c-37691c2c1df6" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload map (item, index )->{
+  itemId: item.SBQQ__OptionalSKU__c,
+  referenceNumber: item.SBQQ__OptionalSKU__r.Reference_Number__c,
+  itemName: item.SBQQ__OptionalSKU__r.Name,
+  itemFamily: item.SBQQ__OptionalSKU__r.Family,
+  structureLevel2: item.SBQQ__OptionalSKU__r.StructureLevel2__c,
+  category: item.SBQQ__OptionalSKU__r.Category__c,
+  noRoyalty: item.SBQQ__OptionalSKU__r.NoRoyalty__c,
+  percentageOfTurnover: item.SBQQ__OptionalSKU__r.percentage_of_turnover__c,
+  quantityDeclarative: item.SBQQ__OptionalSKU__r.Quantity_Declarative__c,
+  countermark: item.SBQQ__OptionalSKU__r.countermark__c,
+  optionalSKU: item.SBQQ__OptionalSKU__c,
+  metric: item.SBQQ__ConfiguredSKU__r.Metric__c,
+  defaultQuantity: item.SBQQ__OptionalSKU__r.SBQQ__DefaultQuantity__c,
+  configuredSKU: item.SBQQ__ConfiguredSKU__c,
+  productLine: item.SBQQ__OptionalSKU__r.Product_Line__c,
+  coreBusiness: item.SBQQ__OptionalSKU__r.Core_Business__c,
+  buyingMetric: item.SBQQ__OptionalSKU__r.Buying_Metric__c
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<otherwise >
+				<logger level="INFO" doc:name="Logger" doc:id="d3af61a0-d96e-49dc-aa1c-45a18ee7589c" />
+			</otherwise>
+		</choice>
+	</flow>
+    <flow name="get:\pricebooks\(priceBookId):sys-cegid-salesforce-api-config">
+        <ee:transform doc:name="set pricebookId">
+            <ee:variables>
+				<ee:set-variable variableName="Id" ><![CDATA[attributes.uriParams.'priceBookId']]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+		<salesforce:query doc:name="get pricebook products" doc:id="7f846567-59e2-46a9-9387-90c72bed660e" config-ref="Salesforce_Config" target="pricebookProducts">
+			<salesforce:salesforce-query><![CDATA[SELECT product__c, Product__r.RecordType.DeveloperName
+FROM Service_Level_Price__c 
+where Price_Book__c = ':id' 
+and Product__r.RecordType.DeveloperName in ('Product', 'Package') 
+AND Product__r.isactive = true
+group by  product__c, Product__r.RecordType.DeveloperName]]></salesforce:salesforce-query>
+			<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	id : vars.Id
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform doc:name="set queryProducts" doc:id="66225b43-5f67-4288-8958-6b019a0b8ea9">
+			<ee:message />
+			<ee:variables>
+				<ee:set-variable variableName="queryProducts"><![CDATA["'" ++ (vars.pricebookProducts.Product__c joinBy "', '") ++ "'"]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<salesforce:query doc:name="get packages products" doc:id="03b1de5b-1f8f-47d7-92b2-0fc7ffd81bb0" config-ref="Salesforce_Config" target="packageProducts">
+			<salesforce:salesforce-query><![CDATA[SELECT SBQQ__OptionalSKU__c , 
+SBQQ__OptionalSKU__r.reference_number__c,
+SBQQ__OptionalSKU__r.name,
+SBQQ__OptionalSKU__r.Metric__c,
+SBQQ__OptionalSKU__r.Family,
+SBQQ__OptionalSKU__r.StructureLevel2__c,
+SBQQ__OptionalSKU__r.Category__c,
+SBQQ__OptionalSKU__r.NoRoyalty__c,
+SBQQ__OptionalSKU__r.SBQQ__DefaultQuantity__c
+FROM SBQQ__ProductOption__c 
+WHERE SBQQ__ConfiguredSKU__c  in  (:productsId)
+AND SBQQ__ConfiguredSKU__r.RecordType.DeveloperName = 'Package'
+AND SBQQ__OptionalSKU__r.RecordType.DeveloperName = 'Product' 
+AND SBQQ__OptionalSKU__r.isactive = true]]></salesforce:salesforce-query>
+			<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	"productsId" : vars.queryProducts
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform doc:name="set queryProducts" doc:id="c35a3851-3746-400d-b73b-3a787e95bf47">
+			<ee:message />
+			<ee:variables>
+				<ee:set-variable variableName="queryProducts"><![CDATA[vars.queryProducts ++ ", '" ++ (vars.packageProducts.SBQQ__OptionalSKU__c joinBy "', '") ++ "'"]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<salesforce:query doc:name="get products items" doc:id="62ed3673-e89a-4401-9547-27a59a2d2897" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query><![CDATA[SELECT SBQQ__ConfiguredSKU__c , 
+SBQQ__ConfiguredSKU__r.reference_number__c,
+SBQQ__ConfiguredSKU__r.name,
+SBQQ__ConfiguredSKU__r.Metric__c,
+SBQQ__ConfiguredSKU__r.Family,
+SBQQ__ConfiguredSKU__r.StructureLevel2__c,
+SBQQ__ConfiguredSKU__r.Category__c,
+SBQQ__ConfiguredSKU__r.NoRoyalty__c,
+SBQQ__ConfiguredSKU__r.SBQQ__DefaultQuantity__c,
+SBQQ__OptionalSKU__c,
+SBQQ__OptionalSKU__r.reference_number__c,
+SBQQ__OptionalSKU__r.name,
+SBQQ__OptionalSKU__r.Family,
+SBQQ__OptionalSKU__r.StructureLevel2__c,
+SBQQ__OptionalSKU__r.Category__c,
+SBQQ__OptionalSKU__r.NoRoyalty__c,
+SBQQ__OptionalSKU__r.percentage_of_turnover__c,
+SBQQ__OptionalSKU__r.Quantity_Declarative__c,
+SBQQ__OptionalSKU__r.countermark__c,
+SBQQ__OptionalSKU__r.Product_Line__c,
+SBQQ__OptionalSKU__r.SBQQ__DefaultQuantity__c,
+SBQQ__OptionalSKU__r.Core_Business__c,
+SBQQ__OptionalSKU__r.Buying_Metric__c
+FROM SBQQ__ProductOption__c 
+Where SBQQ__ConfiguredSKU__c  in (:productsId)
+AND SBQQ__ConfiguredSKU__r.RecordType.DeveloperName = 'Product'
+AND SBQQ__OptionalSKU__r.RecordType.DeveloperName = 'Article'
+AND SBQQ__OptionalSKU__r.isactive = true]]></salesforce:salesforce-query>
+			<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	"productsId" : vars.queryProducts
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform doc:name="Map to Item Pivot" doc:id="e5d0cd51-4fbd-44b1-87d1-6677e5fd4103" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map (item, index )->{
+  itemId: item.SBQQ__OptionalSKU__c,
+  referenceNumber: item.SBQQ__OptionalSKU__r.Reference_Number__c,
+  itemName: item.SBQQ__OptionalSKU__r.Name,
+  itemFamily: item.SBQQ__OptionalSKU__r.Family,
+  structureLevel2: item.SBQQ__OptionalSKU__r.StructureLevel2__c,
+  category: item.SBQQ__OptionalSKU__r.Category__c,
+  noRoyalty: item.SBQQ__OptionalSKU__r.NoRoyalty__c,
+  percentageOfTurnover: item.SBQQ__OptionalSKU__r.percentage_of_turnover__c,
+  quantityDeclarative: item.SBQQ__OptionalSKU__r.Quantity_Declarative__c,
+  countermark: item.SBQQ__OptionalSKU__r.countermark__c,
+  optionalSKU: item.SBQQ__OptionalSKU__c,
+  metric: item.SBQQ__ConfiguredSKU__r.Metric__c,
+  defaultQuantity: item.SBQQ__OptionalSKU__r.SBQQ__DefaultQuantity__c,
+  configuredSKU: item.SBQQ__ConfiguredSKU__c,
+  productLine: item.SBQQ__OptionalSKU__r.Product_Line__c,
+  coreBusiness: item.SBQQ__OptionalSKU__r.Core_Business__c,
+  buyingMetric: item.SBQQ__OptionalSKU__r.Buying_Metric__c
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+    </flow>
+    <flow name="get:\products\(Id)\type:sys-cegid-salesforce-api-config">
+        <ee:transform doc:name="productId" doc:id="07b5650b-a812-44c9-9f40-84c70c2e0d48">
+			<ee:variables>
+				<ee:set-variable variableName="id"><![CDATA[attributes.uriParams.'Id']]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<salesforce:query doc:name="get product type" doc:id="7f28508c-e2f3-4c59-9b4e-c9673f6d6ba7" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query><![CDATA[SELECT TypeOfProduct__c,
+recordtype.DeveloperName FROM Product2
+WHERE id = ':id']]></salesforce:salesforce-query>
+			<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	"id" : vars.Id
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="Map to ProductType">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "type": payload[0].TypeOfProduct__c,
+  "name": payload[0].RecordType.DeveloperName
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+</mule>

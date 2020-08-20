@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="Order" format="java">
+      <types:shape format="raml"><![CDATA[#%RAML 1.0 DataType
+type: object
+properties:
+      idProp: string
+      codeCliSig: string
+      cliProCliSig: string
+      rsCliSig: string
+      adr1CliSig: string
+      cpCliSig: string
+      villeCliSig: string
+      paysCliSig: string
+      telCliSig: string
+      siretCliSig: string
+      civInter: string
+      nomInter: string
+      prenomInter: string
+      emailInter: string
+      telInter: string
+      faxInter: string
+      fonctionInter: string
+      codeIC: number
+      nomIC: string
+      prenomIC: string
+      brancheIC: string
+      equipeIC: string
+      telIC: string
+      emailIC: string
+      codeAgenceIC: string
+      nomValideurApplicatif: string
+      nomValideurSysteme: string
+      modeFacturation: string]]></types:shape>
+    </types:type>
+    <types:type name="patchDocument" format="java">
+      <types:shape format="raml"><![CDATA[#%RAML 1.0 DataType
+type: object
+properties:
+    op:
+      type: string
+    value:
+      type: string
+    path:
+      type: string]]></types:shape>
+    </types:type>
+    <types:type name="productsList" format="json">
+      <types:shape format="weave" example="examples/list.json"><![CDATA[%dw 2.0
+
+type productsList = {|
+  totalSize: Number {"typeId": "int"}, 
+  done: Boolean, 
+  records: Array<{|    attributes: {| "type": String |},     Price_Book__c: String,     Produit__c: String,     Zuora_Entity__c: String,     expr0: Number {"typeId": "int"}  |}>
+|} {"example": "{\\\"totalSize\\\":12,\\\"done\\\":true,\\\"records\\\":[{\\\"attributes\\\":{\\\"type\\\":\\\"AggregateResult\\\"},\\\"Price_Book__c\\\":\\\"01s1t0000048XiVAAU\\\",\\\"Produit__c\\\":\\\"01t1t000001HUkgAAG\\\",\\\"Zuora_Entity__c\\\":\\\"056\\\",\\\"expr0\\\":1},{\\\"attributes\\\":{\\\"type\\\":\\\"AggregateResult\\\"},\\\"Price_Book__c\\\":\\\"01s1t0000048XiVAAU\\\",\\\"Produit__c\\\":\\\"01t9E000007OgfqQAC\\\",\\\"Zuora_Entity__c\\\":\\\"056\\\",\\\"expr0\\\":3},{\\\"attributes\\\":{\\\"type\\\":\\\"AggregateResult\\\"},\\\"Price_Book__c\\\":\\\"01s1t0000048XiVAAU\\\",\\\"Produit__c\\\":\\\"01t9E000007OmlHQAS\\\",\\\"Zuora_Entity__c\\\":\\\"056\\\",\\\"expr0\\\":3},{\\\"attributes\\\":{\\\"type\\\":\\\"AggregateResult\\\"},\\\"Price_Book__c\\\":\\\"01s1t0000048XiVAAU\\\",\\\"Produit__c\\\":\\\"01t9E000007OnDSQA0\\\",\\\"Zuora_Entity__c\\\":\\\"056\\\",\\\"expr0\\\":3},{\\\"attributes\\\":{\\\"type\\\":\\\"AggregateResult\\\"},\\\"Price_Book__c\\\":\\\"01s1t0000048XiVAAU\\\",\\\"Produit__c\\\":\\\"01t9E000007OvheQAC\\\",\\\"Zuora_Entity__c\\\":\\\"056\\\",\\\"expr0\\\":3},{\\\"attributes\\\":{\\\"type\\\":\\\"AggregateResult\\\"},\\\"Price_Book__c\\\":\\\"01s1t0000048XiVAAU\\\",\\\"Produit__c\\\":\\\"01t9E000007PEmtQAG\\\",\\\"Zuora_Entity__c\\\":\\\"056\\\",\\\"expr0\\\":13},{\\\"attributes\\\":{\\\"type\\\":\\\"AggregateResult\\\"},\\\"Price_Book__c\\\":\\\"01s1t0000048XiVAAU\\\",\\\"Produit__c\\\":\\\"01t9E000007PQ1CQAW\\\",\\\"Zuora_Entity__c\\\":\\\"056\\\",\\\"expr0\\\":1},{\\\"attributes\\\":{\\\"type\\\":\\\"AggregateResult\\\"},\\\"Price_Book__c\\\":\\\"01s1t0000048XiVAAU\\\",\\\"Produit__c\\\":\\\"01t9E000007PSZSQA4\\\",\\\"Zuora_Entity__c\\\":\\\"056\\\",\\\"expr0\\\":2},{\\\"attributes\\\":{\\\"type\\\":\\\"AggregateResult\\\"},\\\"Price_Book__c\\\":\\\"01s1t0000048XiVAAU\\\",\\\"Produit__c\\\":\\\"01t9E000007Q1LAQA0\\\",\\\"Zuora_Entity__c\\\":\\\"056\\\",\\\"expr0\\\":1},{\\\"attributes\\\":{\\\"type\\\":\\\"AggregateResult\\\"},\\\"Price_Book__c\\\":\\\"01s1t0000048XiVAAU\\\",\\\"Produit__c\\\":\\\"01t9E000007Q8DuQAK\\\",\\\"Zuora_Entity__c\\\":\\\"056\\\",\\\"expr0\\\":6},{\\\"attributes\\\":{\\\"type\\\":\\\"AggregateResult\\\"},\\\"Price_Book__c\\\":\\\"01s1t0000048XiVAAU\\\",\\\"Produit__c\\\":\\\"01t9E000007QK5IQAW\\\",\\\"Zuora_Entity__c\\\":\\\"056\\\",\\\"expr0\\\":9},{\\\"attributes\\\":{\\\"type\\\":\\\"AggregateResult\\\"},\\\"Price_Book__c\\\":\\\"01s1t0000048XiVAAU\\\",\\\"Produit__c\\\":\\\"01t9E000007QMWVQA4\\\",\\\"Zuora_Entity__c\\\":\\\"056\\\",\\\"expr0\\\":3}]}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="listProductFromPriceBook" format="json">
+      <types:shape format="weave" example="examples/list-1.json"><![CDATA[%dw 2.0
+
+type listProductFromPriceBook = Array<{|  id: String,   referenceNumber: String,   productName: String,   solutionRange: Number {"typeId": "int"},   commercialLaunch: String,   endOfCommercialization: String,   productId: String,   priceBookId: String,   zuoraEntityId: String|}> {"example": "[{\\\"id\\\":\\\"01t1t000001HUk5AAG\\\",\\\"referenceNumber\\\":\\\"01t1t000001HUkgAAG\\\",\\\"productName\\\":\\\"Cegid Tax Ultimate 3. Private\\\",\\\"solutionRange\\\":4047,\\\"commercialLaunch\\\":\\\"1966-10-20\\\",\\\"endOfCommercialization\\\":\\\"2066-10-20\\\",\\\"productId\\\":\\\"A0000044\\\",\\\"priceBookId\\\":\\\"01s1t0000048XiVAAU\\\",\\\"zuoraEntityId\\\":\\\"056\\\"},{\\\"id\\\":\\\"01t1t000001HUk5AAG\\\",\\\"referenceNumber\\\":\\\"01t1t000001HUkgAAG\\\",\\\"productName\\\":\\\"Cegid Tax Ultimate 3. Private\\\",\\\"solutionRange\\\":4047,\\\"commercialLaunch\\\":\\\"1966-10-20\\\",\\\"endOfCommercialization\\\":\\\"2066-10-20\\\",\\\"productId\\\":\\\"A0000044\\\",\\\"priceBookId\\\":\\\"01s1t0000048XiVAAU\\\",\\\"zuoraEntityId\\\":\\\"056\\\"}]"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="listPricebooks" format="json">
+      <types:shape format="weave" example="examples/list-2.json"><![CDATA[%dw 2.0
+
+type listPricebooks = Array<{|  priceBookId: String,   productId: String,   zuoraEntityId: String|}> {"example": "[{\\\"priceBookId\\\":\\\"01s1t0000048XiVAAU\\\",\\\"productId\\\":\\\"01t9E000007OnDSQA0\\\",\\\"zuoraEntityId\\\":\\\"056\\\"},{\\\"priceBookId\\\":\\\"01s1t0000048XiVAAU\\\",\\\"productId\\\":\\\"01t9E000007PEmtQAG\\\",\\\"zuoraEntityId\\\":\\\"056\\\"}]"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="patch" format="json">
+      <types:shape format="weave" example="examples/list-3.json"><![CDATA[%dw 2.0
+
+type patch = {|
+  op: String, 
+  path: String, 
+  value: String
+|} {"example": "{\\\"op\\\":\\\"replace\\\",\\\"path\\\":\\\"\\/accountName\\\",\\\"value\\\":\\\"DEVOTEAM REPLACED\\\"}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#a88aacbf-3458-4c57-8c0a-6675d0114e5a">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="Order"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#ae018609-16fb-49fe-ae5e-c0739bee6b30">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="Order"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#0d6b2884-a43f-4f31-853c-544914e16d78">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="patchDocument"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:variables>
+          <types:variable name="patchBody" type="patchDocument"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#476fdcf7-978b-4cd0-85e7-f9711bc8804a">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="listPricebooks"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="listPricebooks"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#4eaa30d4-25d3-4438-a87f-bd2b926f348d">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:variables>
+          <types:variable name="patchBody" type="patch"/>
+        </types:variables>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#13f91fc8-65ea-4010-a868-63715bc7528b"/>
+  <types:enrichment select="#fdc3d6c8-da43-4504-ae00-e87624360777"/>
+  <types:enrichment select="#9f50f9ef-d54c-4c83-a9e3-31f268320833"/>
+  <types:enrichment select="#cee3274c-fa09-4c8c-a18a-e2ff8920377b"/>
+  <types:enrichment select="#dad0312e-6f33-4b10-b285-bda565dd1a8b">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:variables>
+          <types:variable name="patchBody" type="patch"/>
+        </types:variables>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#d24d9623-ab09-4029-bb28-cb55423d3ef7"/>
+  <types:enrichment select="#85ce580a-ef8f-47f1-9fe6-ffcbff5ba6d3"/>
+</types:mule>

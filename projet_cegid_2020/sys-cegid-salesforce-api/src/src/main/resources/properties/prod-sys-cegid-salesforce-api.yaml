@@ -1,0 +1,28 @@
+environment:
+ name: "prod"
+application:
+ name: "sys-cegid-salesforce-api"
+api:
+ name: "sys-cegid-salesforce-api-${environment.name}"
+ id: "174307"
+ version: "v1"
+http:
+  listener:
+    path: "/api/${api.name}/${api.version}/*"
+    host: "0.0.0.0"
+    port: "8081"
+https:
+  listener:
+    path: "/api/${api.name}/${api.version}/*"
+    host: "0.0.0.0"
+    port: "8082"
+    alias: "![XxXDxs2SJ2XafM4wLJTZhA==]"
+    keystorepwd: "![XxXDxs2SJ2V/BLaOitRlWA==]"
+    keystorepath: "keystore/keystore.jks"
+salesforce:
+  cegid:
+    username: "![toFeNwd/iPzBPUS07sJZw7n4u4J6KvyB]"
+    password: "![IxUIoFAyAyULuQFntYz7HWtEL+CwaUPp]"
+    token: "![RPJeoTGxU8QBC+Cv8OOwKHdgQAT3sGi5Pvwn6PoNgAQ=]"
+    url: "https://cegid.my.salesforce.com/services/Soap/u/46.0"
+

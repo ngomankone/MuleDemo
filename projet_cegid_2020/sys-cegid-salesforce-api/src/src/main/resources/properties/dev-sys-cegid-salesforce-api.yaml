@@ -1,0 +1,34 @@
+environment:
+ name: "development"
+application:
+ name: "sys-cegid-salesforce-api"
+api:
+ name: "sys-cegid-salesforce-api-${environment.name}"
+ id: "96150"
+ version: "v1"
+http:
+  listener:
+    path: "/api/${api.name}/${api.version}/*"
+    host: "0.0.0.0"
+    port: "8081"
+https:
+  listener:
+    path: "/api/${api.name}/${api.version}/*"
+    host: "0.0.0.0"
+    port: "8082"
+    alias: "![XRy5qV6iDALsrkgxPCoWKA==]"
+    keystorepwd: "![XRy5qV6iDAJIjwlWPgrKJA==]"
+    keystorepath: "keystore/keystore.jks"
+salesforce:
+#  DEV
+#  cegid:
+#    username: "![UZlJt7ze63EfryP0/R0okLuzBkg0EnRZqehr0Xy3jug=]"
+#    password: "![NSMXFXcHkqJXhrR72rWK/YJBNwAQoLm2]"
+#    token: "![irtb095pC2WW6pPplATlFGAozqVfAElQCG6YZ6YDXuY=]"
+#    url: "https://cegid--dev.my.salesforce.com/services/Soap/u/46.0"
+# IAT  
+  cegid:
+    username: "![UZlJt7ze63EfryP0/R0okOe0U60/K7hktFAXDxKq5nI=]"
+    password: "![M+gvFa3bDe++0j/2W/fOqK9YWZ8pxDFe]"
+    token: "![Z1Dn8sQ3dnUQVjD0X8G2yQCZDxY2hvgvmJ6TXG522IU=]"
+    url: "https://cegid--iat.my.salesforce.com/services/Soap/u/46.0"

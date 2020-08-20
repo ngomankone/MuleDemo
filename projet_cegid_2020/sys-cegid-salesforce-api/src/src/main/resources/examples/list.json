@@ -1,0 +1,101 @@
+{
+  "totalSize" : 12,
+  "done" : true,
+  "records" : [ {
+    "attributes" : {
+      "type" : "AggregateResult"
+    },
+    "Price_Book__c" : "01s1t0000048XiVAAU",
+    "Produit__c" : "01t1t000001HUkgAAG",
+    "Zuora_Entity__c" : "056",
+    "expr0" : 1
+  }, {
+    "attributes" : {
+      "type" : "AggregateResult"
+    },
+    "Price_Book__c" : "01s1t0000048XiVAAU",
+    "Produit__c" : "01t9E000007OgfqQAC",
+    "Zuora_Entity__c" : "056",
+    "expr0" : 3
+  }, {
+    "attributes" : {
+      "type" : "AggregateResult"
+    },
+    "Price_Book__c" : "01s1t0000048XiVAAU",
+    "Produit__c" : "01t9E000007OmlHQAS",
+    "Zuora_Entity__c" : "056",
+    "expr0" : 3
+  }, {
+    "attributes" : {
+      "type" : "AggregateResult"
+    },
+    "Price_Book__c" : "01s1t0000048XiVAAU",
+    "Produit__c" : "01t9E000007OnDSQA0",
+    "Zuora_Entity__c" : "056",
+    "expr0" : 3
+  }, {
+    "attributes" : {
+      "type" : "AggregateResult"
+    },
+    "Price_Book__c" : "01s1t0000048XiVAAU",
+    "Produit__c" : "01t9E000007OvheQAC",
+    "Zuora_Entity__c" : "056",
+    "expr0" : 3
+  }, {
+    "attributes" : {
+      "type" : "AggregateResult"
+    },
+    "Price_Book__c" : "01s1t0000048XiVAAU",
+    "Produit__c" : "01t9E000007PEmtQAG",
+    "Zuora_Entity__c" : "056",
+    "expr0" : 13
+  }, {
+    "attributes" : {
+      "type" : "AggregateResult"
+    },
+    "Price_Book__c" : "01s1t0000048XiVAAU",
+    "Produit__c" : "01t9E000007PQ1CQAW",
+    "Zuora_Entity__c" : "056",
+    "expr0" : 1
+  }, {
+    "attributes" : {
+      "type" : "AggregateResult"
+    },
+    "Price_Book__c" : "01s1t0000048XiVAAU",
+    "Produit__c" : "01t9E000007PSZSQA4",
+    "Zuora_Entity__c" : "056",
+    "expr0" : 2
+  }, {
+    "attributes" : {
+      "type" : "AggregateResult"
+    },
+    "Price_Book__c" : "01s1t0000048XiVAAU",
+    "Produit__c" : "01t9E000007Q1LAQA0",
+    "Zuora_Entity__c" : "056",
+    "expr0" : 1
+  }, {
+    "attributes" : {
+      "type" : "AggregateResult"
+    },
+    "Price_Book__c" : "01s1t0000048XiVAAU",
+    "Produit__c" : "01t9E000007Q8DuQAK",
+    "Zuora_Entity__c" : "056",
+    "expr0" : 6
+  }, {
+    "attributes" : {
+      "type" : "AggregateResult"
+    },
+    "Price_Book__c" : "01s1t0000048XiVAAU",
+    "Produit__c" : "01t9E000007QK5IQAW",
+    "Zuora_Entity__c" : "056",
+    "expr0" : 9
+  }, {
+    "attributes" : {
+      "type" : "AggregateResult"
+    },
+    "Price_Book__c" : "01s1t0000048XiVAAU",
+    "Produit__c" : "01t9E000007QMWVQA4",
+    "Zuora_Entity__c" : "056",
+    "expr0" : 3
+  } ]
+}
